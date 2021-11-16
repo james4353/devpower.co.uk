@@ -147,7 +147,7 @@ cd my-awesome-site
 
 <p>We only have to do this once to initialize our blog. After that each time we want to run it locally for testing purposes, we can simply run this:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -v "${PWD}:/srv/jekyll" -p 4000:4000 -it jekyll/jekyll /bin/bash -c "jekyll serve --drafts --trace"
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run --rm -v "${PWD}:/srv/jekyll" -p 4000:4000 -it jekyll/jekyll /bin/bash -c "jekyll serve --drafts --trace"
 </code></pre></div></div>
 
 <p>Notice the current directory is mounted so make sure you are in the correct directory (which is root of your blog) before you tun this command.</p>

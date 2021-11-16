@@ -4,7 +4,7 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="https://devpower.co.uk/feed.xml" />
 <link rel="alternate" type="text/html" href="https://devpower.co.uk" />
-<updated>2021-11-16T06:02:27+00:00</updated>
+<updated>2021-11-16T06:08:14+00:00</updated>
 <id>https://devpower.co.uk/</id>
 <author>
   <name>Volkan Paksoy</name>
@@ -51,7 +51,7 @@ cd my-awesome-site
 
 &lt;p&gt;We only have to do this once to initialize our blog. After that each time we want to run it locally for testing purposes, we can simply run this:&lt;/p&gt;
 
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run -v &quot;${PWD}:/srv/jekyll&quot; -p 4000:4000 -it jekyll/jekyll /bin/bash -c &quot;jekyll serve --drafts --trace&quot;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run --rm -v &quot;${PWD}:/srv/jekyll&quot; -p 4000:4000 -it jekyll/jekyll /bin/bash -c &quot;jekyll serve --drafts --trace&quot;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Notice the current directory is mounted so make sure you are in the correct directory (which is root of your blog) before you tun this command.&lt;/p&gt;
