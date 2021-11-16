@@ -4,13 +4,77 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="https://devpower.co.uk/feed.xml" />
 <link rel="alternate" type="text/html" href="https://devpower.co.uk" />
-<updated>2021-10-04T09:45:33+01:00</updated>
+<updated>2021-11-16T06:02:27+00:00</updated>
 <id>https://devpower.co.uk/</id>
 <author>
   <name>Volkan Paksoy</name>
   <uri>https://devpower.co.uk/</uri>
   
 </author>
+
+
+<entry>
+  <title type="html"><![CDATA[Blogging with Jekyll and Docker]]></title>
+ <link rel="alternate" type="text/html" href="https://devpower.co.uk/docker/blogging-with-Jekyll-and-Docker/" />
+  <id>https://devpower.co.uk/docker/blogging-with-Jekyll-and-Docker</id>
+  <published>2021-11-16T00:00:00+00:00</published>
+  <updated>2021-11-16T00:00:00+00:00</updated>
+  <author>
+    <name>Volkan Paksoy</name>
+    <uri>https://devpower.co.uk</uri>
+    <email></email>
+  </author>
+  <content type="html">
+    &lt;p&gt;I think the best option for a blog is a static website. I love blogging using Jekyll for that reason. Just write your posts in markdown and create a static website out of it so that you can host everywhere for either free or a very affordable price.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/company-logos/jekyll-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;So far my local development environment for my blog was a MacBook Pro and everything installed on bare-metal. By everything I mean Jekyll and all its dependencies such as Ruby. I’m not a Ruby developer myself and when something breaks it’s hard to figure out how to fix it.&lt;/p&gt;
+
+&lt;p&gt;You might think once you set it up, you don’t need to change much. It’s true in general with the exception of macOS updates. In the recent years, after almost every major OS upgrade I found out my blogging environment was broken. To mitigate this, I decided to use Docker.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/company-logos/docker-01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;create-your-blog&quot;&gt;Create your blog&lt;/h1&gt;
+&lt;p&gt;In this post, I’m going to assume you don’t already have a Jekyll blog. Creating a new one is very easy as shown in the official Jekyll &lt;a href=&quot;https://jekyllrb.com/&quot;&gt;website&lt;/a&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gem install bundler jekyll
+jekyll new my-awesome-site
+cd my-awesome-site
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Since we don’t want to install anything on our system, we are not going to use the first command and go straight to creating the site from within a Docker container like this:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run --rm -v &quot;${PWD}:/srv/jekyll&quot; jekyll/jekyll /bin/bash -c &quot;jekyll new my-awesome-site&quot;
+cd my-awesome-site
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We only have to do this once to initialize our blog. After that each time we want to run it locally for testing purposes, we can simply run this:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run -v &quot;${PWD}:/srv/jekyll&quot; -p 4000:4000 -it jekyll/jekyll /bin/bash -c &quot;jekyll serve --drafts --trace&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Notice the current directory is mounted so make sure you are in the correct directory (which is root of your blog) before you tun this command.&lt;/p&gt;
+
+&lt;p&gt;And that’s all there is to it!. Just navigate to 127.0.0.1:4000 on your machine to confirm it’s working and get cranking.&lt;/p&gt;
+
+&lt;p&gt;Happy blogging!&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Moral of the story is: Never install anything on bare-metal! Ever again!&lt;/p&gt;
+
+&lt;p&gt;This is my biggest takeaway from all the containerized application movement. Every time my development environment broke because of an unrelated change in the OS, I regretted not doing this earlier. No more!&lt;/p&gt;
+
+&lt;p&gt;Here’s how to create a full Jekyll development environment for your blog:&lt;/p&gt;
+
+&lt;h2 id=&quot;resources&quot;&gt;Resources&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://jekyllrb.com/&quot;&gt;Jekyll official website&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+    &lt;p&gt;&lt;a href=&quot;https://devpower.co.uk/docker/blogging-with-Jekyll-and-Docker/&quot;&gt;Blogging with Jekyll and Docker&lt;/a&gt; was originally published by Volkan Paksoy at &lt;a href=&quot;https://devpower.co.uk&quot;&gt;DevPower&lt;/a&gt; on November 16, 2021.&lt;/p&gt;
+  </content>
+</entry>
 
 
 <entry>
