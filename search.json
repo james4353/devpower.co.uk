@@ -1,6 +1,14 @@
 [
   
     {
+      "title"    : "Seedling Developing a custom monitoring tool in C# for SpacePool Chia cryptocurrency farming",
+      "category" : "",
+      "tags"     : "chia, spacepool, monitoring",
+      "url"      : "https://devpower.co.uk/cryptocurrency/monitoring-chia-spacepool/",
+      "date"     : "2021-12-08 00:00:00 +0000"
+    } ,
+  
+    {
       "title"    : "Blogging with Jekyll and Docker",
       "category" : "",
       "tags"     : "jekyll, blog",
