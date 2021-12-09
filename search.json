@@ -1,6 +1,14 @@
 [
   
     {
+      "title"    : "LINQPad Dump Extension Method",
+      "category" : "",
+      "tags"     : "linqpad, csharp",
+      "url"      : "https://devpower.co.uk/tips_n_tricks/linqpad-dump-extension-dump/",
+      "date"     : "2021-12-09 00:00:00 +0000"
+    } ,
+  
+    {
       "title"    : "Developing a custom monitoring tool in C# for SpacePool Chia cryptocurrency farming",
       "category" : "",
       "tags"     : "chia, spacepool, monitoring",
