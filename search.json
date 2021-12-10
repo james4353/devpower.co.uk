@@ -1,6 +1,14 @@
 [
   
     {
+      "title"    : "Easy Way to Convert Between CSV/JSON/XML with PowerShell",
+      "category" : "",
+      "tags"     : "csv, json, xml, conversion",
+      "url"      : "https://devpower.co.uk/powershell/easiest-way-for-csv-json-conversion/",
+      "date"     : "2021-12-10 00:00:00 +0000"
+    } ,
+  
+    {
       "title"    : "LINQPad Dump Extension Method",
       "category" : "",
       "tags"     : "linqpad, csharp",
