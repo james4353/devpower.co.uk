@@ -226,25 +226,25 @@
     
   </header>
   <div class="entry-content">
-      <p>Yesterday I had to find the count of objects in a folder in an S3 bucket. I only had access to AWS via command line and was working on a Windows Server.</p>
+      <p>Yesterday I had to find the count of objects in a folder in an S3 bucket. Unfortunately, I only had access to AWS via the command line and was working on a Windows Server.</p>
 
 <h2 id="using-aws-cli">Using AWS CLI</h2>
-<p>After a bit of digging around I found the solution using PowerShells’ Measure-Object cmdlet.</p>
+<p>After digging around, I found the solution using PowerShells’ Measure-Object cmdlet.</p>
 
-<p>The solution to get the object count was:</p>
+<p>The solution to getting the object count was:</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aws s3 ls s3://{bucket}/path/to/files | Measure-Object
 </code></pre></div></div>
 
-<p>This can also be used in local folders as well. It also can be used to get the minimum / maximum / average / total size of the folder too so quite handy to get some quick stats about a folder/bucket</p>
+<p>This can be used in local folders as well. It also can be used to get the minimum/maximum/average/total size of the folder too so quite handy to get some quick stats about a folder/bucket</p>
 
 <h2 id="using-aws-tools-for-powershell">Using AWS Tools for PowerShell</h2>
-<p>If you have AWS Tools for PowerShell installed, you can achieve the same goal by running Get-S3Object cmdlet like this</p>
+<p>If you have AWS Tools for PowerShell installed, you can achieve the same goal by running Get-S3Object cmdlet like this:</p>
 
 <div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Get-S3Object</span><span class="w"> </span><span class="nt">-BucketName</span><span class="w"> </span><span class="p">{</span><span class="n">bucket</span><span class="p">}</span><span class="w"> </span><span class="nt">-Prefix</span><span class="w"> </span><span class="n">path/to/files</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Measure-Object</span><span class="w">
 </span></code></pre></div></div>
 
-<p>Alternatively, if you simply want to get the object count you can run this as well:</p>
+<p>Alternatively, if you want to get the object count, you can run this as well:</p>
 
 <div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="n">Get-S3Object</span><span class="w"> </span><span class="nt">-BucketName</span><span class="w"> </span><span class="p">{</span><span class="n">bucket</span><span class="p">}</span><span class="w"> </span><span class="nt">-Prefix</span><span class="w"> </span><span class="n">path/to/files</span><span class="p">)</span><span class="o">.</span><span class="nf">Count</span><span class="w">
 </span></code></pre></div></div>
