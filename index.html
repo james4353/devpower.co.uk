@@ -123,6 +123,94 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2021-12-12T00:00:00+00:00"><a href="https://devpower.co.uk/cryptocurrency/docker/dockerizing-spacepool-monitor/">December 12, 2021</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+        Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div>
+<!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="https://devpower.co.uk/cryptocurrency/docker/dockerizing-spacepool-monitor/" rel="bookmark" title="Dockerizing SpacePool Monitor" itemprop="url">Dockerizing SpacePool Monitor</a></h1>
+    
+  </header>
+  <div class="entry-content">
+      <p>In a previous <a href="https://devpower.co.uk/cryptocurrency/monitoring-chia-spacepool/">post</a>, we looked at a simple C# application that uses SpacePool API to get information about our Chia farm. In this post, we are going to Dockerize the application.</p>
+
+<p>The core part of the application is still the same. It gets the latest partials from SpacePool API and checks if they are within an acceptable timeframe.</p>
+
+<p>What’s new in this release is as follows:</p>
+<ul>
+  <li>Sends emails as alert notifications</li>
+  <li>Main application is a Worker Service to run every n minutes (n being CheckIntervalInMinutes environment variable)</li>
+  <li>Application runs in a Docker container so it can be easily pulled from Docker Hub</li>
+</ul>
+
+<h2 id="usage">Usage</h2>
+<p>The easiest way to use the application is to download docker-compose-template.yaml, rename it to docker-compose.yaml and fill in the values. To be able to get alert notifications, you’re going to need</p>
+
+<ul>
+  <li>SpacePool API key and launcher id</li>
+  <li>An email address that you can use to send and receive emails</li>
+</ul>
+
+<p>The template looks like this:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">version</span><span class="pi">:</span> <span class="s2">"</span><span class="s">3.9"</span>
+
+<span class="na">services</span><span class="pi">:</span>
+  <span class="na">spacepool-monitor</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">devpowercouk/spacepool-monitor</span>
+    <span class="na">build</span><span class="pi">:</span>
+      <span class="na">context</span><span class="pi">:</span> <span class="s">.</span>
+      <span class="na">dockerfile</span><span class="pi">:</span> <span class="s">SpacePoolMonitor.WorkerService/Dockerfile</span>
+    <span class="na">environment</span><span class="pi">:</span>
+      <span class="na">AppSettings__LauncherId</span><span class="pi">:</span> <span class="s2">"</span><span class="s">"</span>
+      <span class="na">AppSettings__ApiKey</span><span class="pi">:</span> <span class="s2">"</span><span class="s">"</span>
+      <span class="na">AppSettings__UserAgent</span><span class="pi">:</span> <span class="s2">"</span><span class="s">"</span>
+      <span class="na">AppSettings__CheckIntervalInMinutes</span><span class="pi">:</span> <span class="m">30</span>
+      <span class="na">EmailSettings__FromAddress</span><span class="pi">:</span> <span class="s2">"</span><span class="s">"</span>
+      <span class="na">EmailSettings__ToAddress</span><span class="pi">:</span> <span class="s2">"</span><span class="s">"</span>
+      <span class="na">EmailSettings__Subject</span><span class="pi">:</span> <span class="s2">"</span><span class="s">"</span>
+      <span class="na">EmailSettings__FromName</span><span class="pi">:</span> <span class="s2">"</span><span class="s">"</span>
+      <span class="na">SmtpSettings__Host</span><span class="pi">:</span> <span class="s2">"</span><span class="s">"</span>
+      <span class="na">SmtpSettings__Username</span><span class="pi">:</span> <span class="s2">"</span><span class="s">"</span>
+      <span class="na">SmtpSettings__Password</span><span class="pi">:</span> <span class="s2">"</span><span class="s">"</span>
+      <span class="na">SmtpSettings__Port</span><span class="pi">:</span> <span class="m">587</span>
+</code></pre></div></div>
+
+<p>After you updated the configuration with your values simply run the following command in terminal</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker-compose up
+</code></pre></div></div>
+
+<p>Then you can monitor the application logs to check if it’s working:</p>
+
+<p><img src="/images/post-images/2021/12/dockerizing-spacepool-monitor/results.png" alt=""></p>
+
+<p>Once you’ve confirmed everything’s working, you can run it in the background with the following command:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker-compose up -d
+</code></pre></div></div>
+
+<h2 id="resources">Resources</h2>
+<ul>
+  <li><a href="https://github.com/Dev-Power/monitoring-chia-spacepool" target="_blank" rel="noopener noreferrer">Source code for the application on GitHub</a></li>
+  <li><a href="https://hub.docker.com/repository/docker/devpowercouk/spacepool-monitor" target="_blank" rel="noopener noreferrer">Docker image on Docker Hub</a></li>
+</ul>
+
+      
+  </div>
+<!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2021-12-10T00:00:00+00:00"><a href="https://devpower.co.uk/powershell/easiest-way-for-csv-json-conversion/">December 10, 2021</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
       
       <span class="entry-reading-time">
@@ -505,37 +593,40 @@ cd my-awesome-site
 <!-- /.entry-content -->
 </article><!-- /.hentry -->
 
-<article class="hentry">
-  <header>
+
+
+<div class="pagination">
+  <ul class="inline-list">
     
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2021-10-04T00:00:00+01:00"><a href="https://devpower.co.uk/intro/hello-world/">October 04, 2021</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-        Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div>
-<!-- /.entry-meta -->
     
-      <h1 class="entry-title"><a href="https://devpower.co.uk/intro/hello-world/" rel="bookmark" title="Hello, World!" itemprop="url">Hello, World!</a></h1>
+
     
-  </header>
-  <div class="entry-content">
-      <p>Hello to everyone reading this! From a new blog, hello!</p>
+    
+      <li><strong class="current-page">1</strong></li>
+    
 
-<p>This blog will be the place where I publish software development, DevOps and infrastructure and cloud (primarily AWS) posts.</p>
+    
+    
 
-<p>We’re just getting started, so stay tuned; it’s going to be a fun journey!</p>
+    
+    
+    
 
-      
-  </div>
-<!-- /.entry-content -->
-</article><!-- /.hentry -->
+    
 
+    
+    
 
+    
+      <li><a href="https://devpower.co.uk/page2/">2</a></li>
+    
+
+    
+    
+      <li><a href="https://devpower.co.uk/page2/" class="btn">Next</a></li>
+    
+  </ul>
+</div>
 
 
 </div><!-- /#main -->
