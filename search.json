@@ -9,6 +9,14 @@
     } ,
   
     {
+      "title"    : "Counting Objects in AWS S3",
+      "category" : "",
+      "tags"     : "aws, s3, powershell",
+      "url"      : "https://devpower.co.uk/tips_n_tricks/aws/counting-objects-in-aws-s3/",
+      "date"     : "2021-12-12 00:00:00 +0000"
+    } ,
+  
+    {
       "title"    : "Easy Way to Convert Between CSV/JSON/XML with PowerShell",
       "category" : "",
       "tags"     : "csv, json, xml, conversion, powershell",
