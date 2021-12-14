@@ -5,9 +5,9 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title>Blogging with Jekyll and Docker &#8211; DevPower</title>
-<meta name="description" content="This post goes through the details of setting up a Jekyll development environment for this blog using Docker">
-<meta name="keywords" content="jekyll, blog">
+<title>Customizing AWS IAM Sign-in URL &#8211; DevPower</title>
+<meta name="description" content="A quick tip for creating user-friendly sign-in URLs for AWS Management Console">
+<meta name="keywords" content="aws, iam, alias">
 
 <!-- Twitter Cards -->
 <meta name="twitter:card" content="summary">
@@ -17,9 +17,9 @@
 <!-- Open Graph -->
 <meta property="og:locale" content="en_GB">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Blogging with Jekyll and Docker">
-<meta property="og:description" content="This post goes through the details of setting up a Jekyll development environment for this blog using Docker">
-<meta property="og:url" content="https://devpower.co.uk/docker/blogging-with-Jekyll-and-Docker/">
+<meta property="og:title" content="Customizing AWS IAM Sign-in URL">
+<meta property="og:description" content="A quick tip for creating user-friendly sign-in URLs for AWS Management Console">
+<meta property="og:url" content="https://devpower.co.uk/tips_n_tricks/aws/customizing-aws-iam-sign-in-url/">
 <meta property="og:site_name" content="DevPower">
 <meta property="og:image" content="https://devpower.co.uk/images/">
 
@@ -27,7 +27,7 @@
 
 
 
-<link rel="canonical" href="https://devpower.co.uk/docker/blogging-with-Jekyll-and-Docker/">
+<link rel="canonical" href="https://devpower.co.uk/tips_n_tricks/aws/customizing-aws-iam-sign-in-url/">
 <link href="https://devpower.co.uk/feed.xml" type="application/atom+xml" rel="alternate" title="DevPower Feed">
 
 <!-- http://t.co/dKP3o1e -->
@@ -90,9 +90,9 @@
 <div class="entry-header">
   <div class="header-title">
     <div class="header-title-wrap">
-      <h1>Blogging with Jekyll and Docker</h1>
+      <h1>Customizing AWS IAM Sign-in URL</h1>
       
-        <h2><span class="entry-date date published updated"><time datetime="2021-11-16T00:00:00+00:00">November 16, 2021</time></span></h2>
+        <h2><span class="entry-date date published updated"><time datetime="2021-12-13T00:00:00+00:00">December 13, 2021</time></span></h2>
       
 
       
@@ -125,63 +125,55 @@
   <article class="hentry">
     <div class="entry-content">
         
-      <h1 class="post-title entry-title">Blogging with Jekyll and Docker</h1>
-      <p>I think the best option for a blog is a static website. I love blogging using Jekyll for that reason. Just write your posts in markdown and create a static website out of it so that you can host everywhere for either free or a very affordable price.</p>
+      <h1 class="post-title entry-title">Customizing AWS IAM Sign-in URL</h1>
+      <p>Normally the login URL for IAM users is in this format</p>
 
-<p><img src="/images/company-logos/jekyll-01.png" alt=""></p>
+<blockquote>
+  <p>https://{Account Id}.signin.aws.amazon.com/console</p>
+</blockquote>
 
-<p>So far my local development environment for my blog was a MacBook Pro and everything installed on bare-metal. By everything I mean Jekyll and all its dependencies such as Ruby. I’m not a Ruby developer myself and when something breaks it’s hard to figure out how to fix it.</p>
+<p>But it is possible to make this URL more memorable and user-friendly.</p>
 
-<p>You might think once you set it up, you don’t need to change much. It’s true in general with the exception of macOS updates. In the recent years, after almost every major OS upgrade I found out my blogging environment was broken. To mitigate this, I decided to use Docker.</p>
+<p>In order to achieve this, follow the steps below:</p>
 
-<p><img src="/images/company-logos/docker-01.png" alt=""></p>
+<p><strong>Step 01</strong>: Go to <a href="https://console.aws.amazon.com/iamv2/home#/home" target="_blank" rel="noopener noreferrer">IAM Dashboard</a></p>
 
-<h1 id="create-your-blog">Create your blog</h1>
-<p>In this post, I’m going to assume you don’t already have a Jekyll blog. Creating a new one is very easy as shown in the official Jekyll <a href="https://jekyllrb.com/" target="_blank" rel="noopener noreferrer">website</a>:</p>
+<p><strong>Step 02</strong>: Click on the <strong>Create</strong> link that is located right next to the account id:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gem install bundler jekyll
-jekyll new my-awesome-site
-cd my-awesome-site
-</code></pre></div></div>
+<p><img src="/images/post-images/2021/12/customizing-iam-url/iam-dashboard.png" alt=""></p>
 
-<p>Since we don’t want to install anything on our system, we are not going to use the first command and go straight to creating the site from within a Docker container like this:</p>
+<p><strong>Step 03</strong>: This brings up the <em>Create Account Alias</em> dialog box.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run --rm -v "${PWD}:/srv/jekyll" jekyll/jekyll /bin/bash -c "jekyll new my-awesome-site"
-cd my-awesome-site
-</code></pre></div></div>
+<p><img src="/images/post-images/2021/12/customizing-iam-url/create-alias-01.png" alt=""></p>
 
-<p>We only have to do this once to initialize our blog. After that each time we want to run it locally for testing purposes, we can simply run this:</p>
+<p><strong>Step 03</strong>: Enter your desired alias and save.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run --rm -v "${PWD}:/srv/jekyll" -p 4000:4000 -it jekyll/jekyll /bin/bash -c "jekyll serve --drafts --trace"
-</code></pre></div></div>
+<p class="panel-warning">Since the name we provide is used in the URL, it needs to be unique globally. </p>
 
-<p>Notice the current directory is mounted so make sure you are in the correct directory (which is root of your blog) before you tun this command.</p>
+<p>If you don’t pick a unique name, you will get an error like this:</p>
 
-<p>And that’s all there is to it!. Just navigate to 127.0.0.1:4000 on your machine to confirm it’s working and get cranking.</p>
+<p><img src="/images/post-images/2021/12/customizing-iam-url/create-alias-error.png" alt=""></p>
 
-<p>Happy blogging!</p>
+<p>and when you pick your unique name, you should see it in effect:</p>
 
-<h2 id="conclusion">Conclusion</h2>
-<p>Moral of the story is: Never install anything on bare-metal! Ever again!</p>
+<p><img src="/images/post-images/2021/12/customizing-iam-url/create-alias-success.png" alt=""></p>
 
-<p>This is my biggest takeaway from all the containerized application movement. Every time my development environment broke because of an unrelated change in the OS, I regretted not doing this earlier. No more!</p>
-
-<p>Here’s how to create a full Jekyll development environment for your blog:</p>
+<p class="panel-note">You can keep on using the account id. Setting an alias just gives an additional URL that you can use.</p>
 
 <h2 id="resources">Resources</h2>
 <ul>
-  <li><a href="https://jekyllrb.com/" target="_blank" rel="noopener noreferrer">Jekyll official website</a></li>
+  <li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/console_account-alias.html" target="_blank" rel="noopener noreferrer">AWS Documentation: Your AWS account ID and its alias</a></li>
 </ul>
 
       <footer class="entry-meta">
-        <span class="entry-tags"><a href="https://devpower.co.uk/tags#jekyll" title="Pages tagged jekyll" class="tag"><span class="term">jekyll</span></a><a href="https://devpower.co.uk/tags#blog" title="Pages tagged blog" class="tag"><span class="term">blog</span></a></span>
+        <span class="entry-tags"><a href="https://devpower.co.uk/tags#aws" title="Pages tagged aws" class="tag"><span class="term">aws</span></a><a href="https://devpower.co.uk/tags#iam" title="Pages tagged iam" class="tag"><span class="term">iam</span></a><a href="https://devpower.co.uk/tags#alias" title="Pages tagged alias" class="tag"><span class="term">alias</span></a></span>
         
         <span class="author vcard"><span class="fn">Volkan Paksoy</span></span>
         <div class="social-share">
   <ul class="socialcount socialcount-small inline-list">
-    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://devpower.co.uk/docker/blogging-with-Jekyll-and-Docker/" title="Share on Facebook" target="_blank" rel="noopener noreferrer"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
-    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://devpower.co.uk/docker/blogging-with-Jekyll-and-Docker/" title="Share on Twitter" target="_blank" rel="noopener noreferrer"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
-    <!-- <li class="googleplus"><a href="https://plus.google.com/share?url=https://devpower.co.uk/docker/blogging-with-Jekyll-and-Docker/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li> -->
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://devpower.co.uk/tips_n_tricks/aws/customizing-aws-iam-sign-in-url/" title="Share on Facebook" target="_blank" rel="noopener noreferrer"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://devpower.co.uk/tips_n_tricks/aws/customizing-aws-iam-sign-in-url/" title="Share on Twitter" target="_blank" rel="noopener noreferrer"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <!-- <li class="googleplus"><a href="https://plus.google.com/share?url=https://devpower.co.uk/tips_n_tricks/aws/customizing-aws-iam-sign-in-url/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li> -->
   </ul>
 </div>
 <!-- /.social-share -->
@@ -221,26 +213,26 @@ cd my-awesome-site
     <div class="read-more">
   
     <div class="read-more-header">
-      <a href="https://devpower.co.uk/intro/hello-world/" class="read-more-btn">Read More</a>
+      <a href="https://devpower.co.uk/cryptocurrency/docker/dockerizing-spacepool-monitor/" class="read-more-btn">Read More</a>
     </div>
 <!-- /.read-more-header -->
     <div class="read-more-content">
-      <h3><a href="https://devpower.co.uk/tips_n_tricks/aws/customizing-aws-iam-sign-in-url/" title="Customizing AWS IAM Sign-in URL">Customizing AWS IAM Sign-in URL</a></h3>
-      <p>A quick tip for creating user-friendly sign-in URLs for AWS Management Console <a href="https://devpower.co.uk/tips_n_tricks/aws/customizing-aws-iam-sign-in-url/">Continue reading</a></p>
+      <h3><a href="https://devpower.co.uk/cryptocurrency/docker/dockerizing-spacepool-monitor/" title="Dockerizing SpacePool Monitor">Dockerizing SpacePool Monitor</a></h3>
+      <p>SpacePool monitor becomes a service running in a Docker container <a href="https://devpower.co.uk/cryptocurrency/docker/dockerizing-spacepool-monitor/">Continue reading</a></p>
     </div>
 <!-- /.read-more-content -->
   
   <div class="read-more-list">
     
       <div class="list-item">
-        <h4><a href="https://devpower.co.uk/cryptocurrency/docker/dockerizing-spacepool-monitor/" title="Dockerizing SpacePool Monitor">Dockerizing SpacePool Monitor</a></h4>
+        <h4><a href="https://devpower.co.uk/tips_n_tricks/aws/counting-objects-in-aws-s3/" title="Counting Objects in AWS S3">Counting Objects in AWS S3</a></h4>
         <span>Published on December 12, 2021</span>
       </div>
 <!-- /.list-item -->
     
       <div class="list-item">
-        <h4><a href="https://devpower.co.uk/tips_n_tricks/aws/counting-objects-in-aws-s3/" title="Counting Objects in AWS S3">Counting Objects in AWS S3</a></h4>
-        <span>Published on December 12, 2021</span>
+        <h4><a href="https://devpower.co.uk/powershell/easiest-way-for-csv-json-conversion/" title="Easy Way to Convert Between CSV/JSON/XML with PowerShell">Easy Way to Convert Between CSV/JSON/XML with PowerShell</a></h4>
+        <span>Published on December 10, 2021</span>
       </div>
 <!-- /.list-item -->
     

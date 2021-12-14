@@ -125,6 +125,69 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2021-12-13T00:00:00+00:00"><a href="https://devpower.co.uk/tips_n_tricks/aws/customizing-aws-iam-sign-in-url/">December 13, 2021</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+        Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div>
+<!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="https://devpower.co.uk/tips_n_tricks/aws/customizing-aws-iam-sign-in-url/" rel="bookmark" title="Customizing AWS IAM Sign-in URL" itemprop="url">Customizing AWS IAM Sign-in URL</a></h1>
+    
+  </header>
+  <div class="entry-content">
+      <p>Normally the login URL for IAM users is in this format</p>
+
+<blockquote>
+  <p>https://{Account Id}.signin.aws.amazon.com/console</p>
+</blockquote>
+
+<p>But it is possible to make this URL more memorable and user-friendly.</p>
+
+<p>In order to achieve this, follow the steps below:</p>
+
+<p><strong>Step 01</strong>: Go to <a href="https://console.aws.amazon.com/iamv2/home#/home" target="_blank" rel="noopener noreferrer">IAM Dashboard</a></p>
+
+<p><strong>Step 02</strong>: Click on the <strong>Create</strong> link that is located right next to the account id:</p>
+
+<p><img src="/images/post-images/2021/12/customizing-iam-url/iam-dashboard.png" alt=""></p>
+
+<p><strong>Step 03</strong>: This brings up the <em>Create Account Alias</em> dialog box.</p>
+
+<p><img src="/images/post-images/2021/12/customizing-iam-url/create-alias-01.png" alt=""></p>
+
+<p><strong>Step 03</strong>: Enter your desired alias and save.</p>
+
+<p class="panel-warning">Since the name we provide is used in the URL, it needs to be unique globally. </p>
+
+<p>If you don’t pick a unique name, you will get an error like this:</p>
+
+<p><img src="/images/post-images/2021/12/customizing-iam-url/create-alias-error.png" alt=""></p>
+
+<p>and when you pick your unique name, you should see it in effect:</p>
+
+<p><img src="/images/post-images/2021/12/customizing-iam-url/create-alias-success.png" alt=""></p>
+
+<p class="panel-note">You can keep on using the account id. Setting an alias just gives an additional URL that you can use.</p>
+
+<h2 id="resources">Resources</h2>
+<ul>
+  <li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/console_account-alias.html" target="_blank" rel="noopener noreferrer">AWS Documentation: Your AWS account ID and its alias</a></li>
+</ul>
+
+      
+  </div>
+<!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2021-12-12T00:00:00+00:00"><a href="https://devpower.co.uk/cryptocurrency/docker/dockerizing-spacepool-monitor/">December 12, 2021</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
       
       <span class="entry-reading-time">
@@ -459,116 +522,6 @@
 <ul>
   <li><a href="https://www.linqpad.net/CustomizingDump.aspx" target="_blank" rel="noopener noreferrer">Customizing Dump Output</a></li>
   <li><a href="https://www.danclarke.com/linqpad-tips-and-tricks" target="_blank" rel="noopener noreferrer">LINQPad Tips and Tricks</a></li>
-</ul>
-
-      
-  </div>
-<!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2021-12-08T00:00:00+00:00"><a href="https://devpower.co.uk/cryptocurrency/monitoring-chia-spacepool/">December 08, 2021</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-        Reading time ~2 minutes
-      </span><!-- /.entry-reading-time -->
-      
-    </div>
-<!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="https://devpower.co.uk/cryptocurrency/monitoring-chia-spacepool/" rel="bookmark" title="Developing a custom monitoring tool in C# for SpacePool Chia cryptocurrency farming" itemprop="url">Developing a custom monitoring tool in C# for SpacePool Chia cryptocurrency farming</a></h1>
-    
-  </header>
-  <div class="entry-content">
-      <p>If you are one of the crypto early adopters, the chances are that you’ve heard about a new cryptocurrency called <a href="https://chia.net" target="_blank" rel="noopener noreferrer">Chia</a>. In this post, we will develop a simple monitoring tool to send alerts if Chia farming stops. We are going to use SpacePool’s Developer API to achieve this.</p>
-
-<h2 id="getting-started">Getting Started</h2>
-<p>The best resource to get started is SpacePool’s own <a href="https://blog.pool.space/how-to-get-started-with-space-pool-developer-apis-915b153b2c40" target="_blank" rel="noopener noreferrer">blog post</a></p>
-
-<p>First of all, we will need an API key and as of this writing, obtaining a key is a manual process. You have to explain your use case in their Discord server by answering a list of fixed questions (listed in the blog post), and you’ll get a private message with your key.</p>
-
-<h3 id="testing-the-key">Testing the key</h3>
-<p>The easiest way to test your setup is to visit the <a href="https://developer.pool.space/" target="_blank" rel="noopener noreferrer">API reference</a></p>
-
-<p>Enter your launcher id, API key and some value for User-Agent. Then, when you click the Try It Out button, you should be able to see some results as shown in the screenshot below:</p>
-
-<p><img src="/images/post-images/2021/12/spacepool/api-reference-page.png" alt=""></p>
-
-<h2 id="developing-a-custom-application">Developing a custom application</h2>
-
-<p>It’s a REST API with OpenAPI specs at https://developer.pool.space/api/v1/docs/openapi.json. I used this to generate my C# client:</p>
-
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">docker</span><span class="w"> </span><span class="nx">run</span><span class="w"> </span><span class="nt">--rm</span><span class="w"> </span><span class="nt">-v</span><span class="w"> </span><span class="s2">"</span><span class="nv">${PWD}</span><span class="s2">:/local"</span><span class="w"> </span><span class="nx">openapitools/openapi-generator-cli</span><span class="w"> </span><span class="nx">generate</span><span class="w"> </span><span class="se">`
-</span><span class="w">    </span><span class="nt">-i</span><span class="w"> </span><span class="nx">https://developer.pool.space/api/v1/docs/openapi.json</span><span class="w"> </span><span class="se">`
-</span><span class="w">    </span><span class="nt">-g</span><span class="w"> </span><span class="nx">csharp-netcore</span><span class="w"> </span><span class="se">`
-</span><span class="w">    </span><span class="nt">-o</span><span class="w"> </span><span class="nx">/local/csharp-netcore</span><span class="w">
-</span></code></pre></div></div>
-
-<p>The generated project has the API clients for the endpoints:</p>
-
-<p><img src="/images/post-images/2021/12/spacepool/auto-generated-api-client.png" alt=""></p>
-
-<p>For monitoring purposes, we are interested in the GetFarmPartialsV1Api endpoint.</p>
-
-<p>Here’s my simple console application that calls the endpoint and checks if the latest verified submission happened within an expected timeframe:</p>
-
-<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">const</span> <span class="kt">string</span> <span class="n">launcherId</span> <span class="p">=</span> <span class="s">"{launcher id}"</span><span class="p">;</span>
-<span class="k">const</span> <span class="kt">string</span> <span class="n">apiKey</span> <span class="p">=</span> <span class="s">"{api key}"</span><span class="p">;</span>
-<span class="k">const</span> <span class="kt">string</span> <span class="n">userAgent</span> <span class="p">=</span> <span class="s">"{custom user agent}"</span><span class="p">;</span>
-
-<span class="kt">var</span> <span class="n">apiClient</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">GetFarmPartialsV1Api</span><span class="p">();</span>
-<span class="kt">var</span> <span class="n">response</span> <span class="p">=</span> <span class="k">await</span> <span class="n">apiClient</span><span class="p">.</span><span class="nf">ApiV1FarmsLauncherIdOrAliasPartialsGetAsync</span><span class="p">(</span><span class="n">launcherId</span><span class="p">,</span> <span class="n">apiKey</span><span class="p">,</span> <span class="n">userAgent</span><span class="p">);</span>
-
-<span class="kt">var</span> <span class="n">latestSuccessfulSubmission</span> <span class="p">=</span> <span class="n">response</span><span class="p">.</span><span class="n">Results</span>
-    <span class="p">.</span><span class="nf">OrderByDescending</span><span class="p">(</span><span class="n">r</span> <span class="p">=&gt;</span> <span class="n">r</span><span class="p">.</span><span class="n">SubmissionDateTimeUtc</span><span class="p">)</span>
-    <span class="p">.</span><span class="nf">FirstOrDefault</span><span class="p">(</span><span class="n">r</span> <span class="p">=&gt;</span> <span class="n">r</span><span class="p">.</span><span class="n">State</span><span class="p">.</span><span class="n">Description</span> <span class="p">==</span> <span class="s">"Verified"</span><span class="p">);</span>
-
-<span class="k">if</span> <span class="p">(</span><span class="n">latestSuccessfulSubmission</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">"No verified partials"</span><span class="p">);</span>
-    <span class="c1">// Send an alert somewhere </span>
-    <span class="k">return</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kt">var</span> <span class="n">timeElapsedSinceLastVerifiedPartial</span> <span class="p">=</span>
-    <span class="n">DateTime</span><span class="p">.</span><span class="n">UtcNow</span> <span class="p">-</span> <span class="n">DateTime</span><span class="p">.</span><span class="nf">Parse</span><span class="p">(</span><span class="n">latestSuccessfulSubmission</span><span class="p">.</span><span class="n">SubmissionDateTimeUtc</span><span class="p">);</span>
-
-<span class="kt">var</span> <span class="n">interval</span> <span class="p">=</span> <span class="m">10</span><span class="p">;</span>
-<span class="k">if</span> <span class="p">(</span><span class="n">timeElapsedSinceLastVerifiedPartial</span><span class="p">.</span><span class="n">TotalMinutes</span> <span class="p">&gt;=</span> <span class="n">interval</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">$"No verified partials in the last </span><span class="p">{</span><span class="n">interval</span><span class="p">}</span><span class="s"> minutes"</span><span class="p">);</span>
-    <span class="c1">// Send an alert somewhere </span>
-<span class="p">}</span>
-<span class="k">else</span>
-<span class="p">{</span>
-    <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">$"Last verified partial received </span><span class="p">{</span><span class="n">Math</span><span class="p">.</span><span class="nf">Floor</span><span class="p">(</span><span class="n">timeElapsedSinceLastVerifiedPartial</span><span class="p">.</span><span class="n">TotalMinutes</span><span class="p">)}</span><span class="s"> minutes ago. All looking good."</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<p>and after we run the application, we can see it checks the results:</p>
-
-<p><img src="/images/post-images/2021/12/spacepool/test-result.png" alt=""></p>
-
-<h1 id="conclusion">Conclusion</h1>
-<p>In this post, we looked into generating API clients automatically from an OpenAPI spec. Then used the client to talk to the SpacePool API and get some information about our Chia farm.</p>
-
-<p>I left out sending the actual alerts as they are open-ended, and anyone can customize them to fit their system. In the future, I might post a complete Dockerized solution so that the deployment can be as simple as running a container and providing it with the launcher id and API key.</p>
-
-<p>Let me know if this is of any interest to you to prioritize it over other content.</p>
-
-<p>Happy farming!</p>
-
-<h2 id="resources">Resources</h2>
-<ul>
-  <li><a href="https://pool.space" target="_blank" rel="noopener noreferrer">SpacePool official website</a></li>
-  <li><a href="https://developer.pool.space/" target="_blank" rel="noopener noreferrer">SpacePool API reference</a></li>
-  <li><a href="https://blog.pool.space/how-to-get-started-with-space-pool-developer-apis-915b153b2c40" target="_blank" rel="noopener noreferrer">SpacePool blog post on getting started with the API</a></li>
-  <li><a href="https://chia.net" target="_blank" rel="noopener noreferrer">Chia official website</a></li>
 </ul>
 
       
