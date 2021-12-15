@@ -208,6 +208,13 @@
 <article class="hentry">
   <header>
     
+      <div class="entry-image-index">
+        <a href="https://devpower.co.uk/aws/powershell/working-with-aws-s3-and-file-hashes/" title="Working with AWS S3 and file hashes"><img src="https://devpower.co.uk/images/Add%20files-bro.svg" alt="Working with AWS S3 and file hashes"></a>
+        
+
+      </div>
+<!-- /.entry-image -->
+    
     <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2021-12-15T00:00:00+00:00"><a href="https://devpower.co.uk/aws/powershell/working-with-aws-s3-and-file-hashes/">December 15, 2021</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
       
@@ -229,7 +236,7 @@
 <h2 id="calculating-file-hashes-using-powershell">Calculating file hashes using PowerShell</h2>
 <p>The cmdlet to use in PowerShell is <strong>Get-FileHash</strong></p>
 
-<p>Usage is very straightforward. You just provide it with the path and the hashing algorithm you want to use:</p>
+<p>Usage is very straightforward. You provide it with the path and the hashing algorithm you want to use:</p>
 
 <div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Get-FileHash</span><span class="w">
    </span><span class="p">[</span><span class="nt">-Path</span><span class="p">]</span><span class="w"> </span><span class="err">&lt;</span><span class="nx">String</span><span class="p">[]</span><span class="err">&gt;</span><span class="w">
@@ -240,7 +247,7 @@
 <p>As you can see above, the Path parameter is a string array so you can use it to calculate multiple hashes.</p>
 
 <h2 id="how-to-use-file-hashes-with-aws-s3">How to use file hashes with AWS S3</h2>
-<p>To verify the integrity of the file during upload, we can use <strong>Content-MD5</strong> HTTP header. This header is not specific to AWS but it fits perfectly when uploading files, especially if they are quite big media files.</p>
+<p>To verify the file’s integrity during upload, we can use <strong>Content-MD5</strong> HTTP header. This header is not specific to AWS, but it fits perfectly when uploading files, especially if they are quite big media files.</p>
 
 <p class="panel-note">Content-MD5 value has to be converted to Base64 before it’s sent in the request</p>
 
@@ -299,14 +306,21 @@
 
 <p><img src="/images/post-images/2021/12/file-hashes/etag-match-success.png" alt=""></p>
 
-<p class="panel-warning">This technique works for files up to 16MB. For larger files, Write-S3Object uses multipart upload and the etag valus becomes the MD5 hash of the part.</p>
+<p class="panel-warning">This technique works for files up to 16MB. For larger files, Write-S3Object uses multipart upload, and the ETag value becomes the MD5 hash of the part.</p>
+
+<h3 id="clean-up">Clean Up</h3>
+<p>It’s always a good practice to clean up after a lab session:</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Remove-S3Bucket</span><span class="w"> </span><span class="s2">"filehash-workout"</span><span class="w"> </span><span class="nt">-DeleteBucketContent</span><span class="w"> </span><span class="nt">-Force</span><span class="w">
+</span><span class="n">Remove-Item</span><span class="w"> </span><span class="o">.</span><span class="nx">/file_example_MP3_5MG.mp3</span><span class="w">
+</span></code></pre></div></div>
 
 <h2 id="resources">Resources</h2>
 <ul>
   <li><a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-filehash" target="_blank" rel="noopener noreferrer">Get-FileHash Documentation</a></li>
   <li><a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html" target="_blank" rel="noopener noreferrer">AWS S3 PutObject API reference</a></li>
+  <li><a href="https://storyset.com/work" target="_blank" rel="noopener noreferrer">Work illustrations by Storyset</a></li>
 </ul>
-
 
       
   </div>

@@ -6,11 +6,12 @@
 <head>
 <meta charset="utf-8">
 <title>Working with AWS S3 and file hashes &#8211; 💪 Dev Power</title>
-<meta name="description" content="">
+<meta name="description" content="A lab session to show how to use MD5 hashes for file upload and retrieval with AWS S3">
 <meta name="keywords" content="hashing, md5, s3">
 
 <!-- Twitter Cards -->
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
+
 <meta name="twitter:site" content="@_dev_power_">
 <meta name="twitter:creator" content="@_dev_power_">
 
@@ -18,10 +19,11 @@
 <meta property="og:locale" content="en_GB">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Working with AWS S3 and file hashes">
-<meta property="og:description" content="">
+<meta property="og:description" content="A lab session to show how to use MD5 hashes for file upload and retrieval with AWS S3">
 <meta property="og:url" content="https://devpower.co.uk/aws/powershell/working-with-aws-s3-and-file-hashes/">
 <meta property="og:site_name" content="💪 Dev Power">
-<meta property="og:image" content="https://devpower.co.uk/images/">
+<meta property="og:image" content="https://devpower.co.uk/images/Add files-bro.svg">
+
 
 
 
@@ -68,7 +70,7 @@
      crossorigin="anonymous"></script>
 </head>
 
-<body id="post" >
+<body id="post" class="feature">
 
 <!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
 
@@ -209,13 +211,18 @@
   <article class="hentry">
     <div class="entry-content">
         
+            <div class="entry-image-index">
+              <img src="https://devpower.co.uk/images/Add%20files-bro.svg" alt="Working with AWS S3 and file hashes">
+              
+            </div>
+        
       <h1 class="post-title entry-title">Working with AWS S3 and file hashes</h1>
       <p>Hashing is the operation of creating a unique, fixed-length string from any piece of data. The output is called a “hash” or “message digest”. It is a one-way operation meaning that you can obtain the original message by reverse-engineering the digest even if you knew the hashing algorithm used to create it. I love using hashes as they can provide great value in maintaining the security and integrity of our data.</p>
 
 <h2 id="calculating-file-hashes-using-powershell">Calculating file hashes using PowerShell</h2>
 <p>The cmdlet to use in PowerShell is <strong>Get-FileHash</strong></p>
 
-<p>Usage is very straightforward. You just provide it with the path and the hashing algorithm you want to use:</p>
+<p>Usage is very straightforward. You provide it with the path and the hashing algorithm you want to use:</p>
 
 <div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Get-FileHash</span><span class="w">
    </span><span class="p">[</span><span class="nt">-Path</span><span class="p">]</span><span class="w"> </span><span class="err">&lt;</span><span class="nx">String</span><span class="p">[]</span><span class="err">&gt;</span><span class="w">
@@ -226,7 +233,7 @@
 <p>As you can see above, the Path parameter is a string array so you can use it to calculate multiple hashes.</p>
 
 <h2 id="how-to-use-file-hashes-with-aws-s3">How to use file hashes with AWS S3</h2>
-<p>To verify the integrity of the file during upload, we can use <strong>Content-MD5</strong> HTTP header. This header is not specific to AWS but it fits perfectly when uploading files, especially if they are quite big media files.</p>
+<p>To verify the file’s integrity during upload, we can use <strong>Content-MD5</strong> HTTP header. This header is not specific to AWS, but it fits perfectly when uploading files, especially if they are quite big media files.</p>
 
 <p class="panel-note">Content-MD5 value has to be converted to Base64 before it’s sent in the request</p>
 
@@ -285,14 +292,21 @@
 
 <p><img src="/images/post-images/2021/12/file-hashes/etag-match-success.png" alt=""></p>
 
-<p class="panel-warning">This technique works for files up to 16MB. For larger files, Write-S3Object uses multipart upload and the etag valus becomes the MD5 hash of the part.</p>
+<p class="panel-warning">This technique works for files up to 16MB. For larger files, Write-S3Object uses multipart upload, and the ETag value becomes the MD5 hash of the part.</p>
+
+<h3 id="clean-up">Clean Up</h3>
+<p>It’s always a good practice to clean up after a lab session:</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Remove-S3Bucket</span><span class="w"> </span><span class="s2">"filehash-workout"</span><span class="w"> </span><span class="nt">-DeleteBucketContent</span><span class="w"> </span><span class="nt">-Force</span><span class="w">
+</span><span class="n">Remove-Item</span><span class="w"> </span><span class="o">.</span><span class="nx">/file_example_MP3_5MG.mp3</span><span class="w">
+</span></code></pre></div></div>
 
 <h2 id="resources">Resources</h2>
 <ul>
   <li><a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-filehash" target="_blank" rel="noopener noreferrer">Get-FileHash Documentation</a></li>
   <li><a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html" target="_blank" rel="noopener noreferrer">AWS S3 PutObject API reference</a></li>
+  <li><a href="https://storyset.com/work" target="_blank" rel="noopener noreferrer">Work illustrations by Storyset</a></li>
 </ul>
-
 
       <footer class="entry-meta">
         <span class="entry-tags"><a href="https://devpower.co.uk/tags#hashing" title="Pages tagged hashing" class="tag"><span class="term">hashing</span></a><a href="https://devpower.co.uk/tags#md5" title="Pages tagged md5" class="tag"><span class="term">md5</span></a><a href="https://devpower.co.uk/tags#s3" title="Pages tagged s3" class="tag"><span class="term">s3</span></a></span>

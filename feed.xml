@@ -4,7 +4,7 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="https://devpower.co.uk/feed.xml" />
 <link rel="alternate" type="text/html" href="https://devpower.co.uk" />
-<updated>2021-12-15T10:14:58+00:00</updated>
+<updated>2021-12-15T10:29:09+00:00</updated>
 <id>https://devpower.co.uk/</id>
 <author>
   <name>Volkan Paksoy</name>
@@ -30,7 +30,7 @@
 &lt;h2 id=&quot;calculating-file-hashes-using-powershell&quot;&gt;Calculating file hashes using PowerShell&lt;/h2&gt;
 &lt;p&gt;The cmdlet to use in PowerShell is &lt;strong&gt;Get-FileHash&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;Usage is very straightforward. You just provide it with the path and the hashing algorithm you want to use:&lt;/p&gt;
+&lt;p&gt;Usage is very straightforward. You provide it with the path and the hashing algorithm you want to use:&lt;/p&gt;
 
 &lt;div class=&quot;language-powershell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;Get-FileHash&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-Path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
@@ -41,7 +41,7 @@
 &lt;p&gt;As you can see above, the Path parameter is a string array so you can use it to calculate multiple hashes.&lt;/p&gt;
 
 &lt;h2 id=&quot;how-to-use-file-hashes-with-aws-s3&quot;&gt;How to use file hashes with AWS S3&lt;/h2&gt;
-&lt;p&gt;To verify the integrity of the file during upload, we can use &lt;strong&gt;Content-MD5&lt;/strong&gt; HTTP header. This header is not specific to AWS but it fits perfectly when uploading files, especially if they are quite big media files.&lt;/p&gt;
+&lt;p&gt;To verify the file’s integrity during upload, we can use &lt;strong&gt;Content-MD5&lt;/strong&gt; HTTP header. This header is not specific to AWS, but it fits perfectly when uploading files, especially if they are quite big media files.&lt;/p&gt;
 
 &lt;p class=&quot;panel-note&quot;&gt;Content-MD5 value has to be converted to Base64 before it’s sent in the request&lt;/p&gt;
 
@@ -100,14 +100,21 @@
 
 &lt;p&gt;&lt;img src=&quot;/images/post-images/2021/12/file-hashes/etag-match-success.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
-&lt;p class=&quot;panel-warning&quot;&gt;This technique works for files up to 16MB. For larger files, Write-S3Object uses multipart upload and the etag valus becomes the MD5 hash of the part.&lt;/p&gt;
+&lt;p class=&quot;panel-warning&quot;&gt;This technique works for files up to 16MB. For larger files, Write-S3Object uses multipart upload, and the ETag value becomes the MD5 hash of the part.&lt;/p&gt;
+
+&lt;h3 id=&quot;clean-up&quot;&gt;Clean Up&lt;/h3&gt;
+&lt;p&gt;It’s always a good practice to clean up after a lab session:&lt;/p&gt;
+
+&lt;div class=&quot;language-powershell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;Remove-S3Bucket&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;filehash-workout&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-DeleteBucketContent&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-Force&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Remove-Item&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;/file_example_MP3_5MG.mp3&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;resources&quot;&gt;Resources&lt;/h2&gt;
 &lt;ul&gt;
   &lt;li&gt;&lt;a href=&quot;https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-filehash&quot;&gt;Get-FileHash Documentation&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html&quot;&gt;AWS S3 PutObject API reference&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://storyset.com/work&quot;&gt;Work illustrations by Storyset&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-
 
     &lt;p&gt;&lt;a href=&quot;https://devpower.co.uk/aws/powershell/working-with-aws-s3-and-file-hashes/&quot;&gt;Working with AWS S3 and file hashes&lt;/a&gt; was originally published by Volkan Paksoy at &lt;a href=&quot;https://devpower.co.uk&quot;&gt;💪 Dev Power&lt;/a&gt; on December 15, 2021.&lt;/p&gt;
   </content>
