@@ -280,9 +280,9 @@
 </span></code></pre></div></div>
 
 <h3 id="send-the-file-with-hash">Send the file with hash</h3>
-<p>Fortunately for us, AWS provides an easy way to use MD5 hashes when uploading the file with <strong>Write-S3Object</strong>.</p>
+<p>Fortunately for us, AWS provides an easy way to use MD5 hashes when uploading the file with <strong>Write-S3Object</strong>. It automatically calculates the hash value for us:</p>
 
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Write-S3Object</span><span class="w"> </span><span class="nt">-BucketName</span><span class="w"> </span><span class="s2">"filehash-workout"</span><span class="w"> </span><span class="nt">-File</span><span class="w"> </span><span class="o">.</span><span class="nx">/file_example_MP3_5MG.mp3</span><span class="w"> </span><span class="nt">-CalculateContentMD5Header</span><span class="w"> </span><span class="bp">$true</span><span class="w">
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Write-S3Object</span><span class="w"> </span><span class="nt">-BucketName</span><span class="w"> </span><span class="s2">"filehash-workout"</span><span class="w"> </span><span class="nt">-File</span><span class="w"> </span><span class="o">.</span><span class="nx">/file_example_MP3_5MG.mp3</span><span class="w">
 </span></code></pre></div></div>
 
 <p>The MD5 value is stored as Etag value and can be seen on AWS Management Console:</p>
