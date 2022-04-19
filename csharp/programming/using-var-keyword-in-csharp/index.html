@@ -6,7 +6,7 @@
 <head>
 <meta charset="utf-8">
 <title>Using var keyword in C# &#8211; 💪 Dev Power</title>
-<meta name="description" content="A lab session to show how to use MD5 hashes for file upload and retrieval with AWS S3">
+<meta name="description" content="An article to discuss when to use the var keyword in C#">
 <meta name="keywords" content="var">
 
 <!-- Twitter Cards -->
@@ -18,7 +18,7 @@
 <meta property="og:locale" content="en_GB">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Using var keyword in C#">
-<meta property="og:description" content="A lab session to show how to use MD5 hashes for file upload and retrieval with AWS S3">
+<meta property="og:description" content="An article to discuss when to use the var keyword in C#">
 <meta property="og:url" content="https://devpower.co.uk/csharp/programming/using-var-keyword-in-csharp/">
 <meta property="og:site_name" content="💪 Dev Power">
 <meta property="og:image" content="https://devpower.co.uk/images/">
@@ -222,18 +222,18 @@
     <div class="entry-content">
         
       <h1 class="post-title entry-title">Using var keyword in C#</h1>
-      <p>The var keyword in C# gives the programmer freedom to declare variables with implicit type using the <strong>var</strong> keyword. However, when to use it is a highly debated subject in the C# community. In this post, we’re going to take a look at the origins of var keyword and our conclusion on when to use it.</p>
+      <p>The var keyword in C# gives the programmer freedom to declare variables with implicit type using the <strong>var</strong> keyword. However, when to use it is a highly debated subject in the C# community. In this post, we will look at the origins of the var keyword and our conclusion on when to use it.</p>
 
 <h2 id="origins">Origins</h2>
-<p>var keyword was introduced in C# 3.0 and it allows declaring “implicit” variable declarations. The variables declared with the var keyword are still strongly-typed. The difference is that you don’t need to declare it yourself, the compiler determines the type.</p>
+<p>The var keyword was introduced in C# 3.0, and it allows declaring “implicit” variable declarations. The variables declared with the var keyword are still strongly typed. The difference is that you don’t need to declare it yourself; the compiler determines the type.</p>
 
-<p>For example the following code would not compile:</p>
+<p>For example, the following code would not compile:</p>
 
 <div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">i</span> <span class="p">=</span> <span class="m">10</span><span class="p">;</span>
 <span class="n">i</span> <span class="p">=</span> <span class="s">"x"</span><span class="p">;</span>
 </code></pre></div></div>
 
-<p>When i is declared the type is determined to be an integer so the string assignment fails with the following error:</p>
+<p>When i is declared, the type is determined to be an integer, so the string assignment fails with the following error:</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Compilation error (line 7, col 7): Cannot implicitly convert type 'string' to 'int'
 </code></pre></div></div>
@@ -249,36 +249,36 @@
 </code></pre></div></div>
 
 <h2 id="usage">Usage</h2>
-<p>Var keyword mainly has 2 usages:</p>
+<p>Var keyword mainly has two usages:</p>
 
 <ol>
   <li>Declare anonymous types</li>
   <li>Not repeat type name in a variable declaration and object instantiation</li>
 </ol>
 
-<p>First usage is non-debatable meaning that if you declare anonymous types var is your only option. Below is an example of using the var keyword to declare an anonymous type:</p>
+<p>The first usage is non-debatable, meaning that if you declare anonymous types, var is your only option. Below is an example of using the var keyword to declare an anonymous type:</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var person = new {Id = 1, Name = "Jack", Age = 25 }
 </code></pre></div></div>
 
-<p>Another use case is a query expression where you select a new type</p>
+<p>Another use case is a query expression where you select a new type.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var somePeople = from person in people
                  where person.Age &gt; 20
                  select new { person.Id, person.Name }
 </code></pre></div></div>
 
-<p>In the seconds example, we are creating a new type on the fly rather than returning an existing one so we have use var keyword.</p>
+<p>In the second example, we create a new type on the fly rather than returning an existing one, so we must use the var keyword.</p>
 
 <h2 id="the-debate">The debate</h2>
-<p>The debate around when to use var revolves around the second usage as the first one is mandatory if you need anonymous types. The question is should we use it as a shortcut and skip type declarations? Does that make the code easier or harder to read?</p>
+<p>The debate around when to use var revolves around the second usage, as the first one is mandatory if you need anonymous types. The question is should we use it as a shortcut and skip type declarations? Does that make the code easier or harder to read?</p>
 
-<p>For example consider a complex variable declaration as shown below:</p>
+<p>For example, consider a complex variable declaration as shown below:</p>
 
 <div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;&gt;&gt;</span> <span class="n">items</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;&gt;&gt;();</span>
 </code></pre></div></div>
 
-<p>The same variable can be declared with the var keyword:</p>
+<p>We can declare the same variable with the var keyword:</p>
 
 <div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">items</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;&gt;&gt;();</span>
 </code></pre></div></div>
@@ -293,7 +293,7 @@
 <span class="kt">var</span> <span class="n">user</span> <span class="p">=</span> <span class="n">userService</span><span class="p">.</span><span class="nf">GetUser</span><span class="p">(</span><span class="m">1</span><span class="p">);</span>
 </code></pre></div></div>
 
-<p>What is the type of “user”? Without the help of the IDE we are using, there is no way to know for sure just by looking at the code above. It can be a User class, it can be an IUser interface or a subclass of User. We simply don’t know.</p>
+<p>What is the type of “user”? Without the help of the IDE we are using, there is no way to know for sure just by looking at the code above. It can be a User class; it can be an IUser interface or a subclass of User. At this point, we don’t know.</p>
 
 <h2 id="conclusion">Conclusion</h2>
 
@@ -307,7 +307,7 @@
 User user = userService.GetUser(1);
 </code></pre></div></div>
 
-<p>But if I was declaring the variable with a new keyword, I’d go with var:</p>
+<p>But if I were declaring the variable with a new keyword, I’d go with var:</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var user = new User();
 </code></pre></div></div>
@@ -319,7 +319,7 @@ User user = userService.GetUser(1);
 
 <p>In this case, duplicating the type name doesn’t add more clarity.</p>
 
-<p>Hope this articles helps you decide when to use the var keyword in C#.</p>
+<p>I hope this article helps you decide when to use the var keyword in C#.</p>
 
 <h2 id="resources">Resources</h2>
 <ul>
