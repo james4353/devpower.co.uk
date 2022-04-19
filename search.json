@@ -1,6 +1,14 @@
 [
   
     {
+      "title"    : "Using var keyword in C#",
+      "category" : "",
+      "tags"     : "var",
+      "url"      : "https://devpower.co.uk/csharp/programming/using-var-keyword-in-csharp/",
+      "date"     : "2022-04-18 00:00:00 +0100"
+    } ,
+  
+    {
       "title"    : "Working with AWS S3 and file hashes",
       "category" : "",
       "tags"     : "hashing, md5, s3",

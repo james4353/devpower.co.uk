@@ -4,13 +4,135 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="https://devpower.co.uk/feed.xml" />
 <link rel="alternate" type="text/html" href="https://devpower.co.uk" />
-<updated>2021-12-15T10:37:25+00:00</updated>
+<updated>2022-04-19T07:08:02+01:00</updated>
 <id>https://devpower.co.uk/</id>
 <author>
   <name>Volkan Paksoy</name>
   <uri>https://devpower.co.uk/</uri>
   
 </author>
+
+
+<entry>
+  <title type="html"><![CDATA[Using var keyword in C#]]></title>
+ <link rel="alternate" type="text/html" href="https://devpower.co.uk/csharp/programming/using-var-keyword-in-csharp/" />
+  <id>https://devpower.co.uk/csharp/programming/using-var-keyword-in-csharp</id>
+  <published>2022-04-18T00:00:00+01:00</published>
+  <updated>2022-04-18T00:00:00+01:00</updated>
+  <author>
+    <name>Volkan Paksoy</name>
+    <uri>https://devpower.co.uk</uri>
+    <email></email>
+  </author>
+  <content type="html">
+    &lt;p&gt;The var keyword in C# gives the programmer freedom to declare variables with implicit type using the &lt;strong&gt;var&lt;/strong&gt; keyword. However, when to use it is a highly debated subject in the C# community. In this post, we’re going to take a look at the origins of var keyword and our conclusion on when to use it.&lt;/p&gt;
+
+&lt;h2 id=&quot;origins&quot;&gt;Origins&lt;/h2&gt;
+&lt;p&gt;var keyword was introduced in C# 3.0 and it allows declaring “implicit” variable declarations. The variables declared with the var keyword are still strongly-typed. The difference is that you don’t need to declare it yourself, the compiler determines the type.&lt;/p&gt;
+
+&lt;p&gt;For example the following code would not compile:&lt;/p&gt;
+
+&lt;div class=&quot;language-csharp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;x&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;When i is declared the type is determined to be an integer so the string assignment fails with the following error:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Compilation error (line 7, col 7): Cannot implicitly convert type 'string' to 'int'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;For the same reason, as you can imagine, you cannot just declare a variable with var type such as:&lt;/p&gt;
+
+&lt;div class=&quot;language-csharp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;which would fail with the following error:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Implicitly-typed local variables must be initialized
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;usage&quot;&gt;Usage&lt;/h2&gt;
+&lt;p&gt;Var keyword mainly has 2 usages:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Declare anonymous types&lt;/li&gt;
+  &lt;li&gt;Not repeat type name in a variable declaration and object instantiation&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;First usage is non-debatable meaning that if you declare anonymous types var is your only option. Below is an example of using the var keyword to declare an anonymous type:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;var person = new {Id = 1, Name = &quot;Jack&quot;, Age = 25 }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Another use case is a query expression where you select a new type&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;var somePeople = from person in people
+                 where person.Age &amp;gt; 20
+                 select new { person.Id, person.Name }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In the seconds example, we are creating a new type on the fly rather than returning an existing one so we have use var keyword.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-debate&quot;&gt;The debate&lt;/h2&gt;
+&lt;p&gt;The debate around when to use var revolves around the second usage as the first one is mandatory if you need anonymous types. The question is should we use it as a shortcut and skip type declarations? Does that make the code easier or harder to read?&lt;/p&gt;
+
+&lt;p&gt;For example consider a complex variable declaration as shown below:&lt;/p&gt;
+
+&lt;div class=&quot;language-csharp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;Dictionary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Dictionary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Dictionary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Dictionary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&amp;gt;&amp;gt;();&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The same variable can be declared with the var keyword:&lt;/p&gt;
+
+&lt;div class=&quot;language-csharp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Dictionary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Dictionary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&amp;gt;&amp;gt;();&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In my opinion, the second option is a lot clearer and makes the code easier to read.&lt;/p&gt;
+
+&lt;p class=&quot;panel-note top-padding&quot;&gt;Try to avoid duplication whenever possible.&lt;/p&gt;
+
+&lt;p&gt;Now let’s take a look at another example:&lt;/p&gt;
+
+&lt;div class=&quot;language-csharp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;userService&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;UserService&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;userService&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;GetUser&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;What is the type of “user”? Without the help of the IDE we are using, there is no way to know for sure just by looking at the code above. It can be a User class, it can be an IUser interface or a subclass of User. We simply don’t know.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;Here’s my rule of thumb on when to use var:&lt;/p&gt;
+
+&lt;p class=&quot;panel-note&quot;&gt;If the type of the variable is clear in the initialization of the variable, it’s ok to use var&lt;/p&gt;
+
+&lt;p&gt;For example, to review the above example, I’d go with explicit usage:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;var userService = new UserService();
+User user = userService.GetUser(1);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;But if I was declaring the variable with a new keyword, I’d go with var:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;var user = new User();
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The benefit of this is approach is especially obvious with complex types like the dictionary shown above:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;var items = new Dictionary&amp;lt;string, Dictionary&amp;lt;string, List&amp;lt;string&amp;gt;&amp;gt;&amp;gt;();
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In this case, duplicating the type name doesn’t add more clarity.&lt;/p&gt;
+
+&lt;p&gt;Hope this articles helps you decide when to use the var keyword in C#.&lt;/p&gt;
+
+&lt;h2 id=&quot;resources&quot;&gt;Resources&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/var&quot;&gt;var (C# reference)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/types/anonymous-types&quot;&gt;Anonymous Types&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+    &lt;p&gt;&lt;a href=&quot;https://devpower.co.uk/csharp/programming/using-var-keyword-in-csharp/&quot;&gt;Using var keyword in C#&lt;/a&gt; was originally published by Volkan Paksoy at &lt;a href=&quot;https://devpower.co.uk&quot;&gt;💪 Dev Power&lt;/a&gt; on April 18, 2022.&lt;/p&gt;
+  </content>
+</entry>
 
 
 <entry>
