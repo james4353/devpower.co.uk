@@ -1,6 +1,14 @@
 [
   
     {
+      "title"    : "Anonymous Types in C#",
+      "category" : "",
+      "tags"     : "anonymous_type",
+      "url"      : "https://devpower.co.uk/csharp/programming/anonymous-types-in-csharp/",
+      "date"     : "2022-04-25 00:00:00 +0100"
+    } ,
+  
+    {
       "title"    : "Using var keyword in C#",
       "category" : "",
       "tags"     : "var",
