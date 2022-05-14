@@ -4,7 +4,7 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="https://devpower.co.uk/feed.xml" />
 <link rel="alternate" type="text/html" href="https://devpower.co.uk" />
-<updated>2022-04-25T06:05:31+01:00</updated>
+<updated>2022-05-14T06:43:25+01:00</updated>
 <id>https://devpower.co.uk/</id>
 <author>
   <name>Volkan Paksoy</name>
@@ -92,7 +92,7 @@
 
 &lt;p&gt;As you can see in the screenshot above, we can still see the same property names as the firstPerson object.&lt;/p&gt;
 
-&lt;p class=&quot;panel-note&quot;&gt;The same feature exists in ES6. For more info, check out &lt;a href=&quot;https://alligator.io/js/object-property-shorthand-es6/&quot;&gt;this blog post&lt;/a&gt; &lt;/p&gt;
+&lt;p class=&quot;panel-note top-padding&quot;&gt;The same feature exists in ES6. For more info, check out &lt;a href=&quot;https://alligator.io/js/object-property-shorthand-es6/&quot;&gt;this blog post&lt;/a&gt; &lt;/p&gt;
 
 &lt;h3 id=&quot;internals-of-anonymous-types&quot;&gt;Internals of Anonymous Types&lt;/h3&gt;
 &lt;p&gt;So what happens when we compile our application with anonymous types? The type names are generated automatically by the compiler.&lt;/p&gt;
