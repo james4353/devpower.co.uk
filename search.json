@@ -1,6 +1,14 @@
 [
   
     {
+      "title"    : "How to download audio/video from an RSS feed with C# 6.0",
+      "category" : "",
+      "tags"     : "csharp, dotnet, rss",
+      "url"      : "https://devpower.co.uk/tools/how-to-download-media-from-RSS-feed-with-csharp-6/",
+      "date"     : "2022-05-21 00:00:00 +0100"
+    } ,
+  
+    {
       "title"    : "Anonymous Types in C#",
       "category" : "",
       "tags"     : "anonymous_type",
