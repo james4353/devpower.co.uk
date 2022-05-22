@@ -1,6 +1,14 @@
 [
   
     {
+      "title"    : "Hidden gems in Console API in JavaScript",
+      "category" : "",
+      "tags"     : "console",
+      "url"      : "https://devpower.co.uk/javascript/hidden-gems-in-console-api-in-javascript/",
+      "date"     : "2022-12-22 00:00:00 +0000"
+    } ,
+  
+    {
       "title"    : "How to download audio/video from an RSS feed with C# 6.0",
       "category" : "",
       "tags"     : "csharp, dotnet, rss",

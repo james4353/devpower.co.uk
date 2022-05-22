@@ -106,6 +106,9 @@
                   <li class="sub-item"><a href="https://devpower.co.uk/categories/#docker">docker</a></li>
               
                 
+                  <li class="sub-item"><a href="https://devpower.co.uk/categories/#javascript">javascript</a></li>
+              
+                
                   <li class="sub-item"><a href="https://devpower.co.uk/categories/#meta">meta</a></li>
               
                 
@@ -196,6 +199,9 @@
                 <li><a href="https://devpower.co.uk/categories/#docker">docker</a></li>
             
               
+                <li><a href="https://devpower.co.uk/categories/#javascript">javascript</a></li>
+            
+              
                 <li><a href="https://devpower.co.uk/categories/#meta">meta</a></li>
             
               
@@ -230,6 +236,175 @@
 
 <div id="main" role="main">
   
+<article class="hentry">
+  <header>
+    
+      <div class="entry-image-index">
+        <a href="https://devpower.co.uk/javascript/hidden-gems-in-console-api-in-javascript/" title="Hidden gems in Console API in JavaScript"><img src="https://devpower.co.uk/images/posts/2022/05/javascript-console/3094293.jpg" alt="Hidden gems in Console API in JavaScript"></a>
+        <div class="image-credit">Image source: <a target="_blank" href="https://www.freepik.com/vectors/js" rel="noopener noreferrer">www.freepik.com</a>
+</div>
+<!-- /.image-credit -->
+
+      </div>
+<!-- /.entry-image -->
+    
+    <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2022-12-22T00:00:00+00:00"><a href="https://devpower.co.uk/javascript/hidden-gems-in-console-api-in-javascript/">December 22, 2022</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+        Reading time ~3 minutes
+      </span><!-- /.entry-reading-time -->
+      
+    </div>
+<!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="https://devpower.co.uk/javascript/hidden-gems-in-console-api-in-javascript/" rel="bookmark" title="Hidden gems in Console API in JavaScript" itemprop="url">Hidden gems in Console API in JavaScript</a></h1>
+    
+  </header>
+  <div class="entry-content">
+      <p>Any developer who wrote any JavaScript code must have used console.log() method at some point to log informational messages or for <a href="https://en.wikipedia.org/wiki/Debugging#Print_debugging" target="_blank" rel="noopener noreferrer">print debugging</a>. However, while that method is quite useful, it is not the only one in our arsenal. So let’s look at some useful methods that are not very commonly known to most developers.</p>
+
+<h2 id="consoletime--consoletimelog--consoletimeend">console.time() / console.timeLog() / console.timeEnd()</h2>
+<p>If you have some long-running tasks and want to get some insights into how long a task takes, these methods are handy. You can start a timer by calling</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">();</span></code></pre></figure>
+
+<p>and end the timer by calling</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">console</span><span class="p">.</span><span class="nx">timeEnd</span><span class="p">();</span></code></pre></figure>
+
+<p>You can also pass a label to these methods to make the logs more readable. Otherwise, the times are logged under <em>“default”</em> label.</p>
+
+<p>timeLog() method can be used anywhere between time and timeEnd to log the timer’s current value.</p>
+
+<p>The example below uses all the features discussed above:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript">  <span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">();</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">10000000</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">i</span> <span class="o">===</span> <span class="mi">5000000</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">timeLog</span><span class="p">();</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">timeEnd</span><span class="p">();</span></code></pre></figure>
+
+<p>It loops 10 million times and logs the time halfway through (console.timeLog()) and at the end (console.timeEnd())</p>
+
+<p>and the output looks like this:</p>
+
+<p><img src="/images/posts/2022/05/javascript-console/console-time-output.png" alt=""></p>
+
+<h2 id="consoletable">console.table()</h2>
+<p>This is a neat little feature that can useful when displaying tabular data. In this example, we are going to get the first 10 results from people endpoint on <a href="https://swapi.py4e.com/" target="_blank" rel="noopener noreferrer">Star Wars API</a> and display them in a table:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript">  <span class="nx">fetch</span> <span class="p">(</span><span class="dl">"</span><span class="s2">https://swapi.py4e.com/api/people/</span><span class="dl">"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span> <span class="o">=&gt;</span> <span class="nx">data</span><span class="p">.</span><span class="nx">text</span><span class="p">())</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span> <span class="o">=&gt;</span> <span class="p">{</span> 
+      <span class="nx">console</span><span class="p">.</span><span class="nx">table</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">response</span><span class="p">).</span><span class="nx">results</span><span class="p">);</span>
+    <span class="p">});</span></code></pre></figure>
+
+<p>Let’s check out the results:</p>
+
+<p><img src="/images/posts/2022/05/javascript-console/console-table-output.png" alt=""></p>
+
+<p>And all it takes is 5 lines of code to produce this!</p>
+
+<h2 id="consolewarn--consoleerror">console.warn() / console.error()</h2>
+<p>console.log() is fine for logging informational statements, but to make the warning and errors more readable, you can use warn() and error() methods. When checking the console, they surely stand out among all the other log lines.</p>
+
+<p>For example, the following code</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript">  <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">i</span> <span class="o">===</span> <span class="mi">5</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">warn</span><span class="p">(</span><span class="dl">"</span><span class="s2">warning: half-way through</span><span class="dl">"</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="dl">"</span><span class="s2">error: all gone now</span><span class="dl">"</span><span class="p">);</span></code></pre></figure>
+
+<p>produces this output:</p>
+
+<p><img src="/images/posts/2022/05/javascript-console/console-warn-error-output.png" alt=""></p>
+
+<h2 id="consoledebug">console.debug()</h2>
+<p>I chose to cover debug in a separate section even though it works very similarly to log(), warn() and error() methods. By default, the log level in browsers is not set to display debug messages.</p>
+
+<p><img src="/images/posts/2022/05/javascript-console/browser-log-level-settings.png" alt=""></p>
+
+<p>So if we run the previous example with <em>log()</em> call replaced by <em>debug()</em> call, the output looks very simplified:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript">  <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">debug</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">i</span> <span class="o">===</span> <span class="mi">5</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">warn</span><span class="p">(</span><span class="dl">"</span><span class="s2">warning: half-way through</span><span class="dl">"</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="dl">"</span><span class="s2">error: all gone now</span><span class="dl">"</span><span class="p">);</span></code></pre></figure>
+
+<p>Output with debug:</p>
+
+<p><img src="/images/posts/2022/05/javascript-console/console-debug-output-hidden.png" alt=""></p>
+
+<p>If we want to see all the statements, we need to explicitly set the logging level to verbose and get the same results as before.</p>
+
+<p><img src="/images/posts/2022/05/javascript-console/log-level-set-to-verbose.png" alt=""></p>
+
+<h2 id="consolegroup--groupend--groupcollapsed">console.group() / groupEnd() / groupCollapsed()</h2>
+<p>group() and groupEnd() let us create indented log entries within a group label.</p>
+
+<p>For example, the following code</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">console</span><span class="p">.</span><span class="nx">group</span><span class="p">(</span><span class="dl">"</span><span class="s2">Group 1</span><span class="dl">"</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">entry 1</span><span class="dl">"</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">entry 2</span><span class="dl">"</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">entry 3</span><span class="dl">"</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">groupEnd</span><span class="p">(</span><span class="dl">"</span><span class="s2">Group 1</span><span class="dl">"</span><span class="p">);</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">group</span><span class="p">(</span><span class="dl">"</span><span class="s2">Group 2</span><span class="dl">"</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">entry 1</span><span class="dl">"</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">entry 2</span><span class="dl">"</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">entry 3</span><span class="dl">"</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">groupEnd</span><span class="p">(</span><span class="dl">"</span><span class="s2">Group 2</span><span class="dl">"</span><span class="p">);</span></code></pre></figure>
+
+<p>produces this result:</p>
+
+<p><img src="/images/posts/2022/05/javascript-console/console-group-output.png" alt=""></p>
+
+<p>We can also create log entries in a collapsed state so that they can only be viewed when we explicitly expand the log group:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">console</span><span class="p">.</span><span class="nx">group</span><span class="p">(</span><span class="dl">"</span><span class="s2">Group 1</span><span class="dl">"</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">entry 1</span><span class="dl">"</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">entry 2</span><span class="dl">"</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">entry 3</span><span class="dl">"</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">groupCollapsed</span><span class="p">(</span><span class="dl">"</span><span class="s2">Hidden stuff until you expand</span><span class="dl">"</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Hidden entry 1</span><span class="dl">"</span><span class="p">);</span>  
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Hidden entry 2</span><span class="dl">"</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">groupEnd</span><span class="p">(</span><span class="dl">"</span><span class="s2">Group 1</span><span class="dl">"</span><span class="p">);</span></code></pre></figure>
+
+<p>By default, the output looks like this:</p>
+
+<p><img src="/images/posts/2022/05/javascript-console/console-group-collapsed.png" alt=""></p>
+
+<p>To see the contents of the collapsed group, we need to expand it explicitly:</p>
+
+<p><img src="/images/posts/2022/05/javascript-console/console-group-expanded.png" alt=""></p>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>This post looked into useful Console API methods that are not commonly known. We didn’t look into non-standard methods such as timeStamp() and profile() to ensure compatibility. I’d recommend visiting the resources below and looking into all the methods. Some of them are not covered here but might be quite useful to you.</p>
+
+<h2 id="resources">Resources</h2>
+<ul>
+  <li><a href="https://www.w3schools.com/jsref/obj_console.asp" target="_blank" rel="noopener noreferrer">W3Schools: Window Console Object</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Console_API" target="_blank" rel="noopener noreferrer">MDN Web Docs: Console API</a></li>
+  <li><a href="https://swapi.py4e.com/" target="_blank" rel="noopener noreferrer">Star Wars API</a></li>
+</ul>
+
+      
+  </div>
+<!-- /.entry-content -->
+</article><!-- /.hentry -->
+
 <article class="hentry">
   <header>
     
@@ -701,77 +876,6 @@ User user = userService.GetUser(1);
   <li><a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-filehash" target="_blank" rel="noopener noreferrer">Get-FileHash Documentation</a></li>
   <li><a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html" target="_blank" rel="noopener noreferrer">AWS S3 PutObject API reference</a></li>
   <li><a href="https://storyset.com/work" target="_blank" rel="noopener noreferrer">Work illustrations by Storyset</a></li>
-</ul>
-
-      
-  </div>
-<!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-      <div class="entry-image-index">
-        <a href="https://devpower.co.uk/tips_n_tricks/aws/customizing-aws-iam-sign-in-url/" title="Customizing AWS IAM Sign-in URL"><img src="https://devpower.co.uk/images/Mar-Business_2.jpg" alt="Customizing AWS IAM Sign-in URL"></a>
-        
-
-      </div>
-<!-- /.entry-image -->
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2021-12-13T00:00:00+00:00"><a href="https://devpower.co.uk/tips_n_tricks/aws/customizing-aws-iam-sign-in-url/">December 13, 2021</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-        Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div>
-<!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="https://devpower.co.uk/tips_n_tricks/aws/customizing-aws-iam-sign-in-url/" rel="bookmark" title="Customizing AWS IAM Sign-in URL" itemprop="url">Customizing AWS IAM Sign-in URL</a></h1>
-    
-  </header>
-  <div class="entry-content">
-      <p>Normally the login URL for IAM users is in this format</p>
-
-<blockquote>
-  <p>https://{Account Id}.signin.aws.amazon.com/console</p>
-</blockquote>
-
-<p>But it is possible to make this URL more memorable and user-friendly.</p>
-
-<p>In order to achieve this, follow the steps below:</p>
-
-<p><strong>Step 01</strong>: Go to <a href="https://console.aws.amazon.com/iamv2/home#/home" target="_blank" rel="noopener noreferrer">IAM Dashboard</a></p>
-
-<p><strong>Step 02</strong>: Click on the <strong>Create</strong> link that is located right next to the account id:</p>
-
-<p><img src="/images/post-images/2021/12/customizing-iam-url/iam-dashboard.png" alt=""></p>
-
-<p><strong>Step 03</strong>: This brings up the <em>Create Account Alias</em> dialog box.</p>
-
-<p><img src="/images/post-images/2021/12/customizing-iam-url/create-alias-01.png" alt=""></p>
-
-<p><strong>Step 03</strong>: Enter your desired alias and save.</p>
-
-<p class="panel-warning top-padding">Since the name we provide is used in the URL, it needs to be unique globally. </p>
-
-<p>If you don’t pick a unique name, you will get an error like this:</p>
-
-<p><img src="/images/post-images/2021/12/customizing-iam-url/create-alias-error.png" alt=""></p>
-
-<p>and when you pick your unique name, you should see it in effect:</p>
-
-<p><img src="/images/post-images/2021/12/customizing-iam-url/create-alias-success.png" alt=""></p>
-
-<p class="panel-note">You can keep on using the account id. Setting an alias just gives an additional URL that you can use.</p>
-
-<h2 id="resources">Resources</h2>
-<ul>
-  <li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/console_account-alias.html" target="_blank" rel="noopener noreferrer">AWS Documentation: Your AWS account ID and its alias</a></li>
-  <li><a href="https://www.freepik.com/vectors/people" target="_blank" rel="noopener noreferrer">People vector created by jcomp - www.freepik.com</a></li>
 </ul>
 
       
