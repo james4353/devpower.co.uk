@@ -103,6 +103,9 @@
                   <li class="sub-item"><a href="https://devpower.co.uk/categories/#csharp">csharp</a></li>
               
                 
+                  <li class="sub-item"><a href="https://devpower.co.uk/categories/#devops">devops</a></li>
+              
+                
                   <li class="sub-item"><a href="https://devpower.co.uk/categories/#docker">docker</a></li>
               
                 
@@ -196,6 +199,9 @@
                 <li><a href="https://devpower.co.uk/categories/#csharp">csharp</a></li>
             
               
+                <li><a href="https://devpower.co.uk/categories/#devops">devops</a></li>
+            
+              
                 <li><a href="https://devpower.co.uk/categories/#docker">docker</a></li>
             
               
@@ -236,6 +242,227 @@
 
 <div id="main" role="main">
   
+<article class="hentry">
+  <header>
+    
+      <div class="entry-image-index">
+        <a href="https://devpower.co.uk/devops/exploring-github-actions/" title="Exploring GitHub Actions"><img src="https://devpower.co.uk/images/posts/2022/05/github-actions/13094.jpg" alt="Exploring GitHub Actions"></a>
+        <div class="image-credit">Image source: <a target="_blank" href="https://www.freepik.com/vectors/repair-man" rel="noopener noreferrer">www.freepik.com</a>
+</div>
+<!-- /.image-credit -->
+
+      </div>
+<!-- /.entry-image -->
+    
+    <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2022-05-23T00:00:00+01:00"><a href="https://devpower.co.uk/devops/exploring-github-actions/">May 23, 2022</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+        Reading time ~3 minutes
+      </span><!-- /.entry-reading-time -->
+      
+    </div>
+<!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="https://devpower.co.uk/devops/exploring-github-actions/" rel="bookmark" title="Exploring GitHub Actions" itemprop="url">Exploring GitHub Actions</a></h1>
+    
+  </header>
+  <div class="entry-content">
+      <p>In a nutsehll, GitHub Actions is GitHub’s automated wokflow solution. It allows developers to run custom build and deployment actions straight in GitHub. This makes sense if you already have your code in GitHub. Even free accounts have 500MB straoge and 2,000 worker minutes allowance. So all you need is a free account to follow along.</p>
+
+<h2 id="basics">Basics</h2>
+<p>GitHub Actions is quite a flexible event driven mechanism. In addition to be able to run jobs on events, you can run on schedule as well.</p>
+
+<p>The units executed by GitHub Actions are called <strong>workflows</strong>. To create a workflow, you can create a file under <strong>.github/workflows</strong> directory inside your GitHub repository.</p>
+
+<p class="panel-note">By default, .github directory is likely to be excluded in the left pane. You can update VS Code settings to remove it from the exclusions list by following this guide: <a href="https://knowitall.pro/posts/how-to-show-hidden-directories-in-visual-studio-code" target="_blank" rel="noopener noreferrer">How to show hidden directories in Visual Studio Code</a>
+</p>
+
+<p>You can view the process mainly as an IFTTT (if this then that) workflow. If some event happens then some list of actions (jobs) are executed. For example, let’s take a look at this very basic workflow:</p>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="na">name</span><span class="pi">:</span> <span class="s">Demo</span>
+
+<span class="na">on</span><span class="pi">:</span>
+  <span class="na">push</span><span class="pi">:</span>
+    <span class="na">branches</span><span class="pi">:</span> <span class="pi">[</span> <span class="nv">main</span> <span class="pi">]</span>
+
+<span class="na">jobs</span><span class="pi">:</span>
+  <span class="na">build</span><span class="pi">:</span>
+    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+    <span class="na">steps</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Run a one-line script</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="s">echo Hello, GitHub Actions!</span></code></pre></figure>
+
+<p>So the process we are defining is</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>When some code is pushed 
+To the main branch
+Create a new virtual machine based on ubuntu-latest template (Currently it's Ubuntu 20.04)
+Execute the following command: echo Hello, GitHub Actions!
+</code></pre></div></div>
+
+<p>And to test the workflow, you can simply create and push a new file:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">touch </span>demo-trigger
+git add demo-trigger
+git commit <span class="nt">-m</span> <span class="s2">"testing demo workflow"</span>
+git push</code></pre></figure>
+
+<p>At this point if you go to your repository’s Actions tab, you should see something like:</p>
+
+<p><img src="/images/posts/2022/05/github-actions/testing-demo-workflow.png" alt=""></p>
+
+<p>And after waiting a few seconds, you should see the job complete. Click on the name and expand the details to see the logs:</p>
+
+<p><img src="/images/posts/2022/05/github-actions/demo-workflow-output.png" alt=""></p>
+
+<p>You can see it prints the statement we put in the workflow YAML file.</p>
+
+<h2 id="lets-do-something-useful-with-it">Let’s Do Something Useful With It!</h2>
+<p>Printing something is useful but most of the time you would to run some build process and deploy the artifacts to somewhere. Let’s move one step further and try something meaningful.</p>
+
+<p>In this walkthrough, we are going to create a CI/CD pipeline that builds a React application and deploys it to another branch called _site where it’s served as a static website using GitHub Pages.</p>
+
+<p>Without further ado, let’s start the walkthrough:</p>
+
+<ol>
+  <li>Create a new branch called _site:</li>
+</ol>
+
+<p><img src="/images/posts/2022/05/github-actions/site-branch.png" alt=""></p>
+
+<ol start="2">
+  <li>Go to repo Settings -&gt; Pages. Select _site as the Source branch and click Save</li>
+</ol>
+
+<p><img src="/images/posts/2022/05/github-actions/set-gh-pages-branch.png" alt=""></p>
+
+<ol start="3">
+  <li>Confirm that your site is ready to be served on gitHub Pages. You should see a notification that looks like this:</li>
+</ol>
+
+<p><img src="/images/posts/2022/05/github-actions/gh-pages-confirmation.png" alt=""></p>
+
+<p>and if you visit the link, it should look like this:</p>
+
+<p><img src="/images/posts/2022/05/github-actions/gh-pages-version-1.png" alt=""></p>
+
+<ol start="4">
+  <li>
+    <p>Clone the repo and checkout main branch</p>
+  </li>
+  <li>
+    <p>Change to the repo path in terminal and create a new React app</p>
+  </li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">npx create-react-app .</code></pre></figure>
+
+<ol start="6">
+  <li>After the installation has completed, you can test your application by running</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">npm start</code></pre></figure>
+
+<p>The output should look something like this:</p>
+
+<p><img src="/images/posts/2022/05/github-actions/npm-start-output.png" alt=""></p>
+
+<p>We are going to use the app as-is with one exception. Open package.json and add the following file:</p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="w">  </span><span class="nl">"homepage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/github-actions-workout/"</span><span class="err">,</span></code></pre></figure>
+
+<p>so that it looks like this:</p>
+
+<p><img src="/images/posts/2022/05/github-actions/package-json-update.png" alt=""></p>
+
+<p>This is necessary for the paths in the built application. Because our application is not in the root level of the subdomain we have to tell React the relative path to adjust the URLs.</p>
+
+<ol start="7">
+  <li>
+    <p>Now, create a new file called <strong>publish-site.yml</strong> under <strong>./github/workflows</strong> directory.</p>
+  </li>
+  <li>
+    <p>Enter the code below as the contents of publish-site.yml file:</p>
+  </li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="na">name</span><span class="pi">:</span> <span class="s">Generate a build and push to another branch</span>
+
+<span class="na">on</span><span class="pi">:</span>
+  <span class="na">push</span><span class="pi">:</span>
+    <span class="na">branches</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">main</span>
+
+<span class="na">jobs</span><span class="pi">:</span>
+  <span class="na">build</span><span class="pi">:</span>
+    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+    <span class="na">name</span><span class="pi">:</span> <span class="s">Build and push to _site</span>
+    <span class="na">steps</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">git-checkout</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v2</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Install all dependencies</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="s">npm install</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Build</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="s">npm run build</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Push</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">s0/git-publish-subdir-action@develop</span>
+        <span class="na">env</span><span class="pi">:</span>
+          <span class="na">REPO</span><span class="pi">:</span> <span class="s">self</span>
+          <span class="na">BRANCH</span><span class="pi">:</span> <span class="s">_site</span>
+          <span class="na">FOLDER</span><span class="pi">:</span> <span class="s">build</span>
+          <span class="na">GITHUB_TOKEN</span><span class="pi">:</span>  <span class="s">${{ secrets.GITHUB_TOKEN }}</span> </code></pre></figure>
+
+<ol start="9">
+  <li>Commit and push your changes in the main branch</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">git add <span class="nb">.</span>
+git add ./.github/workflows/publish-site.yml
+git commit <span class="nt">-m</span> <span class="s2">"testing react CI/CD"</span>
+git push</code></pre></figure>
+
+<ol start="10">
+  <li>Go to Actions tab and you should see the workflow we just pushed:</li>
+</ol>
+
+<p><img src="/images/posts/2022/05/github-actions/react-ci-cd-workflow.png" alt=""></p>
+
+<ol start="11">
+  <li>And after some brief queuing and waiting, you should get the output:</li>
+</ol>
+
+<p><img src="/images/posts/2022/05/github-actions/publish-site-workflow-output.png" alt=""></p>
+
+<ol start="12">
+  <li>Also notice that GitHub’s own Pages feature is also another action. You can see it in action in the same actions list. Just check “pages build and deployment” jobs after you push code</li>
+</ol>
+
+<p><img src="/images/posts/2022/05/github-actions/gh-pages-action.png" alt=""></p>
+
+<ol start="13">
+  <li>After succesful GitHub Pages build, if you visit your page again you should see a new React app runnning</li>
+</ol>
+
+<p><img src="/images/posts/2022/05/github-actions/gh-pages-version-2.png" alt=""></p>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>In this post, we covered the basics of GitHub Actions and created a CI/CD pipeline for a React application only by using GitHub. I hope this post has been helpful to you. If you want move coverage on GitHub actions, please leave a comment below.</p>
+
+<h2 id="resources">Resources</h2>
+<ul>
+  <li><a href="https://github.com/features/actions" target="_blank" rel="noopener noreferrer">GitHub Actions</a></li>
+  <li><a href="https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners" target="_blank" rel="noopener noreferrer">GitHub Hosted Runners</a></li>
+  <li><a href="https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions" target="_blank" rel="noopener noreferrer">GitHub Action Billing</a></li>
+</ul>
+
+      
+  </div>
+<!-- /.entry-content -->
+</article><!-- /.hentry -->
+
 <article class="hentry">
   <header>
     
@@ -754,128 +981,6 @@ User user = userService.GetUser(1);
 <ul>
   <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/var" target="_blank" rel="noopener noreferrer">var (C# reference)</a></li>
   <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/types/anonymous-types" target="_blank" rel="noopener noreferrer">Anonymous Types</a></li>
-</ul>
-
-      
-  </div>
-<!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-      <div class="entry-image-index">
-        <a href="https://devpower.co.uk/aws/powershell/working-with-aws-s3-and-file-hashes/" title="Working with AWS S3 and file hashes"><img src="https://devpower.co.uk/images/Add%20files-bro.svg" alt="Working with AWS S3 and file hashes"></a>
-        
-
-      </div>
-<!-- /.entry-image -->
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2021-12-15T00:00:00+00:00"><a href="https://devpower.co.uk/aws/powershell/working-with-aws-s3-and-file-hashes/">December 15, 2021</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-        Reading time ~2 minutes
-      </span><!-- /.entry-reading-time -->
-      
-    </div>
-<!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="https://devpower.co.uk/aws/powershell/working-with-aws-s3-and-file-hashes/" rel="bookmark" title="Working with AWS S3 and file hashes" itemprop="url">Working with AWS S3 and file hashes</a></h1>
-    
-  </header>
-  <div class="entry-content">
-      <p>Hashing is the operation of creating a unique, fixed-length string from any piece of data. The output is called a “hash” or “message digest”. It is a one-way operation meaning that you can obtain the original message by reverse-engineering the digest even if you knew the hashing algorithm used to create it. I love using hashes as they can provide great value in maintaining the security and integrity of our data.</p>
-
-<h2 id="calculating-file-hashes-using-powershell">Calculating file hashes using PowerShell</h2>
-<p>The cmdlet to use in PowerShell is <strong>Get-FileHash</strong></p>
-
-<p>Usage is very straightforward. You provide it with the path and the hashing algorithm you want to use:</p>
-
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Get-FileHash</span><span class="w">
-   </span><span class="p">[</span><span class="nt">-Path</span><span class="p">]</span><span class="w"> </span><span class="err">&lt;</span><span class="nx">String</span><span class="p">[]</span><span class="err">&gt;</span><span class="w">
-   </span><span class="p">[[</span><span class="nt">-Algorithm</span><span class="p">]</span><span class="w"> </span><span class="err">&lt;</span><span class="n">String</span><span class="err">&gt;</span><span class="p">]</span><span class="w">
-   </span><span class="p">[</span><span class="err">&lt;</span><span class="n">CommonParameters</span><span class="err">&gt;</span><span class="p">]</span><span class="w">
-</span></code></pre></div></div>
-
-<p>As you can see above, the Path parameter is a string array so you can use it to calculate multiple hashes.</p>
-
-<h2 id="how-to-use-file-hashes-with-aws-s3">How to use file hashes with AWS S3</h2>
-<p>To verify the file’s integrity during upload, we can use <strong>Content-MD5</strong> HTTP header. This header is not specific to AWS, but it fits perfectly when uploading files, especially if they are quite big media files.</p>
-
-<p class="panel-note">Content-MD5 value has to be converted to Base64 before it’s sent in the request</p>
-
-<h2 id="preparing-the-lab-environment">Preparing the lab environment</h2>
-
-<h3 id="downloading-a-sample-file">Downloading a sample file</h3>
-<p>The file I worked with is a sample that’s publicly available <a href="https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_5MG.mp3" target="_blank" rel="noopener noreferrer">here</a></p>
-
-<p>I first fetched the file to my local lab:</p>
-
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">wget</span><span class="w"> </span><span class="nx">https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_5MG.mp3</span><span class="w">
-</span></code></pre></div></div>
-
-<p><img src="/images/post-images/2021/12/file-hashes/wget-sample-file.png" alt=""></p>
-
-<h3 id="generate-md5-hash">Generate MD5 hash</h3>
-<p>To get the MD5 hash, I ran the following command:</p>
-
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Get-FileHash</span><span class="w"> </span><span class="nt">-Path</span><span class="w"> </span><span class="o">.</span><span class="nx">/file_example_MP3_5MG.mp3</span><span class="w"> </span><span class="nt">-Algorithm</span><span class="w"> </span><span class="nx">MD5</span><span class="w">
-</span></code></pre></div></div>
-
-<p>and the output is:</p>
-
-<p><img src="/images/post-images/2021/12/file-hashes/get-filehash-output.png" alt=""></p>
-
-<h3 id="create-target-bucket">Create target bucket</h3>
-<p>Creating a new S3 bucket is simple as follows:</p>
-
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">New-S3Bucket</span><span class="w"> </span><span class="nt">-BucketName</span><span class="w"> </span><span class="s2">"filehash-workout"</span><span class="w"> 
-</span></code></pre></div></div>
-
-<h3 id="send-the-file-with-hash">Send the file with hash</h3>
-<p>Fortunately for us, AWS provides an easy way to use MD5 hashes when uploading the file with <strong>Write-S3Object</strong>. It automatically calculates the hash value for us:</p>
-
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Write-S3Object</span><span class="w"> </span><span class="nt">-BucketName</span><span class="w"> </span><span class="s2">"filehash-workout"</span><span class="w"> </span><span class="nt">-File</span><span class="w"> </span><span class="o">.</span><span class="nx">/file_example_MP3_5MG.mp3</span><span class="w">
-</span></code></pre></div></div>
-
-<p>The MD5 value is stored as Etag value and can be seen on AWS Management Console:</p>
-
-<p><img src="/images/post-images/2021/12/file-hashes/md5-on-aws-management-console.png" alt=""></p>
-
-<h3 id="check-the-file-hash">Check the file hash</h3>
-<p>As the final step, we need to pass the MD5 hash of the file on our end and see if it matches the value on AWS:</p>
-
-<p class="panel-note top-padding">Please note from the above, hash value is stored in all lowercase on AWS</p>
-
-<p>If we send the file hash as we get from Get-FileHash we get the following error:</p>
-
-<p><img src="/images/post-images/2021/12/file-hashes/etag-mismatch-error.png" alt=""></p>
-
-<p>When we convert the hash value to lowercase, we can get successful result:</p>
-
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$filehash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Get-FileHash</span><span class="w"> </span><span class="nt">-Path</span><span class="w"> </span><span class="o">.</span><span class="nx">/file_example_MP3_5MG.mp3</span><span class="w"> </span><span class="nt">-Algorithm</span><span class="w"> </span><span class="nx">MD5</span><span class="p">)</span><span class="o">.</span><span class="nf">Hash</span><span class="w">
-</span><span class="n">Get-S3ObjectMetadata</span><span class="w"> </span><span class="nt">-BucketName</span><span class="w"> </span><span class="s2">"filehash-workout"</span><span class="w"> </span><span class="nt">-Key</span><span class="w"> </span><span class="s2">"file_example_MP3_5MG.mp3"</span><span class="w"> </span><span class="nt">-EtagToMatch</span><span class="w"> </span><span class="s2">"</span><span class="nv">$filehash</span><span class="s2">"</span><span class="o">.</span><span class="nf">ToLower</span><span class="p">()</span><span class="w">
-</span></code></pre></div></div>
-
-<p><img src="/images/post-images/2021/12/file-hashes/etag-match-success.png" alt=""></p>
-
-<p class="panel-warning">This technique works for files up to 16MB. For larger files, Write-S3Object uses multipart upload, and the ETag value becomes the MD5 hash of the part.</p>
-
-<h3 id="clean-up">Clean Up</h3>
-<p>It’s always a good practice to clean up after a lab session:</p>
-
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Remove-S3Bucket</span><span class="w"> </span><span class="s2">"filehash-workout"</span><span class="w"> </span><span class="nt">-DeleteBucketContent</span><span class="w"> </span><span class="nt">-Force</span><span class="w">
-</span><span class="n">Remove-Item</span><span class="w"> </span><span class="o">.</span><span class="nx">/file_example_MP3_5MG.mp3</span><span class="w">
-</span></code></pre></div></div>
-
-<h2 id="resources">Resources</h2>
-<ul>
-  <li><a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-filehash" target="_blank" rel="noopener noreferrer">Get-FileHash Documentation</a></li>
-  <li><a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html" target="_blank" rel="noopener noreferrer">AWS S3 PutObject API reference</a></li>
-  <li><a href="https://storyset.com/work" target="_blank" rel="noopener noreferrer">Work illustrations by Storyset</a></li>
 </ul>
 
       

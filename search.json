@@ -1,6 +1,14 @@
 [
   
     {
+      "title"    : "Exploring GitHub Actions",
+      "category" : "",
+      "tags"     : "github, github_actions, ci_cd, pipeline",
+      "url"      : "https://devpower.co.uk/devops/exploring-github-actions/",
+      "date"     : "2022-05-23 00:00:00 +0100"
+    } ,
+  
+    {
       "title"    : "Hidden gems in JavaScript Console API",
       "category" : "",
       "tags"     : "console",

@@ -103,6 +103,9 @@
                   <li class="sub-item"><a href="https://devpower.co.uk/categories/#csharp">csharp</a></li>
               
                 
+                  <li class="sub-item"><a href="https://devpower.co.uk/categories/#devops">devops</a></li>
+              
+                
                   <li class="sub-item"><a href="https://devpower.co.uk/categories/#docker">docker</a></li>
               
                 
@@ -196,6 +199,9 @@
                 <li><a href="https://devpower.co.uk/categories/#csharp">csharp</a></li>
             
               
+                <li><a href="https://devpower.co.uk/categories/#devops">devops</a></li>
+            
+              
                 <li><a href="https://devpower.co.uk/categories/#docker">docker</a></li>
             
               
@@ -236,6 +242,128 @@
 
 <div id="main" role="main">
   
+<article class="hentry">
+  <header>
+    
+      <div class="entry-image-index">
+        <a href="https://devpower.co.uk/aws/powershell/working-with-aws-s3-and-file-hashes/" title="Working with AWS S3 and file hashes"><img src="https://devpower.co.uk/images/Add%20files-bro.svg" alt="Working with AWS S3 and file hashes"></a>
+        
+
+      </div>
+<!-- /.entry-image -->
+    
+    <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2021-12-15T00:00:00+00:00"><a href="https://devpower.co.uk/aws/powershell/working-with-aws-s3-and-file-hashes/">December 15, 2021</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+        Reading time ~2 minutes
+      </span><!-- /.entry-reading-time -->
+      
+    </div>
+<!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="https://devpower.co.uk/aws/powershell/working-with-aws-s3-and-file-hashes/" rel="bookmark" title="Working with AWS S3 and file hashes" itemprop="url">Working with AWS S3 and file hashes</a></h1>
+    
+  </header>
+  <div class="entry-content">
+      <p>Hashing is the operation of creating a unique, fixed-length string from any piece of data. The output is called a “hash” or “message digest”. It is a one-way operation meaning that you can obtain the original message by reverse-engineering the digest even if you knew the hashing algorithm used to create it. I love using hashes as they can provide great value in maintaining the security and integrity of our data.</p>
+
+<h2 id="calculating-file-hashes-using-powershell">Calculating file hashes using PowerShell</h2>
+<p>The cmdlet to use in PowerShell is <strong>Get-FileHash</strong></p>
+
+<p>Usage is very straightforward. You provide it with the path and the hashing algorithm you want to use:</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Get-FileHash</span><span class="w">
+   </span><span class="p">[</span><span class="nt">-Path</span><span class="p">]</span><span class="w"> </span><span class="err">&lt;</span><span class="nx">String</span><span class="p">[]</span><span class="err">&gt;</span><span class="w">
+   </span><span class="p">[[</span><span class="nt">-Algorithm</span><span class="p">]</span><span class="w"> </span><span class="err">&lt;</span><span class="n">String</span><span class="err">&gt;</span><span class="p">]</span><span class="w">
+   </span><span class="p">[</span><span class="err">&lt;</span><span class="n">CommonParameters</span><span class="err">&gt;</span><span class="p">]</span><span class="w">
+</span></code></pre></div></div>
+
+<p>As you can see above, the Path parameter is a string array so you can use it to calculate multiple hashes.</p>
+
+<h2 id="how-to-use-file-hashes-with-aws-s3">How to use file hashes with AWS S3</h2>
+<p>To verify the file’s integrity during upload, we can use <strong>Content-MD5</strong> HTTP header. This header is not specific to AWS, but it fits perfectly when uploading files, especially if they are quite big media files.</p>
+
+<p class="panel-note">Content-MD5 value has to be converted to Base64 before it’s sent in the request</p>
+
+<h2 id="preparing-the-lab-environment">Preparing the lab environment</h2>
+
+<h3 id="downloading-a-sample-file">Downloading a sample file</h3>
+<p>The file I worked with is a sample that’s publicly available <a href="https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_5MG.mp3" target="_blank" rel="noopener noreferrer">here</a></p>
+
+<p>I first fetched the file to my local lab:</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">wget</span><span class="w"> </span><span class="nx">https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_5MG.mp3</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/images/post-images/2021/12/file-hashes/wget-sample-file.png" alt=""></p>
+
+<h3 id="generate-md5-hash">Generate MD5 hash</h3>
+<p>To get the MD5 hash, I ran the following command:</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Get-FileHash</span><span class="w"> </span><span class="nt">-Path</span><span class="w"> </span><span class="o">.</span><span class="nx">/file_example_MP3_5MG.mp3</span><span class="w"> </span><span class="nt">-Algorithm</span><span class="w"> </span><span class="nx">MD5</span><span class="w">
+</span></code></pre></div></div>
+
+<p>and the output is:</p>
+
+<p><img src="/images/post-images/2021/12/file-hashes/get-filehash-output.png" alt=""></p>
+
+<h3 id="create-target-bucket">Create target bucket</h3>
+<p>Creating a new S3 bucket is simple as follows:</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">New-S3Bucket</span><span class="w"> </span><span class="nt">-BucketName</span><span class="w"> </span><span class="s2">"filehash-workout"</span><span class="w"> 
+</span></code></pre></div></div>
+
+<h3 id="send-the-file-with-hash">Send the file with hash</h3>
+<p>Fortunately for us, AWS provides an easy way to use MD5 hashes when uploading the file with <strong>Write-S3Object</strong>. It automatically calculates the hash value for us:</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Write-S3Object</span><span class="w"> </span><span class="nt">-BucketName</span><span class="w"> </span><span class="s2">"filehash-workout"</span><span class="w"> </span><span class="nt">-File</span><span class="w"> </span><span class="o">.</span><span class="nx">/file_example_MP3_5MG.mp3</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The MD5 value is stored as Etag value and can be seen on AWS Management Console:</p>
+
+<p><img src="/images/post-images/2021/12/file-hashes/md5-on-aws-management-console.png" alt=""></p>
+
+<h3 id="check-the-file-hash">Check the file hash</h3>
+<p>As the final step, we need to pass the MD5 hash of the file on our end and see if it matches the value on AWS:</p>
+
+<p class="panel-note top-padding">Please note from the above, hash value is stored in all lowercase on AWS</p>
+
+<p>If we send the file hash as we get from Get-FileHash we get the following error:</p>
+
+<p><img src="/images/post-images/2021/12/file-hashes/etag-mismatch-error.png" alt=""></p>
+
+<p>When we convert the hash value to lowercase, we can get successful result:</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$filehash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Get-FileHash</span><span class="w"> </span><span class="nt">-Path</span><span class="w"> </span><span class="o">.</span><span class="nx">/file_example_MP3_5MG.mp3</span><span class="w"> </span><span class="nt">-Algorithm</span><span class="w"> </span><span class="nx">MD5</span><span class="p">)</span><span class="o">.</span><span class="nf">Hash</span><span class="w">
+</span><span class="n">Get-S3ObjectMetadata</span><span class="w"> </span><span class="nt">-BucketName</span><span class="w"> </span><span class="s2">"filehash-workout"</span><span class="w"> </span><span class="nt">-Key</span><span class="w"> </span><span class="s2">"file_example_MP3_5MG.mp3"</span><span class="w"> </span><span class="nt">-EtagToMatch</span><span class="w"> </span><span class="s2">"</span><span class="nv">$filehash</span><span class="s2">"</span><span class="o">.</span><span class="nf">ToLower</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="/images/post-images/2021/12/file-hashes/etag-match-success.png" alt=""></p>
+
+<p class="panel-warning">This technique works for files up to 16MB. For larger files, Write-S3Object uses multipart upload, and the ETag value becomes the MD5 hash of the part.</p>
+
+<h3 id="clean-up">Clean Up</h3>
+<p>It’s always a good practice to clean up after a lab session:</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Remove-S3Bucket</span><span class="w"> </span><span class="s2">"filehash-workout"</span><span class="w"> </span><span class="nt">-DeleteBucketContent</span><span class="w"> </span><span class="nt">-Force</span><span class="w">
+</span><span class="n">Remove-Item</span><span class="w"> </span><span class="o">.</span><span class="nx">/file_example_MP3_5MG.mp3</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="resources">Resources</h2>
+<ul>
+  <li><a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-filehash" target="_blank" rel="noopener noreferrer">Get-FileHash Documentation</a></li>
+  <li><a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html" target="_blank" rel="noopener noreferrer">AWS S3 PutObject API reference</a></li>
+  <li><a href="https://storyset.com/work" target="_blank" rel="noopener noreferrer">Work illustrations by Storyset</a></li>
+</ul>
+
+      
+  </div>
+<!-- /.entry-content -->
+</article><!-- /.hentry -->
+
 <article class="hentry">
   <header>
     
@@ -594,57 +722,6 @@
 <h2 id="resources">Resources</h2>
 <ul>
   <li><a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/?view=powershell-7.2" target="_blank" rel="noopener noreferrer">cmdlets in Microsoft.PowerShell.Utility</a></li>
-</ul>
-
-      
-  </div>
-<!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2021-12-09T00:00:00+00:00"><a href="https://devpower.co.uk/tips_n_tricks/linqpad-dump-extension-dump/">December 09, 2021</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-        Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div>
-<!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="https://devpower.co.uk/tips_n_tricks/linqpad-dump-extension-dump/" rel="bookmark" title="LINQPad Dump Extension Method" itemprop="url">LINQPad Dump Extension Method</a></h1>
-    
-  </header>
-  <div class="entry-content">
-      <p>I like LINQPad for prototyping C# applications and trying out short snippets. In many scenarios I have to see the output of what I’m trying out. I used to treat my snippets as they if they were small console applications and I used to use <em>Console.WriteLine()</em> statements to display the output.</p>
-
-<p>Not anymore! In a tech video on YouTube I saw this option and loved it:</p>
-
-<p>In LINQPad, there’s a generic extension method called <strong>Dump()</strong>. It writes the output to the console. Exactly as Console.WriteLine but in a much more concise way.</p>
-
-<p>For example:</p>
-
-<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">nums</span> <span class="p">=</span> <span class="k">new</span><span class="p">[]</span> <span class="p">{</span> <span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="m">6</span> <span class="p">};</span>
-<span class="kt">var</span> <span class="n">sum</span> <span class="p">=</span> <span class="n">nums</span><span class="p">.</span><span class="nf">Aggregate</span><span class="p">((</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="n">a</span> <span class="p">+</span> <span class="n">b</span><span class="p">);</span>
-<span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="n">sum</span><span class="p">);</span>
-</code></pre></div></div>
-
-<p>This displays 21 and it can be shortened with Dump method</p>
-
-<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">nums</span> <span class="p">=</span> <span class="k">new</span><span class="p">[]</span> <span class="p">{</span> <span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="m">6</span> <span class="p">};</span>
-<span class="n">nums</span><span class="p">.</span><span class="nf">Aggregate</span><span class="p">((</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="n">a</span> <span class="p">+</span> <span class="n">b</span><span class="p">).</span><span class="nf">Dump</span><span class="p">();</span>
-</code></pre></div></div>
-
-<p>It shows the same result but in a shorter way.</p>
-
-<h2 id="resources">Resources</h2>
-<ul>
-  <li><a href="https://www.linqpad.net/CustomizingDump.aspx" target="_blank" rel="noopener noreferrer">Customizing Dump Output</a></li>
-  <li><a href="https://www.danclarke.com/linqpad-tips-and-tricks" target="_blank" rel="noopener noreferrer">LINQPad Tips and Tricks</a></li>
 </ul>
 
       

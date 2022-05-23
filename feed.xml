@@ -4,13 +4,218 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="https://devpower.co.uk/feed.xml" />
 <link rel="alternate" type="text/html" href="https://devpower.co.uk" />
-<updated>2022-05-23T08:00:56+01:00</updated>
+<updated>2022-05-23T18:16:27+01:00</updated>
 <id>https://devpower.co.uk/</id>
 <author>
   <name>Volkan Paksoy</name>
   <uri>https://devpower.co.uk/</uri>
   
 </author>
+
+
+<entry>
+  <title type="html"><![CDATA[Exploring GitHub Actions]]></title>
+ <link rel="alternate" type="text/html" href="https://devpower.co.uk/devops/exploring-github-actions/" />
+  <id>https://devpower.co.uk/devops/exploring-github-actions</id>
+  <published>2022-05-23T00:00:00+01:00</published>
+  <updated>2022-05-23T00:00:00+01:00</updated>
+  <author>
+    <name>Volkan Paksoy</name>
+    <uri>https://devpower.co.uk</uri>
+    <email></email>
+  </author>
+  <content type="html">
+    &lt;p&gt;In a nutsehll, GitHub Actions is GitHub’s automated wokflow solution. It allows developers to run custom build and deployment actions straight in GitHub. This makes sense if you already have your code in GitHub. Even free accounts have 500MB straoge and 2,000 worker minutes allowance. So all you need is a free account to follow along.&lt;/p&gt;
+
+&lt;h2 id=&quot;basics&quot;&gt;Basics&lt;/h2&gt;
+&lt;p&gt;GitHub Actions is quite a flexible event driven mechanism. In addition to be able to run jobs on events, you can run on schedule as well.&lt;/p&gt;
+
+&lt;p&gt;The units executed by GitHub Actions are called &lt;strong&gt;workflows&lt;/strong&gt;. To create a workflow, you can create a file under &lt;strong&gt;.github/workflows&lt;/strong&gt; directory inside your GitHub repository.&lt;/p&gt;
+
+&lt;p class=&quot;panel-note&quot;&gt;By default, .github directory is likely to be excluded in the left pane. You can update VS Code settings to remove it from the exclusions list by following this guide: &lt;a href=&quot;https://knowitall.pro/posts/how-to-show-hidden-directories-in-visual-studio-code&quot;&gt;How to show hidden directories in Visual Studio Code&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;You can view the process mainly as an IFTTT (if this then that) workflow. If some event happens then some list of actions (jobs) are executed. For example, let’s take a look at this very basic workflow:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-yaml&quot; data-lang=&quot;yaml&quot;&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Demo&lt;/span&gt;
+
+&lt;span class=&quot;na&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;push&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;branches&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;main&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;]&lt;/span&gt;
+
+&lt;span class=&quot;na&quot;&gt;jobs&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;runs-on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ubuntu-latest&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Run a one-line script&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;echo Hello, GitHub Actions!&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;So the process we are defining is&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;When some code is pushed 
+To the main branch
+Create a new virtual machine based on ubuntu-latest template (Currently it's Ubuntu 20.04)
+Execute the following command: echo Hello, GitHub Actions!
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And to test the workflow, you can simply create and push a new file:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;touch &lt;/span&gt;demo-trigger
+git add demo-trigger
+git commit &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;testing demo workflow&quot;&lt;/span&gt;
+git push&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;At this point if you go to your repository’s Actions tab, you should see something like:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2022/05/github-actions/testing-demo-workflow.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;And after waiting a few seconds, you should see the job complete. Click on the name and expand the details to see the logs:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2022/05/github-actions/demo-workflow-output.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;You can see it prints the statement we put in the workflow YAML file.&lt;/p&gt;
+
+&lt;h2 id=&quot;lets-do-something-useful-with-it&quot;&gt;Let’s Do Something Useful With It!&lt;/h2&gt;
+&lt;p&gt;Printing something is useful but most of the time you would to run some build process and deploy the artifacts to somewhere. Let’s move one step further and try something meaningful.&lt;/p&gt;
+
+&lt;p&gt;In this walkthrough, we are going to create a CI/CD pipeline that builds a React application and deploys it to another branch called _site where it’s served as a static website using GitHub Pages.&lt;/p&gt;
+
+&lt;p&gt;Without further ado, let’s start the walkthrough:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Create a new branch called _site:&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2022/05/github-actions/site-branch.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ol start=&quot;2&quot;&gt;
+  &lt;li&gt;Go to repo Settings -&amp;gt; Pages. Select _site as the Source branch and click Save&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2022/05/github-actions/set-gh-pages-branch.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ol start=&quot;3&quot;&gt;
+  &lt;li&gt;Confirm that your site is ready to be served on gitHub Pages. You should see a notification that looks like this:&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2022/05/github-actions/gh-pages-confirmation.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;and if you visit the link, it should look like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2022/05/github-actions/gh-pages-version-1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ol start=&quot;4&quot;&gt;
+  &lt;li&gt;
+    &lt;p&gt;Clone the repo and checkout main branch&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Change to the repo path in terminal and create a new React app&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;npx create-react-app .&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ol start=&quot;6&quot;&gt;
+  &lt;li&gt;After the installation has completed, you can test your application by running&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;npm start&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;The output should look something like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2022/05/github-actions/npm-start-output.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;We are going to use the app as-is with one exception. Open package.json and add the following file:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;homepage&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/github-actions-workout/&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;,&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;so that it looks like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2022/05/github-actions/package-json-update.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This is necessary for the paths in the built application. Because our application is not in the root level of the subdomain we have to tell React the relative path to adjust the URLs.&lt;/p&gt;
+
+&lt;ol start=&quot;7&quot;&gt;
+  &lt;li&gt;
+    &lt;p&gt;Now, create a new file called &lt;strong&gt;publish-site.yml&lt;/strong&gt; under &lt;strong&gt;./github/workflows&lt;/strong&gt; directory.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Enter the code below as the contents of publish-site.yml file:&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-yaml&quot; data-lang=&quot;yaml&quot;&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Generate a build and push to another branch&lt;/span&gt;
+
+&lt;span class=&quot;na&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;push&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;branches&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;main&lt;/span&gt;
+
+&lt;span class=&quot;na&quot;&gt;jobs&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;runs-on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ubuntu-latest&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Build and push to _site&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;git-checkout&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;actions/checkout@v2&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Install all dependencies&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;npm install&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Build&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;npm run build&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Push&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;s0/git-publish-subdir-action@develop&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;REPO&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;self&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;BRANCH&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;_site&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;FOLDER&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;build&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;GITHUB_TOKEN&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;  &lt;span class=&quot;s&quot;&gt;${{ secrets.GITHUB_TOKEN }}&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ol start=&quot;9&quot;&gt;
+  &lt;li&gt;Commit and push your changes in the main branch&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;git add &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+git add ./.github/workflows/publish-site.yml
+git commit &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;testing react CI/CD&quot;&lt;/span&gt;
+git push&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ol start=&quot;10&quot;&gt;
+  &lt;li&gt;Go to Actions tab and you should see the workflow we just pushed:&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2022/05/github-actions/react-ci-cd-workflow.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ol start=&quot;11&quot;&gt;
+  &lt;li&gt;And after some brief queuing and waiting, you should get the output:&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2022/05/github-actions/publish-site-workflow-output.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ol start=&quot;12&quot;&gt;
+  &lt;li&gt;Also notice that GitHub’s own Pages feature is also another action. You can see it in action in the same actions list. Just check “pages build and deployment” jobs after you push code&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2022/05/github-actions/gh-pages-action.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ol start=&quot;13&quot;&gt;
+  &lt;li&gt;After succesful GitHub Pages build, if you visit your page again you should see a new React app runnning&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2022/05/github-actions/gh-pages-version-2.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;In this post, we covered the basics of GitHub Actions and created a CI/CD pipeline for a React application only by using GitHub. I hope this post has been helpful to you. If you want move coverage on GitHub actions, please leave a comment below.&lt;/p&gt;
+
+&lt;h2 id=&quot;resources&quot;&gt;Resources&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/features/actions&quot;&gt;GitHub Actions&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners&quot;&gt;GitHub Hosted Runners&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions&quot;&gt;GitHub Action Billing&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+    &lt;p&gt;&lt;a href=&quot;https://devpower.co.uk/devops/exploring-github-actions/&quot;&gt;Exploring GitHub Actions&lt;/a&gt; was originally published by Volkan Paksoy at &lt;a href=&quot;https://devpower.co.uk&quot;&gt;💪 Dev Power&lt;/a&gt; on May 23, 2022.&lt;/p&gt;
+  </content>
+</entry>
 
 
 <entry>

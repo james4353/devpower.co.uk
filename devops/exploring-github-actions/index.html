@@ -5,9 +5,9 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title>How to download audio/video from an RSS feed with C# 6.0 &#8211; 💪 Dev Power</title>
-<meta name="description" content="In this post, we are going to look into downloading media files from an RSS feed.">
-<meta name="keywords" content="csharp, dotnet, rss">
+<title>Exploring GitHub Actions &#8211; 💪 Dev Power</title>
+<meta name="description" content="In this post, we are looking into the features of GitHub Actions - GitHub's automated workflow solution">
+<meta name="keywords" content="github, github_actions, ci_cd, pipeline">
 
 <!-- Twitter Cards -->
 <meta name="twitter:card" content="summary_large_image">
@@ -18,18 +18,18 @@
 <!-- Open Graph -->
 <meta property="og:locale" content="en_GB">
 <meta property="og:type" content="article">
-<meta property="og:title" content="How to download audio/video from an RSS feed with C# 6.0">
-<meta property="og:description" content="In this post, we are going to look into downloading media files from an RSS feed.">
-<meta property="og:url" content="https://devpower.co.uk/tools/how-to-download-media-from-RSS-feed-with-csharp-6/">
+<meta property="og:title" content="Exploring GitHub Actions">
+<meta property="og:description" content="In this post, we are looking into the features of GitHub Actions - GitHub's automated workflow solution">
+<meta property="og:url" content="https://devpower.co.uk/devops/exploring-github-actions/">
 <meta property="og:site_name" content="💪 Dev Power">
-<meta property="og:image" content="https://devpower.co.uk/images/posts/2022/05/rss-download/64615.jpg">
+<meta property="og:image" content="https://devpower.co.uk/images/posts/2022/05/github-actions/13094.jpg">
 
 
 
 
 
 
-<link rel="canonical" href="https://devpower.co.uk/tools/how-to-download-media-from-RSS-feed-with-csharp-6/">
+<link rel="canonical" href="https://devpower.co.uk/devops/exploring-github-actions/">
 <link href="https://devpower.co.uk/feed.xml" type="application/atom+xml" rel="alternate" title="💪 Dev Power Feed">
 
 <!-- http://t.co/dKP3o1e -->
@@ -156,17 +156,17 @@
 <div class="entry-header">
   <div class="header-title">
     <div class="header-title-wrap">
-      <h1>How to download audio/video from an RSS feed with C# 6.0</h1>
+      <h1>Exploring GitHub Actions</h1>
       <h3></h3>
       
-        <h2><span class="entry-date date published updated"><time datetime="2022-05-21T00:00:00+01:00">May 21, 2022</time></span></h2>
+        <h2><span class="entry-date date published updated"><time datetime="2022-05-23T00:00:00+01:00">May 23, 2022</time></span></h2>
       
 
       
         <p class="entry-reading-time">
           <i class="fa fa-clock-o"></i>
           
-          Reading time ~1 minute
+          Reading time ~3 minutes
         </p>
 <!-- /.entry-reading-time -->
       
@@ -249,100 +249,210 @@
     <div class="entry-content">
         
             <div class="entry-image-index">
-              <img src="https://devpower.co.uk/images/posts/2022/05/rss-download/64615.jpg" alt="How to download audio/video from an RSS feed with C# 6.0">
-              <div class="image-credit">Image source: <a target="_blank" href="https://www.freepik.com/vectors/upload-icon" rel="noopener noreferrer">www.freepik.com</a>
+              <img src="https://devpower.co.uk/images/posts/2022/05/github-actions/13094.jpg" alt="Exploring GitHub Actions">
+              <div class="image-credit">Image source: <a target="_blank" href="https://www.freepik.com/vectors/repair-man" rel="noopener noreferrer">www.freepik.com</a>
 </div>
 <!-- /.image-credit -->
             </div>
         
-      <h1 class="post-title entry-title">How to download audio/video from an RSS feed with C# 6.0</h1>
-      <p>When you listen to a podcast, your podcast player basically downloads the <a href="https://en.wikipedia.org/wiki/RSS" target="_blank" rel="noopener noreferrer">RSS</a> feed of the publisher. Checks the local downloaded files and downloads the new ones as they come along. In this small project, I’m going to develop a small C# application that downloads the entire media from an RSS feed.</p>
+      <h1 class="post-title entry-title">Exploring GitHub Actions</h1>
+      <p>In a nutsehll, GitHub Actions is GitHub’s automated wokflow solution. It allows developers to run custom build and deployment actions straight in GitHub. This makes sense if you already have your code in GitHub. Even free accounts have 500MB straoge and 2,000 worker minutes allowance. So all you need is a free account to follow along.</p>
 
-<p>All the information in the RSS feed is public and clients are meant to download these media files.</p>
+<h2 id="basics">Basics</h2>
+<p>GitHub Actions is quite a flexible event driven mechanism. In addition to be able to run jobs on events, you can run on schedule as well.</p>
 
-<p>Here’s how the program works in a nutshell:</p>
+<p>The units executed by GitHub Actions are called <strong>workflows</strong>. To create a workflow, you can create a file under <strong>.github/workflows</strong> directory inside your GitHub repository.</p>
 
-<ul>
-  <li>It accepts 2 arguments: the URL of the RSS feed and the target directory to save the files into</li>
-  <li>It then downloads the RSS feed into a temporary XML file</li>
-  <li>It parses the XML and gets the following values: Title, publication date and the URL to download</li>
-  <li>It loops through all the entries in the feed and saves the files to the local file system (It skips existing files so you can run it multiple times and it won’t re-download unnecessarily)</li>
-  <li>After it’s done, it deletes the temp XML file</li>
-</ul>
+<p class="panel-note">By default, .github directory is likely to be excluded in the left pane. You can update VS Code settings to remove it from the exclusions list by following this guide: <a href="https://knowitall.pro/posts/how-to-show-hidden-directories-in-visual-studio-code" target="_blank" rel="noopener noreferrer">How to show hidden directories in Visual Studio Code</a>
+</p>
 
-<p>That’s all! Not a fancy podcatcher by no means, but it’s fun little project that can be used to archive your favourite podcasts.</p>
+<p>You can view the process mainly as an IFTTT (if this then that) workflow. If some event happens then some list of actions (jobs) are executed. For example, let’s take a look at this very basic workflow:</p>
 
-<p>The entire source code for the C# 6.0 Console Application is below. Enjoy!</p>
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="na">name</span><span class="pi">:</span> <span class="s">Demo</span>
 
-<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="k">using</span> <span class="nn">System.Xml</span><span class="p">;</span>
-<span class="k">using</span> <span class="nn">System.Net</span><span class="p">;</span>
+<span class="na">on</span><span class="pi">:</span>
+  <span class="na">push</span><span class="pi">:</span>
+    <span class="na">branches</span><span class="pi">:</span> <span class="pi">[</span> <span class="nv">main</span> <span class="pi">]</span>
 
-<span class="kt">string</span> <span class="n">feedUrl</span> <span class="p">=</span> <span class="n">args</span><span class="p">[</span><span class="m">0</span><span class="p">];</span>
-<span class="kt">string</span> <span class="n">feedLocalFileNnme</span> <span class="p">=</span> <span class="s">"temp-feed.xml"</span><span class="p">;</span>
+<span class="na">jobs</span><span class="pi">:</span>
+  <span class="na">build</span><span class="pi">:</span>
+    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+    <span class="na">steps</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Run a one-line script</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="s">echo Hello, GitHub Actions!</span></code></pre></figure>
 
-<span class="kt">string</span> <span class="n">targetLocalDirectory</span> <span class="p">=</span> <span class="n">args</span><span class="p">[</span><span class="m">1</span><span class="p">].</span><span class="nf">TrimEnd</span><span class="p">(</span><span class="sc">'/'</span><span class="p">);</span>
+<p>So the process we are defining is</p>
 
-<span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">WebClient</span><span class="p">())</span>
-<span class="p">{</span>
-    <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">$"Downloading </span><span class="p">{</span><span class="n">feedUrl</span><span class="p">}</span><span class="s"> to </span><span class="p">{</span><span class="n">feedLocalFileNnme</span><span class="p">}</span><span class="s">"</span><span class="p">);</span>
-    <span class="n">client</span><span class="p">.</span><span class="nf">DownloadFile</span><span class="p">(</span><span class="n">feedUrl</span><span class="p">,</span> <span class="n">feedLocalFileNnme</span><span class="p">);</span>
-<span class="p">}</span>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>When some code is pushed 
+To the main branch
+Create a new virtual machine based on ubuntu-latest template (Currently it's Ubuntu 20.04)
+Execute the following command: echo Hello, GitHub Actions!
+</code></pre></div></div>
 
-<span class="kt">string</span> <span class="n">rawXml</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="nf">ReadAllText</span><span class="p">(</span><span class="n">feedLocalFileNnme</span><span class="p">);</span>
-<span class="kt">var</span> <span class="n">xmlDocument</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">XmlDocument</span><span class="p">();</span>
-<span class="n">xmlDocument</span><span class="p">.</span><span class="nf">LoadXml</span><span class="p">(</span><span class="n">rawXml</span><span class="p">);</span>
+<p>And to test the workflow, you can simply create and push a new file:</p>
 
-<span class="n">XmlNodeList</span> <span class="n">itemNodeList</span> <span class="p">=</span> <span class="n">xmlDocument</span><span class="p">.</span><span class="nf">SelectNodes</span><span class="p">(</span><span class="s">"/rss/channel/item"</span><span class="p">);</span>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">touch </span>demo-trigger
+git add demo-trigger
+git commit <span class="nt">-m</span> <span class="s2">"testing demo workflow"</span>
+git push</code></pre></figure>
 
-<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">itemNodeList</span><span class="p">.</span><span class="n">Count</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
-<span class="p">{</span>
-    <span class="n">XmlNode</span> <span class="n">titleNode</span> <span class="p">=</span> <span class="n">itemNodeList</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="nf">SelectNodes</span><span class="p">(</span><span class="s">"title"</span><span class="p">)[</span><span class="m">0</span><span class="p">];</span>
-    <span class="n">XmlNode</span> <span class="n">enclosureNode</span> <span class="p">=</span> <span class="n">itemNodeList</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="nf">SelectNodes</span><span class="p">(</span><span class="s">"enclosure"</span><span class="p">)[</span><span class="m">0</span><span class="p">];</span>
-    <span class="n">XmlNode</span> <span class="n">pubDateNode</span> <span class="p">=</span> <span class="n">itemNodeList</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="nf">SelectNodes</span><span class="p">(</span><span class="s">"pubDate"</span><span class="p">)[</span><span class="m">0</span><span class="p">];</span>
-    <span class="kt">string</span> <span class="n">urlToDownload</span> <span class="p">=</span> <span class="n">enclosureNode</span><span class="p">.</span><span class="n">Attributes</span><span class="p">[</span><span class="s">"url"</span><span class="p">].</span><span class="n">Value</span><span class="p">;</span>
-    <span class="n">DateTime</span> <span class="n">pubDate</span> <span class="p">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="nf">Parse</span><span class="p">(</span><span class="n">pubDateNode</span><span class="p">.</span><span class="n">InnerText</span><span class="p">);</span>
-    <span class="kt">string</span> <span class="n">localFileName</span> <span class="p">=</span> <span class="s">$"</span><span class="p">{</span><span class="n">targetLocalDirectory</span><span class="p">}</span><span class="s">/</span><span class="p">{</span><span class="nf">GetDate</span><span class="p">(</span><span class="n">pubDate</span><span class="p">)}</span><span class="s">-</span><span class="p">{</span><span class="n">titleNode</span><span class="p">.</span><span class="n">InnerText</span><span class="p">}</span><span class="s">.mp3"</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">(!</span><span class="n">File</span><span class="p">.</span><span class="nf">Exists</span><span class="p">(</span><span class="n">localFileName</span><span class="p">))</span>
-    <span class="p">{</span>
-        <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">WebClient</span><span class="p">())</span>
-        <span class="p">{</span>
-            <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">$"Downloading </span><span class="p">{</span><span class="n">urlToDownload</span><span class="p">}</span><span class="s"> to </span><span class="p">{</span><span class="n">localFileName</span><span class="p">}</span><span class="s">"</span><span class="p">);</span>
-            <span class="n">client</span><span class="p">.</span><span class="nf">DownloadFile</span><span class="p">(</span><span class="n">urlToDownload</span><span class="p">,</span> <span class="n">localFileName</span><span class="p">);</span>
-            <span class="n">Thread</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="m">2000</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="k">else</span>
-    <span class="p">{</span>
-        <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">$"Skipping. File at </span><span class="p">{</span><span class="n">localFileName</span><span class="p">}</span><span class="s"> already exists."</span><span class="p">);</span>
-    <span class="p">}</span>
-    
-    <span class="kt">string</span> <span class="nf">GetDate</span><span class="p">(</span><span class="n">DateTime</span> <span class="n">pubDate</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="k">return</span> <span class="s">$"</span><span class="p">{</span><span class="n">pubDate</span><span class="p">.</span><span class="n">Year</span><span class="p">}</span><span class="s">-</span><span class="p">{</span><span class="n">pubDate</span><span class="p">.</span><span class="n">Month</span><span class="p">.</span><span class="nf">ToString</span><span class="p">().</span><span class="nf">PadLeft</span><span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="sc">'0'</span><span class="p">)}</span><span class="s">-</span><span class="p">{</span><span class="n">pubDate</span><span class="p">.</span><span class="n">Day</span><span class="p">.</span><span class="nf">ToString</span><span class="p">().</span><span class="nf">PadLeft</span><span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="sc">'0'</span><span class="p">)}</span><span class="s">"</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<p>At this point if you go to your repository’s Actions tab, you should see something like:</p>
 
-<span class="n">File</span><span class="p">.</span><span class="nf">Delete</span><span class="p">(</span><span class="n">feedLocalFileNnme</span><span class="p">);</span></code></pre></figure>
+<p><img src="/images/posts/2022/05/github-actions/testing-demo-workflow.png" alt=""></p>
 
-<h3 id="usage">Usage</h3>
+<p>And after waiting a few seconds, you should see the job complete. Click on the name and expand the details to see the logs:</p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">dotnet run <span class="nt">--</span> <span class="o">{</span>RSS URL<span class="o">}</span> <span class="o">{</span>Target Local Directory<span class="o">}</span></code></pre></figure>
+<p><img src="/images/posts/2022/05/github-actions/demo-workflow-output.png" alt=""></p>
+
+<p>You can see it prints the statement we put in the workflow YAML file.</p>
+
+<h2 id="lets-do-something-useful-with-it">Let’s Do Something Useful With It!</h2>
+<p>Printing something is useful but most of the time you would to run some build process and deploy the artifacts to somewhere. Let’s move one step further and try something meaningful.</p>
+
+<p>In this walkthrough, we are going to create a CI/CD pipeline that builds a React application and deploys it to another branch called _site where it’s served as a static website using GitHub Pages.</p>
+
+<p>Without further ado, let’s start the walkthrough:</p>
+
+<ol>
+  <li>Create a new branch called _site:</li>
+</ol>
+
+<p><img src="/images/posts/2022/05/github-actions/site-branch.png" alt=""></p>
+
+<ol start="2">
+  <li>Go to repo Settings -&gt; Pages. Select _site as the Source branch and click Save</li>
+</ol>
+
+<p><img src="/images/posts/2022/05/github-actions/set-gh-pages-branch.png" alt=""></p>
+
+<ol start="3">
+  <li>Confirm that your site is ready to be served on gitHub Pages. You should see a notification that looks like this:</li>
+</ol>
+
+<p><img src="/images/posts/2022/05/github-actions/gh-pages-confirmation.png" alt=""></p>
+
+<p>and if you visit the link, it should look like this:</p>
+
+<p><img src="/images/posts/2022/05/github-actions/gh-pages-version-1.png" alt=""></p>
+
+<ol start="4">
+  <li>
+    <p>Clone the repo and checkout main branch</p>
+  </li>
+  <li>
+    <p>Change to the repo path in terminal and create a new React app</p>
+  </li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">npx create-react-app .</code></pre></figure>
+
+<ol start="6">
+  <li>After the installation has completed, you can test your application by running</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">npm start</code></pre></figure>
+
+<p>The output should look something like this:</p>
+
+<p><img src="/images/posts/2022/05/github-actions/npm-start-output.png" alt=""></p>
+
+<p>We are going to use the app as-is with one exception. Open package.json and add the following file:</p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="w">  </span><span class="nl">"homepage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/github-actions-workout/"</span><span class="err">,</span></code></pre></figure>
+
+<p>so that it looks like this:</p>
+
+<p><img src="/images/posts/2022/05/github-actions/package-json-update.png" alt=""></p>
+
+<p>This is necessary for the paths in the built application. Because our application is not in the root level of the subdomain we have to tell React the relative path to adjust the URLs.</p>
+
+<ol start="7">
+  <li>
+    <p>Now, create a new file called <strong>publish-site.yml</strong> under <strong>./github/workflows</strong> directory.</p>
+  </li>
+  <li>
+    <p>Enter the code below as the contents of publish-site.yml file:</p>
+  </li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="na">name</span><span class="pi">:</span> <span class="s">Generate a build and push to another branch</span>
+
+<span class="na">on</span><span class="pi">:</span>
+  <span class="na">push</span><span class="pi">:</span>
+    <span class="na">branches</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">main</span>
+
+<span class="na">jobs</span><span class="pi">:</span>
+  <span class="na">build</span><span class="pi">:</span>
+    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+    <span class="na">name</span><span class="pi">:</span> <span class="s">Build and push to _site</span>
+    <span class="na">steps</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">git-checkout</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v2</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Install all dependencies</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="s">npm install</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Build</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="s">npm run build</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Push</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">s0/git-publish-subdir-action@develop</span>
+        <span class="na">env</span><span class="pi">:</span>
+          <span class="na">REPO</span><span class="pi">:</span> <span class="s">self</span>
+          <span class="na">BRANCH</span><span class="pi">:</span> <span class="s">_site</span>
+          <span class="na">FOLDER</span><span class="pi">:</span> <span class="s">build</span>
+          <span class="na">GITHUB_TOKEN</span><span class="pi">:</span>  <span class="s">${{ secrets.GITHUB_TOKEN }}</span> </code></pre></figure>
+
+<ol start="9">
+  <li>Commit and push your changes in the main branch</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">git add <span class="nb">.</span>
+git add ./.github/workflows/publish-site.yml
+git commit <span class="nt">-m</span> <span class="s2">"testing react CI/CD"</span>
+git push</code></pre></figure>
+
+<ol start="10">
+  <li>Go to Actions tab and you should see the workflow we just pushed:</li>
+</ol>
+
+<p><img src="/images/posts/2022/05/github-actions/react-ci-cd-workflow.png" alt=""></p>
+
+<ol start="11">
+  <li>And after some brief queuing and waiting, you should get the output:</li>
+</ol>
+
+<p><img src="/images/posts/2022/05/github-actions/publish-site-workflow-output.png" alt=""></p>
+
+<ol start="12">
+  <li>Also notice that GitHub’s own Pages feature is also another action. You can see it in action in the same actions list. Just check “pages build and deployment” jobs after you push code</li>
+</ol>
+
+<p><img src="/images/posts/2022/05/github-actions/gh-pages-action.png" alt=""></p>
+
+<ol start="13">
+  <li>After succesful GitHub Pages build, if you visit your page again you should see a new React app runnning</li>
+</ol>
+
+<p><img src="/images/posts/2022/05/github-actions/gh-pages-version-2.png" alt=""></p>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>In this post, we covered the basics of GitHub Actions and created a CI/CD pipeline for a React application only by using GitHub. I hope this post has been helpful to you. If you want move coverage on GitHub actions, please leave a comment below.</p>
 
 <h2 id="resources">Resources</h2>
 <ul>
-  <li><a href="https://www.w3schools.com/xml/xml_rss.asp" target="_blank" rel="noopener noreferrer">XML RSS</a></li>
+  <li><a href="https://github.com/features/actions" target="_blank" rel="noopener noreferrer">GitHub Actions</a></li>
+  <li><a href="https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners" target="_blank" rel="noopener noreferrer">GitHub Hosted Runners</a></li>
+  <li><a href="https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions" target="_blank" rel="noopener noreferrer">GitHub Action Billing</a></li>
 </ul>
 
-
       <footer class="entry-meta">
-        <span class="entry-tags"><a href="https://devpower.co.uk/tags#csharp" title="Pages tagged csharp" class="tag"><span class="term">csharp</span></a><a href="https://devpower.co.uk/tags#dotnet" title="Pages tagged dotnet" class="tag"><span class="term">dotnet</span></a><a href="https://devpower.co.uk/tags#rss" title="Pages tagged rss" class="tag"><span class="term">rss</span></a></span>
+        <span class="entry-tags"><a href="https://devpower.co.uk/tags#github" title="Pages tagged github" class="tag"><span class="term">github</span></a><a href="https://devpower.co.uk/tags#github_actions" title="Pages tagged github_actions" class="tag"><span class="term">github_actions</span></a><a href="https://devpower.co.uk/tags#ci_cd" title="Pages tagged ci_cd" class="tag"><span class="term">ci_cd</span></a><a href="https://devpower.co.uk/tags#pipeline" title="Pages tagged pipeline" class="tag"><span class="term">pipeline</span></a></span>
         
         <span class="author vcard"><span class="fn">Volkan Paksoy</span></span>
         <div class="social-share">
   <ul class="socialcount socialcount-small inline-list">
-    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://devpower.co.uk/tools/how-to-download-media-from-RSS-feed-with-csharp-6/" title="Share on Facebook" target="_blank" rel="noopener noreferrer"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
-    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://devpower.co.uk/tools/how-to-download-media-from-RSS-feed-with-csharp-6/" title="Share on Twitter" target="_blank" rel="noopener noreferrer"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
-    <!-- <li class="googleplus"><a href="https://plus.google.com/share?url=https://devpower.co.uk/tools/how-to-download-media-from-RSS-feed-with-csharp-6/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li> -->
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://devpower.co.uk/devops/exploring-github-actions/" title="Share on Facebook" target="_blank" rel="noopener noreferrer"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://devpower.co.uk/devops/exploring-github-actions/" title="Share on Twitter" target="_blank" rel="noopener noreferrer"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <!-- <li class="googleplus"><a href="https://plus.google.com/share?url=https://devpower.co.uk/devops/exploring-github-actions/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li> -->
   </ul>
 </div>
 <!-- /.social-share -->
@@ -386,20 +496,20 @@
     <div class="read-more">
   
     <div class="read-more-header">
-      <a href="https://devpower.co.uk/csharp/programming/anonymous-types-in-csharp/" class="read-more-btn">Read More</a>
+      <a href="https://devpower.co.uk/javascript/hidden-gems-in-javascript-console-api/" class="read-more-btn">Read More</a>
     </div>
 <!-- /.read-more-header -->
     <div class="read-more-content">
-      <h3><a href="https://devpower.co.uk/devops/exploring-github-actions/" title="Exploring GitHub Actions">Exploring GitHub Actions</a></h3>
-      <p>In this post, we are looking into the features of GitHub Actions - GitHub's automated workflow solution <a href="https://devpower.co.uk/devops/exploring-github-actions/">Continue reading</a></p>
+      <h3><a href="https://devpower.co.uk/javascript/hidden-gems-in-javascript-console-api/" title="Hidden gems in JavaScript Console API">Hidden gems in JavaScript Console API</a></h3>
+      <p>This post explores useful methods in JavaScript Console API that are not commonly known to developers <a href="https://devpower.co.uk/javascript/hidden-gems-in-javascript-console-api/">Continue reading</a></p>
     </div>
 <!-- /.read-more-content -->
   
   <div class="read-more-list">
     
       <div class="list-item">
-        <h4><a href="https://devpower.co.uk/javascript/hidden-gems-in-javascript-console-api/" title="Hidden gems in JavaScript Console API">Hidden gems in JavaScript Console API</a></h4>
-        <span>Published on May 22, 2022</span>
+        <h4><a href="https://devpower.co.uk/tools/how-to-download-media-from-RSS-feed-with-csharp-6/" title="How to download audio/video from an RSS feed with C# 6.0">How to download audio/video from an RSS feed with C# 6.0</a></h4>
+        <span>Published on May 21, 2022</span>
       </div>
 <!-- /.list-item -->
     
