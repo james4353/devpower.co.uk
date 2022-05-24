@@ -109,6 +109,9 @@
                   <li class="sub-item"><a href="https://devpower.co.uk/categories/#docker">docker</a></li>
               
                 
+                  <li class="sub-item"><a href="https://devpower.co.uk/categories/#dotnet">dotnet</a></li>
+              
+                
                   <li class="sub-item"><a href="https://devpower.co.uk/categories/#javascript">javascript</a></li>
               
                 
@@ -205,6 +208,9 @@
                 <li><a href="https://devpower.co.uk/categories/#docker">docker</a></li>
             
               
+                <li><a href="https://devpower.co.uk/categories/#dotnet">dotnet</a></li>
+            
+              
                 <li><a href="https://devpower.co.uk/categories/#javascript">javascript</a></li>
             
               
@@ -242,6 +248,135 @@
 
 <div id="main" role="main">
   
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2022-04-18T00:00:00+01:00"><a href="https://devpower.co.uk/csharp/programming/using-var-keyword-in-csharp/">April 18, 2022</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+        Reading time ~3 minutes
+      </span><!-- /.entry-reading-time -->
+      
+    </div>
+<!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="https://devpower.co.uk/csharp/programming/using-var-keyword-in-csharp/" rel="bookmark" title="Using var keyword in C#" itemprop="url">Using var keyword in C#</a></h1>
+    
+  </header>
+  <div class="entry-content">
+      <p>The var keyword in C# gives the programmer freedom to declare variables with implicit type using the <strong>var</strong> keyword. However, when to use it is a highly debated subject in the C# community. In this post, we will look at the origins of the var keyword and our conclusion on when to use it.</p>
+
+<h2 id="origins">Origins</h2>
+<p>The var keyword was introduced in C# 3.0, and it allows declaring “implicit” variable declarations. The variables declared with the var keyword are still strongly typed. The difference is that you don’t need to declare it yourself; the compiler determines the type.</p>
+
+<p>For example, the following code would not compile:</p>
+
+<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">i</span> <span class="p">=</span> <span class="m">10</span><span class="p">;</span>
+<span class="n">i</span> <span class="p">=</span> <span class="s">"x"</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>When i is declared, the type is determined to be an integer, so the string assignment fails with the following error:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Compilation error (line 7, col 7): Cannot implicitly convert type 'string' to 'int'
+</code></pre></div></div>
+
+<p>For the same reason, as you can imagine, you cannot just declare a variable with var type such as:</p>
+
+<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">i</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>which would fail with the following error:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Implicitly-typed local variables must be initialized
+</code></pre></div></div>
+
+<h2 id="usage">Usage</h2>
+<p>Var keyword mainly has two usages:</p>
+
+<ol>
+  <li>Declare anonymous types</li>
+  <li>Not repeat type name in a variable declaration and object instantiation</li>
+</ol>
+
+<p>The first usage is non-debatable, meaning that if you declare anonymous types, var is your only option. Below is an example of using the var keyword to declare an anonymous type:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var person = new {Id = 1, Name = "Jack", Age = 25 }
+</code></pre></div></div>
+
+<p>Another use case is a query expression where you select a new type.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var somePeople = from person in people
+                 where person.Age &gt; 20
+                 select new { person.Id, person.Name }
+</code></pre></div></div>
+
+<p>In the second example, we create a new type on the fly rather than returning an existing one, so we must use the var keyword.</p>
+
+<h2 id="the-debate">The debate</h2>
+<p>The debate around when to use var revolves around the second usage, as the first one is mandatory if you need anonymous types. The question is should we use it as a shortcut and skip type declarations? Does that make the code easier or harder to read?</p>
+
+<p>For example, consider a complex variable declaration as shown below:</p>
+
+<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;&gt;&gt;</span> <span class="n">items</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;&gt;&gt;();</span>
+</code></pre></div></div>
+
+<p>We can declare the same variable with the var keyword:</p>
+
+<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">items</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;&gt;&gt;();</span>
+</code></pre></div></div>
+
+<p>In my opinion, the second option is a lot clearer and makes the code easier to read.</p>
+
+<p class="panel-note top-padding">Try to avoid duplication whenever possible.</p>
+
+<p>Now let’s take a look at another example:</p>
+
+<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">userService</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">UserService</span><span class="p">();</span>
+<span class="kt">var</span> <span class="n">user</span> <span class="p">=</span> <span class="n">userService</span><span class="p">.</span><span class="nf">GetUser</span><span class="p">(</span><span class="m">1</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>What is the type of “user”? Without the help of the IDE we are using, there is no way to know for sure just by looking at the code above. It can be a User class; it can be an IUser interface or a subclass of User. At this point, we don’t know.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Here’s my rule of thumb on when to use var:</p>
+
+<p class="panel-note">If the type of the variable is clear in the initialization of the variable, it’s ok to use var</p>
+
+<p>For example, to review the above example, I’d go with explicit usage:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var userService = new UserService();
+User user = userService.GetUser(1);
+</code></pre></div></div>
+
+<p>But if I were declaring the variable with a new keyword, I’d go with var:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var user = new User();
+</code></pre></div></div>
+
+<p>The benefit of this is approach is especially obvious with complex types like the dictionary shown above:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var items = new Dictionary&lt;string, Dictionary&lt;string, List&lt;string&gt;&gt;&gt;();
+</code></pre></div></div>
+
+<p>In this case, duplicating the type name doesn’t add more clarity.</p>
+
+<p>I hope this article helps you decide when to use the var keyword in C#.</p>
+
+<h2 id="resources">Resources</h2>
+<ul>
+  <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/var" target="_blank" rel="noopener noreferrer">var (C# reference)</a></li>
+  <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/types/anonymous-types" target="_blank" rel="noopener noreferrer">Anonymous Types</a></li>
+</ul>
+
+      
+  </div>
+<!-- /.entry-content -->
+</article><!-- /.hentry -->
+
 <article class="hentry">
   <header>
     
@@ -568,160 +703,6 @@
 <h2 id="resources">Resources</h2>
 <ul>
   <li><a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/measure-object" target="_blank" rel="noopener noreferrer">Measure-Object documentation</a></li>
-</ul>
-
-      
-  </div>
-<!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2021-12-10T00:00:00+00:00"><a href="https://devpower.co.uk/powershell/easiest-way-for-csv-json-conversion/">December 10, 2021</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-        Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div>
-<!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="https://devpower.co.uk/powershell/easiest-way-for-csv-json-conversion/" rel="bookmark" title="Easy Way to Convert Between CSV/JSON/XML with PowerShell" itemprop="url">Easy Way to Convert Between CSV/JSON/XML with PowerShell</a></h1>
-    
-  </header>
-  <div class="entry-content">
-      <p>Sometimes I’m amazed by how some tasks are easy to carry out using PowerShell. One such task is converting various common data types such as CSV, JSON and XML. PowerShell has built-in support for all these types.</p>
-
-<h2 id="convert-csv-to-json">Convert CSV to JSON</h2>
-<p>For example, let’s say we have the following customer data in a CSV file named customers.csv
-#</p>
-<pre><code class="language-csv">Id,FirstName,LastName,Country,Status
-1,James,Monroe,USA,Active
-2,Diane,Wheatley,UK,Active
-3,Sara,Bailey,UK,Suspended
-</code></pre>
-
-<p>If we want to convert this data into JSON, we can run the following command in PowerShell:</p>
-
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Import-Csv</span><span class="w"> </span><span class="o">.</span><span class="nx">/customers.csv</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">ConvertTo-Json</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Out-File</span><span class="w"> </span><span class="o">.</span><span class="nx">/customers.json</span><span class="w">
-</span></code></pre></div></div>
-
-<p>we get the following JSON output:</p>
-
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"Id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"FirstName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"James"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"LastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Monroe"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"Country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USA"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"Status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Active"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"Id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"FirstName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Diane"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"LastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wheatley"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"Country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UK"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"Status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Active"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"Id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"FirstName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sara"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"LastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bailey"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"Country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UK"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"Status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Suspended"</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre></div></div>
-
-<p>The output JSON is indented by default, so very easy to read as well.</p>
-
-<h2 id="convert-json-to-csv">Convert JSON to CSV</h2>
-<p>If we want to reverse the process and create a CSV file from a JSON input, we can run the following:</p>
-
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="n">Get-Content</span><span class="w"> </span><span class="nt">-Path</span><span class="w"> </span><span class="o">.</span><span class="nx">/customers.json</span><span class="w"> </span><span class="nt">-Raw</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">ConvertFrom-Json</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Export-CSV</span><span class="w"> </span><span class="o">.</span><span class="nx">/customers.csv</span><span class="w">
-</span></code></pre></div></div>
-
-<p>and get a CSV that looks like:</p>
-
-<pre><code class="language-csv">"Id","FirstName","LastName","Country","Status"
-"1","James","Monroe","USA","Active"
-"2","Diane","Wheatley","UK","Active"
-"3","Sara","Bailey","UK","Suspended"
-</code></pre>
-
-<p>I used <strong>Export-CSV</strong> cmdlet in this example because it saves the output to a file. We can also use <strong>ConvertTo-Csv</strong> cmdlet</p>
-
-<p>For example, the following snippet print the results to the console:</p>
-
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="n">Get-Content</span><span class="w"> </span><span class="nt">-Path</span><span class="w"> </span><span class="o">.</span><span class="nx">/customers.json</span><span class="w"> </span><span class="nt">-Raw</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">ConvertFrom-Json</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">ConvertTo-Csv</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Write-Host</span><span class="w">
-</span></code></pre></div></div>
-
-<h2 id="convert-json-to-xml">Convert JSON to XML</h2>
-<p>Similar to JSON, we can use <strong>ConvertTo-XML</strong> cmdlet to create an XML file out of our sample JSON:</p>
-
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Export-Clixml</span><span class="w"> </span><span class="nt">-Depth</span><span class="w"> </span><span class="nx">3</span><span class="w"> </span><span class="nt">-InputObject</span><span class="w"> </span><span class="p">((</span><span class="n">Get-Content</span><span class="w"> </span><span class="nt">-Path</span><span class="w"> </span><span class="o">.</span><span class="nx">/customers.json</span><span class="w"> </span><span class="nt">-Raw</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">ConvertFrom-Json</span><span class="p">)</span><span class="w"> </span><span class="nt">-Path</span><span class="w"> </span><span class="o">.</span><span class="n">/customers.xml</span><span class="w">
-</span></code></pre></div></div>
-
-<p>and the output looks like this:</p>
-
-<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;Objs</span> <span class="na">Version=</span><span class="s">"1.1.0.1"</span> <span class="na">xmlns=</span><span class="s">"http://schemas.microsoft.com/powershell/2004/04"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;Obj</span> <span class="na">RefId=</span><span class="s">"0"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;TN</span> <span class="na">RefId=</span><span class="s">"0"</span><span class="nt">&gt;</span>
-      <span class="nt">&lt;T&gt;</span>System.Object[]<span class="nt">&lt;/T&gt;</span>
-      <span class="nt">&lt;T&gt;</span>System.Array<span class="nt">&lt;/T&gt;</span>
-      <span class="nt">&lt;T&gt;</span>System.Object<span class="nt">&lt;/T&gt;</span>
-    <span class="nt">&lt;/TN&gt;</span>
-    <span class="nt">&lt;LST&gt;</span>
-      <span class="nt">&lt;Obj</span> <span class="na">RefId=</span><span class="s">"1"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;TN</span> <span class="na">RefId=</span><span class="s">"1"</span><span class="nt">&gt;</span>
-          <span class="nt">&lt;T&gt;</span>System.Management.Automation.PSCustomObject<span class="nt">&lt;/T&gt;</span>
-          <span class="nt">&lt;T&gt;</span>System.Object<span class="nt">&lt;/T&gt;</span>
-        <span class="nt">&lt;/TN&gt;</span>
-        <span class="nt">&lt;MS&gt;</span>
-          <span class="nt">&lt;S</span> <span class="na">N=</span><span class="s">"Id"</span><span class="nt">&gt;</span>1<span class="nt">&lt;/S&gt;</span>
-          <span class="nt">&lt;S</span> <span class="na">N=</span><span class="s">"FirstName"</span><span class="nt">&gt;</span>James<span class="nt">&lt;/S&gt;</span>
-          <span class="nt">&lt;S</span> <span class="na">N=</span><span class="s">"LastName"</span><span class="nt">&gt;</span>Monroe<span class="nt">&lt;/S&gt;</span>
-          <span class="nt">&lt;S</span> <span class="na">N=</span><span class="s">"Country"</span><span class="nt">&gt;</span>USA<span class="nt">&lt;/S&gt;</span>
-          <span class="nt">&lt;S</span> <span class="na">N=</span><span class="s">"Status"</span><span class="nt">&gt;</span>Active<span class="nt">&lt;/S&gt;</span>
-        <span class="nt">&lt;/MS&gt;</span>
-      <span class="nt">&lt;/Obj&gt;</span>
-      <span class="nt">&lt;Obj</span> <span class="na">RefId=</span><span class="s">"2"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;TNRef</span> <span class="na">RefId=</span><span class="s">"1"</span> <span class="nt">/&gt;</span>
-        <span class="nt">&lt;MS&gt;</span>
-          <span class="nt">&lt;S</span> <span class="na">N=</span><span class="s">"Id"</span><span class="nt">&gt;</span>2<span class="nt">&lt;/S&gt;</span>
-          <span class="nt">&lt;S</span> <span class="na">N=</span><span class="s">"FirstName"</span><span class="nt">&gt;</span>Diane<span class="nt">&lt;/S&gt;</span>
-          <span class="nt">&lt;S</span> <span class="na">N=</span><span class="s">"LastName"</span><span class="nt">&gt;</span>Wheatley<span class="nt">&lt;/S&gt;</span>
-          <span class="nt">&lt;S</span> <span class="na">N=</span><span class="s">"Country"</span><span class="nt">&gt;</span>UK<span class="nt">&lt;/S&gt;</span>
-          <span class="nt">&lt;S</span> <span class="na">N=</span><span class="s">"Status"</span><span class="nt">&gt;</span>Active<span class="nt">&lt;/S&gt;</span>
-        <span class="nt">&lt;/MS&gt;</span>
-      <span class="nt">&lt;/Obj&gt;</span>
-      <span class="nt">&lt;Obj</span> <span class="na">RefId=</span><span class="s">"3"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;TNRef</span> <span class="na">RefId=</span><span class="s">"1"</span> <span class="nt">/&gt;</span>
-        <span class="nt">&lt;MS&gt;</span>
-          <span class="nt">&lt;S</span> <span class="na">N=</span><span class="s">"Id"</span><span class="nt">&gt;</span>3<span class="nt">&lt;/S&gt;</span>
-          <span class="nt">&lt;S</span> <span class="na">N=</span><span class="s">"FirstName"</span><span class="nt">&gt;</span>Sara<span class="nt">&lt;/S&gt;</span>
-          <span class="nt">&lt;S</span> <span class="na">N=</span><span class="s">"LastName"</span><span class="nt">&gt;</span>Bailey<span class="nt">&lt;/S&gt;</span>
-          <span class="nt">&lt;S</span> <span class="na">N=</span><span class="s">"Country"</span><span class="nt">&gt;</span>UK<span class="nt">&lt;/S&gt;</span>
-          <span class="nt">&lt;S</span> <span class="na">N=</span><span class="s">"Status"</span><span class="nt">&gt;</span>Suspended<span class="nt">&lt;/S&gt;</span>
-        <span class="nt">&lt;/MS&gt;</span>
-      <span class="nt">&lt;/Obj&gt;</span>
-    <span class="nt">&lt;/LST&gt;</span>
-  <span class="nt">&lt;/Obj&gt;</span>
-<span class="nt">&lt;/Objs&gt;</span>
-</code></pre></div></div>
-
-<p>A bit noisy but the data is there.</p>
-
-<h2 id="conclusion">Conclusion</h2>
-<p>Using the PowerShell’s build-in cmdlets we can easily convert between common data types such as CSV, JSON and XML. For a full list of supported cmdlets please check the link in the resources section.</p>
-
-<h2 id="resources">Resources</h2>
-<ul>
-  <li><a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/?view=powershell-7.2" target="_blank" rel="noopener noreferrer">cmdlets in Microsoft.PowerShell.Utility</a></li>
 </ul>
 
       
