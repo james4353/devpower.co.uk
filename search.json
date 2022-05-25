@@ -1,6 +1,14 @@
 [
   
     {
+      "title"    : "Solana Epoch Monitor",
+      "category" : "",
+      "tags"     : "solana, monitoring, notification",
+      "url"      : "https://devpower.co.uk/cryptocurrency/solana-epoch-monitor/",
+      "date"     : "2022-05-25 00:00:00 +0100"
+    } ,
+  
+    {
       "title"    : "Develop your own CLI with C#",
       "category" : "",
       "tags"     : "cli, clifx, dotnet_tool",

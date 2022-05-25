@@ -5,29 +5,31 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title>Developing a custom monitoring tool in C# for SpacePool Chia cryptocurrency farming &#8211; 💪 Dev Power</title>
-<meta name="description" content="This post discusses how to get an API key and develop a C# application to verify your farm is healthy.">
-<meta name="keywords" content="chia, spacepool, monitoring">
+<title>Solana Epoch Monitor &#8211; 💪 Dev Power</title>
+<meta name="description" content="A Dockerized C# .NET application to monitor Solana API and send notifications when a new epoch starts">
+<meta name="keywords" content="solana, monitoring, notification">
 
 <!-- Twitter Cards -->
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
+
 <meta name="twitter:site" content="@_dev_power_">
 <meta name="twitter:creator" content="@_dev_power_">
 
 <!-- Open Graph -->
 <meta property="og:locale" content="en_GB">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Developing a custom monitoring tool in C# for SpacePool Chia cryptocurrency farming">
-<meta property="og:description" content="This post discusses how to get an API key and develop a C# application to verify your farm is healthy.">
-<meta property="og:url" content="https://devpower.co.uk/cryptocurrency/monitoring-chia-spacepool/">
+<meta property="og:title" content="Solana Epoch Monitor">
+<meta property="og:description" content="A Dockerized C# .NET application to monitor Solana API and send notifications when a new epoch starts">
+<meta property="og:url" content="https://devpower.co.uk/cryptocurrency/solana-epoch-monitor/">
 <meta property="og:site_name" content="💪 Dev Power">
-<meta property="og:image" content="https://devpower.co.uk/images/">
+<meta property="og:image" content="https://devpower.co.uk/images/posts/2022/05/solana-epoch-notifications/442.jpg">
 
 
 
 
 
-<link rel="canonical" href="https://devpower.co.uk/cryptocurrency/monitoring-chia-spacepool/">
+
+<link rel="canonical" href="https://devpower.co.uk/cryptocurrency/solana-epoch-monitor/">
 <link href="https://devpower.co.uk/feed.xml" type="application/atom+xml" rel="alternate" title="💪 Dev Power Feed">
 
 <!-- http://t.co/dKP3o1e -->
@@ -68,7 +70,7 @@
      crossorigin="anonymous"></script>
 </head>
 
-<body id="post" >
+<body id="post" class="feature">
 
 <!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
 
@@ -157,10 +159,10 @@
 <div class="entry-header">
   <div class="header-title">
     <div class="header-title-wrap">
-      <h1>Developing a custom monitoring tool in C# for SpacePool Chia cryptocurrency farming</h1>
+      <h1>Solana Epoch Monitor</h1>
       <h3></h3>
       
-        <h2><span class="entry-date date published updated"><time datetime="2021-12-08T00:00:00+00:00">December 08, 2021</time></span></h2>
+        <h2><span class="entry-date date published updated"><time datetime="2022-05-25T00:00:00+01:00">May 25, 2022</time></span></h2>
       
 
       
@@ -252,102 +254,95 @@
   <article class="hentry">
     <div class="entry-content">
         
-      <h1 class="post-title entry-title">Developing a custom monitoring tool in C# for SpacePool Chia cryptocurrency farming</h1>
-      <p>If you are one of the crypto early adopters, the chances are that you’ve heard about a new cryptocurrency called <a href="https://chia.net" target="_blank" rel="noopener noreferrer">Chia</a>. In this post, we will develop a simple monitoring tool to send alerts if Chia farming stops. We are going to use SpacePool’s Developer API to achieve this.</p>
+            <div class="entry-image-index">
+              <img src="https://devpower.co.uk/images/posts/2022/05/solana-epoch-notifications/442.jpg" alt="Solana Epoch Monitor">
+              <div class="image-credit">Image source: <a target="_blank" href="https://www.freepik.com/vectors/cloud-technology" rel="noopener noreferrer">www.freepik.com</a>
+</div>
+<!-- /.image-credit -->
+            </div>
+        
+      <h1 class="post-title entry-title">Solana Epoch Monitor</h1>
+      <p>Solana is currently one of the popular blockchains. Every few days a new epoch starts at which point the staking rewards are sent to the stakers. This post’s main focus is not cryptocurrency, rather it’s about a tool that monitors Solana blockchain and sends email notifications when a new epoch starts. So I’m not going to deep into Solana terminology but just to understand the basics, here are a few definitions:</p>
 
-<h2 id="getting-started">Getting Started</h2>
-<p>The best resource to get started is SpacePool’s own <a href="https://blog.pool.space/how-to-get-started-with-space-pool-developer-apis-915b153b2c40" target="_blank" rel="noopener noreferrer">blog post</a></p>
+<ul>
+  <li>Solana: A Blockchain technology designed to host decentralized and scalable applications.</li>
+  <li>Staking: The process of locking up cryptocurrency in order to earn interest</li>
+  <li>Epoch: An epoch is the length of a certain amount of blocks. This is a variable duration and typically it’s somewhere between 2-4 days.</li>
+</ul>
 
-<p>First of all, we will need an API key and as of this writing, obtaining a key is a manual process. You have to explain your use case in their Discord server by answering a list of fixed questions (listed in the blog post), and you’ll get a private message with your key.</p>
+<p>If you are an Solana investor staking your Solana tokens, then at the end of the epoch you earn some interest. This is where this notification tool comes in. If your wallet doesn’t have a feature of notifying you when you receive staking rewards, you can use this tool to receive email notifications when an epoch ends. This way you can check your wallet and keep an eye on your rewards.</p>
 
-<h3 id="testing-the-key">Testing the key</h3>
-<p>The easiest way to test your setup is to visit the <a href="https://developer.pool.space/" target="_blank" rel="noopener noreferrer">API reference</a></p>
+<h2 id="implementation">Implementation</h2>
+<p>If you would like to check the current epoch manually, you can always go to <a href="https://explorer.solana.com/" target="_blank" rel="noopener noreferrer">Solana explorer</a> page which shows the current epoch. If you look at the network traffic, it gets this data from Solana API which seems to be public to get this basic info. So I experimented a bit and captured a query and re-sent it via Postman and I got the following result:</p>
 
-<p>Enter your launcher id, API key and some value for User-Agent. Then, when you click the Try It Out button, you should be able to see some results as shown in the screenshot below:</p>
+<p><img src="/images/posts/2022/05/solana-epoch-notifications/postman-result.png" alt="Postman result"></p>
 
-<p><img src="/images/post-images/2021/12/spacepool/api-reference-page.png" alt=""></p>
+<p>Based on this I implemented my solution in C# which is very simple and mainly looks like this (full source code is <a href="https://github.com/Dev-Power/solana-epoch-monitor" target="_blank" rel="noopener noreferrer">here</a>):</p>
 
-<h2 id="developing-a-custom-application">Developing a custom application</h2>
-
-<p>It’s a REST API with OpenAPI specs at https://developer.pool.space/api/v1/docs/openapi.json. I used this to generate my C# client:</p>
-
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">docker</span><span class="w"> </span><span class="nx">run</span><span class="w"> </span><span class="nt">--rm</span><span class="w"> </span><span class="nt">-v</span><span class="w"> </span><span class="s2">"</span><span class="nv">${PWD}</span><span class="s2">:/local"</span><span class="w"> </span><span class="nx">openapitools/openapi-generator-cli</span><span class="w"> </span><span class="nx">generate</span><span class="w"> </span><span class="se">`
-</span><span class="w">    </span><span class="nt">-i</span><span class="w"> </span><span class="nx">https://developer.pool.space/api/v1/docs/openapi.json</span><span class="w"> </span><span class="se">`
-</span><span class="w">    </span><span class="nt">-g</span><span class="w"> </span><span class="nx">csharp-netcore</span><span class="w"> </span><span class="se">`
-</span><span class="w">    </span><span class="nt">-o</span><span class="w"> </span><span class="nx">/local/csharp-netcore</span><span class="w">
-</span></code></pre></div></div>
-
-<p>The generated project has the API clients for the endpoints:</p>
-
-<p><img src="/images/post-images/2021/12/spacepool/auto-generated-api-client.png" alt=""></p>
-
-<p>For monitoring purposes, we are interested in the GetFarmPartialsV1Api endpoint.</p>
-
-<p>Here’s my simple console application that calls the endpoint and checks if the latest verified submission happened within an expected timeframe:</p>
-
-<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">const</span> <span class="kt">string</span> <span class="n">launcherId</span> <span class="p">=</span> <span class="s">"{launcher id}"</span><span class="p">;</span>
-<span class="k">const</span> <span class="kt">string</span> <span class="n">apiKey</span> <span class="p">=</span> <span class="s">"{api key}"</span><span class="p">;</span>
-<span class="k">const</span> <span class="kt">string</span> <span class="n">userAgent</span> <span class="p">=</span> <span class="s">"{custom user agent}"</span><span class="p">;</span>
-
-<span class="kt">var</span> <span class="n">apiClient</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">GetFarmPartialsV1Api</span><span class="p">();</span>
-<span class="kt">var</span> <span class="n">response</span> <span class="p">=</span> <span class="k">await</span> <span class="n">apiClient</span><span class="p">.</span><span class="nf">ApiV1FarmsLauncherIdOrAliasPartialsGetAsync</span><span class="p">(</span><span class="n">launcherId</span><span class="p">,</span> <span class="n">apiKey</span><span class="p">,</span> <span class="n">userAgent</span><span class="p">);</span>
-
-<span class="kt">var</span> <span class="n">latestSuccessfulSubmission</span> <span class="p">=</span> <span class="n">response</span><span class="p">.</span><span class="n">Results</span>
-    <span class="p">.</span><span class="nf">OrderByDescending</span><span class="p">(</span><span class="n">r</span> <span class="p">=&gt;</span> <span class="n">r</span><span class="p">.</span><span class="n">SubmissionDateTimeUtc</span><span class="p">)</span>
-    <span class="p">.</span><span class="nf">FirstOrDefault</span><span class="p">(</span><span class="n">r</span> <span class="p">=&gt;</span> <span class="n">r</span><span class="p">.</span><span class="n">State</span><span class="p">.</span><span class="n">Description</span> <span class="p">==</span> <span class="s">"Verified"</span><span class="p">);</span>
-
-<span class="k">if</span> <span class="p">(</span><span class="n">latestSuccessfulSubmission</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="k">public</span> <span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="n">GetEpochInfoResponse</span><span class="p">&gt;</span> <span class="nf">GetEpochInfo</span><span class="p">()</span>
 <span class="p">{</span>
-    <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">"No verified partials"</span><span class="p">);</span>
-    <span class="c1">// Send an alert somewhere </span>
-    <span class="k">return</span><span class="p">;</span>
-<span class="p">}</span>
+    <span class="kt">var</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">RestClient</span><span class="p">(</span><span class="s">"https://explorer-api.mainnet-beta.solana.com/"</span><span class="p">);</span>
+    <span class="kt">var</span> <span class="n">request</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">RestRequest</span><span class="p">(</span><span class="s">"/"</span><span class="p">,</span> <span class="n">Method</span><span class="p">.</span><span class="n">Post</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">RequestFormat</span> <span class="p">=</span> <span class="n">DataFormat</span><span class="p">.</span><span class="n">Json</span><span class="p">,</span>
+    <span class="p">};</span>
+    <span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"Content-Type"</span><span class="p">,</span> <span class="s">"application/json"</span><span class="p">);</span>
+    <span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"Accept"</span><span class="p">,</span> <span class="s">"application/json"</span><span class="p">);</span>
+    <span class="n">request</span><span class="p">.</span><span class="nf">AddJsonBody</span><span class="p">(</span><span class="k">new</span> <span class="p">{</span> <span class="n">Id</span> <span class="p">=</span> <span class="n">Guid</span><span class="p">.</span><span class="nf">NewGuid</span><span class="p">(),</span> <span class="n">Method</span> <span class="p">=</span> <span class="s">"getEpochInfo"</span><span class="p">,</span> <span class="n">Jsonrpc</span> <span class="p">=</span> <span class="s">"2.0"</span><span class="p">,</span> <span class="n">Params</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">string</span><span class="p">[]</span> <span class="p">{}</span> <span class="p">});</span> 
+    
+    <span class="kt">var</span> <span class="n">responseRaw</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="nf">ExecuteAsync</span><span class="p">(</span><span class="n">request</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">JsonConvert</span><span class="p">.</span><span class="n">DeserializeObject</span><span class="p">&lt;</span><span class="n">GetEpochInfoResponse</span><span class="p">&gt;(</span><span class="n">responseRaw</span><span class="p">.</span><span class="n">Content</span><span class="p">);</span>
+<span class="p">}</span></code></pre></figure>
 
-<span class="kt">var</span> <span class="n">timeElapsedSinceLastVerifiedPartial</span> <span class="p">=</span>
-    <span class="n">DateTime</span><span class="p">.</span><span class="n">UtcNow</span> <span class="p">-</span> <span class="n">DateTime</span><span class="p">.</span><span class="nf">Parse</span><span class="p">(</span><span class="n">latestSuccessfulSubmission</span><span class="p">.</span><span class="n">SubmissionDateTimeUtc</span><span class="p">);</span>
+<p>In the response, we can access the current epoch number. It then checks, the previous epoch that it sent notification for. This is to prevent duplicate notifications. Whenever it sends a notification, it writes the value to a JSON file. It’s important to mount that file with one on the host so that whenever the container restarts it doesn’t send an unnecessary notification.</p>
 
-<span class="kt">var</span> <span class="n">interval</span> <span class="p">=</span> <span class="m">10</span><span class="p">;</span>
-<span class="k">if</span> <span class="p">(</span><span class="n">timeElapsedSinceLastVerifiedPartial</span><span class="p">.</span><span class="n">TotalMinutes</span> <span class="p">&gt;=</span> <span class="n">interval</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">$"No verified partials in the last </span><span class="p">{</span><span class="n">interval</span><span class="p">}</span><span class="s"> minutes"</span><span class="p">);</span>
-    <span class="c1">// Send an alert somewhere </span>
-<span class="p">}</span>
-<span class="k">else</span>
-<span class="p">{</span>
-    <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">$"Last verified partial received </span><span class="p">{</span><span class="n">Math</span><span class="p">.</span><span class="nf">Floor</span><span class="p">(</span><span class="n">timeElapsedSinceLastVerifiedPartial</span><span class="p">.</span><span class="n">TotalMinutes</span><span class="p">)}</span><span class="s"> minutes ago. All looking good."</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div></div>
+<h2 id="usage">Usage</h2>
 
-<p>and after we run the application, we can see it checks the results:</p>
+<ol>
+  <li>You can either clone the repo and build it yourself or you can pull the image from Docker hub. In either case, you will need a copy of docker-compose-template.yaml and db.json files.</li>
+</ol>
 
-<p><img src="/images/post-images/2021/12/spacepool/test-result.png" alt=""></p>
+<p>Bother methods are shown below:</p>
 
-<h1 id="conclusion">Conclusion</h1>
-<p>In this post, we looked into generating API clients automatically from an OpenAPI spec. Then used the client to talk to the SpacePool API and get some information about our Chia farm.</p>
+<p>a. Building From Source : Clone the <a href="https://github.com/Dev-Power/solana-epoch-monitor" target="_blank" rel="noopener noreferrer">repository</a></p>
 
-<p>I left out sending the actual alerts as they are open-ended, and anyone can customize them to fit their system. In the future, I might post a complete Dockerized solution so that the deployment can be as simple as running a container and providing it with the launcher id and API key.</p>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">git clone git@github.com:Dev-Power/solana-epoch-monitor.git</code></pre></figure>
 
-<p>Let me know if this is of any interest to you to prioritize it over other content.</p>
+<p>b. Using the pre-built Docker image: Pull the image</p>
 
-<p>Happy farming!</p>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">docker pull devpowercouk/solana-epoch-monitor</code></pre></figure>
+
+<ol start="2">
+  <li>Make a copy of docker-compose-template.yaml and rename it to docker-compose.yaml</li>
+  <li>Fill in the settings such as SMTP settings, db.json path etc.</li>
+  <li>In a terminal, run</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">docker-compose up <span class="nt">-d</span></code></pre></figure>
+
+<p>Since the epoch in the db.json is a past one, it should immediately send a notification and update the db.json with the current epoch.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>This is meant to be a quick little project that talks to Solana API and gets the epoch info. It may come in handy if such notifications is something you need. You can also use this as a starter project and implement more notification types.</p>
+
+<p>I hope you found this little project useful and/or fun. Please let me know what you think in the comments below.</p>
 
 <h2 id="resources">Resources</h2>
 <ul>
-  <li><a href="https://pool.space" target="_blank" rel="noopener noreferrer">SpacePool official website</a></li>
-  <li><a href="https://developer.pool.space/" target="_blank" rel="noopener noreferrer">SpacePool API reference</a></li>
-  <li><a href="https://blog.pool.space/how-to-get-started-with-space-pool-developer-apis-915b153b2c40" target="_blank" rel="noopener noreferrer">SpacePool blog post on getting started with the API</a></li>
-  <li><a href="https://chia.net" target="_blank" rel="noopener noreferrer">Chia official website</a></li>
+  <li><a href="https://explorer.solana.com/" target="_blank" rel="noopener noreferrer">Solana explorer</a></li>
+  <li><a href="https://github.com/Dev-Power/solana-epoch-monitor" target="_blank" rel="noopener noreferrer">Source code of the project</a></li>
+  <li><a href="https://hub.docker.com/repository/docker/devpowercouk/solana-epoch-monitor" target="_blank" rel="noopener noreferrer">Docker image in Docker Hub</a></li>
 </ul>
 
       <footer class="entry-meta">
-        <span class="entry-tags"><a href="https://devpower.co.uk/tags#chia" title="Pages tagged chia" class="tag"><span class="term">chia</span></a><a href="https://devpower.co.uk/tags#spacepool" title="Pages tagged spacepool" class="tag"><span class="term">spacepool</span></a><a href="https://devpower.co.uk/tags#monitoring" title="Pages tagged monitoring" class="tag"><span class="term">monitoring</span></a></span>
+        <span class="entry-tags"><a href="https://devpower.co.uk/tags#solana" title="Pages tagged solana" class="tag"><span class="term">solana</span></a><a href="https://devpower.co.uk/tags#monitoring" title="Pages tagged monitoring" class="tag"><span class="term">monitoring</span></a><a href="https://devpower.co.uk/tags#notification" title="Pages tagged notification" class="tag"><span class="term">notification</span></a></span>
         
         <span class="author vcard"><span class="fn">Volkan Paksoy</span></span>
         <div class="social-share">
   <ul class="socialcount socialcount-small inline-list">
-    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://devpower.co.uk/cryptocurrency/monitoring-chia-spacepool/" title="Share on Facebook" target="_blank" rel="noopener noreferrer"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
-    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://devpower.co.uk/cryptocurrency/monitoring-chia-spacepool/" title="Share on Twitter" target="_blank" rel="noopener noreferrer"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
-    <!-- <li class="googleplus"><a href="https://plus.google.com/share?url=https://devpower.co.uk/cryptocurrency/monitoring-chia-spacepool/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li> -->
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://devpower.co.uk/cryptocurrency/solana-epoch-monitor/" title="Share on Facebook" target="_blank" rel="noopener noreferrer"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://devpower.co.uk/cryptocurrency/solana-epoch-monitor/" title="Share on Twitter" target="_blank" rel="noopener noreferrer"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <!-- <li class="googleplus"><a href="https://plus.google.com/share?url=https://devpower.co.uk/cryptocurrency/solana-epoch-monitor/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li> -->
   </ul>
 </div>
 <!-- /.social-share -->
@@ -391,26 +386,26 @@
     <div class="read-more">
   
     <div class="read-more-header">
-      <a href="https://devpower.co.uk/docker/blogging-with-Jekyll-and-Docker/" class="read-more-btn">Read More</a>
+      <a href="https://devpower.co.uk/dotnet/csharp/develop-a-cli-with-csharp/" class="read-more-btn">Read More</a>
     </div>
 <!-- /.read-more-header -->
     <div class="read-more-content">
-      <h3><a href="https://devpower.co.uk/cryptocurrency/solana-epoch-monitor/" title="Solana Epoch Monitor">Solana Epoch Monitor</a></h3>
-      <p>A Dockerized C# .NET application to monitor Solana API and send notifications when a new epoch starts <a href="https://devpower.co.uk/cryptocurrency/solana-epoch-monitor/">Continue reading</a></p>
+      <h3><a href="https://devpower.co.uk/dotnet/csharp/develop-a-cli-with-csharp/" title="Develop your own CLI with C#">Develop your own CLI with C#</a></h3>
+      <p>In this post we are developing our own CLI using dotnet tool and CliFx <a href="https://devpower.co.uk/dotnet/csharp/develop-a-cli-with-csharp/">Continue reading</a></p>
     </div>
 <!-- /.read-more-content -->
   
   <div class="read-more-list">
     
       <div class="list-item">
-        <h4><a href="https://devpower.co.uk/dotnet/csharp/develop-a-cli-with-csharp/" title="Develop your own CLI with C#">Develop your own CLI with C#</a></h4>
-        <span>Published on May 24, 2022</span>
+        <h4><a href="https://devpower.co.uk/devops/exploring-github-actions/" title="Exploring GitHub Actions">Exploring GitHub Actions</a></h4>
+        <span>Published on May 23, 2022</span>
       </div>
 <!-- /.list-item -->
     
       <div class="list-item">
-        <h4><a href="https://devpower.co.uk/devops/exploring-github-actions/" title="Exploring GitHub Actions">Exploring GitHub Actions</a></h4>
-        <span>Published on May 23, 2022</span>
+        <h4><a href="https://devpower.co.uk/javascript/hidden-gems-in-javascript-console-api/" title="Hidden gems in JavaScript Console API">Hidden gems in JavaScript Console API</a></h4>
+        <span>Published on May 22, 2022</span>
       </div>
 <!-- /.list-item -->
     

@@ -5,9 +5,9 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title>LINQPad Dump Extension Method &#8211; 💪 Dev Power</title>
-<meta name="description" content="A quick tip on LINQPad's Dump method">
-<meta name="keywords" content="linqpad, csharp">
+<title>Welcome to Dev Power &#8211; 💪 Dev Power</title>
+<meta name="description" content="The place for the most comprehensive tech articles">
+<meta name="keywords" content="dev, software, programming, code, tech">
 
 <!-- Twitter Cards -->
 <meta name="twitter:card" content="summary">
@@ -17,9 +17,9 @@
 <!-- Open Graph -->
 <meta property="og:locale" content="en_GB">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LINQPad Dump Extension Method">
-<meta property="og:description" content="A quick tip on LINQPad's Dump method">
-<meta property="og:url" content="https://devpower.co.uk/tips_n_tricks/linqpad-dump-extension-dump/">
+<meta property="og:title" content="Welcome to Dev Power">
+<meta property="og:description" content="The place for the most comprehensive tech articles">
+<meta property="og:url" content="https://devpower.co.uk/page4/">
 <meta property="og:site_name" content="💪 Dev Power">
 <meta property="og:image" content="https://devpower.co.uk/images/">
 
@@ -27,7 +27,7 @@
 
 
 
-<link rel="canonical" href="https://devpower.co.uk/tips_n_tricks/linqpad-dump-extension-dump/">
+<link rel="canonical" href="https://devpower.co.uk/page4/">
 <link href="https://devpower.co.uk/feed.xml" type="application/atom+xml" rel="alternate" title="💪 Dev Power Feed">
 
 <!-- http://t.co/dKP3o1e -->
@@ -68,7 +68,7 @@
      crossorigin="anonymous"></script>
 </head>
 
-<body id="post" >
+<body id="post-index">
 
 <!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
 
@@ -157,18 +157,16 @@
 <div class="entry-header">
   <div class="header-title">
     <div class="header-title-wrap">
-      <h1>LINQPad Dump Extension Method</h1>
-      <h3></h3>
+      <h1>Welcome to Dev Power</h1>
+      <h3>because skills are everything...</h3>
       
-        <h2><span class="entry-date date published updated"><time datetime="2021-12-09T00:00:00+00:00">December 09, 2021</time></span></h2>
+        <h2><span class="entry-date"><time> </time></span></h2>
       
 
       
-        <p class="entry-reading-time">
-          <i class="fa fa-clock-o"></i>
-          
-          Reading time ~1 minute
-        </p>
+          <p class="entry-reading-time">
+             
+          </p>
 <!-- /.entry-reading-time -->
       
     </div>
@@ -249,117 +247,89 @@
 </div>
 
 <div id="main" role="main">
-  <article class="hentry">
-    <div class="entry-content">
+  
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2021-10-04T00:00:00+01:00"><a href="https://devpower.co.uk/meta/hello-world/">October 04, 2021</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
         
-      <h1 class="post-title entry-title">LINQPad Dump Extension Method</h1>
-      <p>I like LINQPad for prototyping C# applications and trying out short snippets. In many scenarios I have to see the output of what I’m trying out. I used to treat my snippets as they if they were small console applications and I used to use <em>Console.WriteLine()</em> statements to display the output.</p>
+        Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div>
+<!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="https://devpower.co.uk/meta/hello-world/" rel="bookmark" title="Hello, World!" itemprop="url">Hello, World!</a></h1>
+    
+  </header>
+  <div class="entry-content">
+      <p>Hello to everyone reading this! From a new blog, hello!</p>
 
-<p>Not anymore! In a tech video on YouTube I saw this option and loved it:</p>
+<p>This blog will be the place where I publish software development, DevOps and infrastructure and cloud (primarily AWS) posts.</p>
 
-<p>In LINQPad, there’s a generic extension method called <strong>Dump()</strong>. It writes the output to the console. Exactly as Console.WriteLine but in a much more concise way.</p>
+<p>We’re just getting started, so stay tuned; it’s going to be a fun journey!</p>
 
-<p>For example:</p>
+      
+  </div>
+<!-- /.entry-content -->
+</article><!-- /.hentry -->
 
-<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">nums</span> <span class="p">=</span> <span class="k">new</span><span class="p">[]</span> <span class="p">{</span> <span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="m">6</span> <span class="p">};</span>
-<span class="kt">var</span> <span class="n">sum</span> <span class="p">=</span> <span class="n">nums</span><span class="p">.</span><span class="nf">Aggregate</span><span class="p">((</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="n">a</span> <span class="p">+</span> <span class="n">b</span><span class="p">);</span>
-<span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="n">sum</span><span class="p">);</span>
-</code></pre></div></div>
 
-<p>This displays 21 and it can be shortened with Dump method</p>
 
-<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">nums</span> <span class="p">=</span> <span class="k">new</span><span class="p">[]</span> <span class="p">{</span> <span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="m">6</span> <span class="p">};</span>
-<span class="n">nums</span><span class="p">.</span><span class="nf">Aggregate</span><span class="p">((</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="n">a</span> <span class="p">+</span> <span class="n">b</span><span class="p">).</span><span class="nf">Dump</span><span class="p">();</span>
-</code></pre></div></div>
+<div class="pagination">
+  <ul class="inline-list">
+    
+    
+      
+        <li><a href="https://devpower.co.uk/page3/" class="btn">Previous</a></li>
+      
+    
 
-<p>It shows the same result but in a shorter way.</p>
+    
+    
+      <li><a href="https://devpower.co.uk/">1</a></li>
+    
 
-<h2 id="resources">Resources</h2>
-<ul>
-  <li><a href="https://www.linqpad.net/CustomizingDump.aspx" target="_blank" rel="noopener noreferrer">Customizing Dump Output</a></li>
-  <li><a href="https://www.danclarke.com/linqpad-tips-and-tricks" target="_blank" rel="noopener noreferrer">LINQPad Tips and Tricks</a></li>
-</ul>
+    
+    
 
-      <footer class="entry-meta">
-        <span class="entry-tags"><a href="https://devpower.co.uk/tags#linqpad" title="Pages tagged linqpad" class="tag"><span class="term">linqpad</span></a><a href="https://devpower.co.uk/tags#csharp" title="Pages tagged csharp" class="tag"><span class="term">csharp</span></a></span>
+    
+    
+    
+
+    
+      
         
-        <span class="author vcard"><span class="fn">Volkan Paksoy</span></span>
-        <div class="social-share">
-  <ul class="socialcount socialcount-small inline-list">
-    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://devpower.co.uk/tips_n_tricks/linqpad-dump-extension-dump/" title="Share on Facebook" target="_blank" rel="noopener noreferrer"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
-    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://devpower.co.uk/tips_n_tricks/linqpad-dump-extension-dump/" title="Share on Twitter" target="_blank" rel="noopener noreferrer"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
-    <!-- <li class="googleplus"><a href="https://plus.google.com/share?url=https://devpower.co.uk/tips_n_tricks/linqpad-dump-extension-dump/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li> -->
+        
+        
+        <li><a href="https://devpower.co.uk/page2/">2</a></li>
+      
+    
+      
+        
+        
+        
+        <li><a href="https://devpower.co.uk/page3/">3</a></li>
+      
+    
+
+    
+    
+
+    
+      <li><strong class="current-page">4</strong></li>
+    
+
+    
+    
   </ul>
 </div>
-<!-- /.social-share -->
 
-      </footer>
-    </div>
-<!-- /.entry-content -->
-    <div class="read-more">
-  <div class="read-more-header">
-    <a href="https://devpower.co.uk" class="read-more-btn">About the Author</a>
-  </div>
-<!-- /.read-more-header -->
-  <div class="read-more-content author-info">
-    <h3>Volkan Paksoy</h3>
-    <div class="author-container">
-      <img class="author-img" src="https://devpower.co.uk/images/shared/vp-avatar.png" alt="Volkan Paksoy">
-      <div class="author-bio"></div>
-    </div>
-    <div class="author-share">
-      <ul class="list-inline social-buttons">
-        
-          <li><a href="https://github.com/Dev-Power" target="_blank" rel="noopener noreferrer"><i class="fa fa-github fa-fw"></i></a></li>
-        
-          <li><a href="https://www.youtube.com/channel/UC9YE-1HhpfC-1DqhHxqUUfw" target="_blank" rel="noopener noreferrer"><i class="fa fa-youtube fa-fw"></i></a></li>
-        
-          <li><a href="https://twitter.com/_dev_power_" target="_blank" rel="noopener noreferrer"><i class="fa fa-twitter fa-fw"></i></a></li>
-        
-      </ul>
-      
-        <a aria-label="Follow @Dev-Power on GitHub" data-style="mega" href="https://github.com/Dev-Power" class="github-button" target="_blank" rel="noopener noreferrer">Follow @Dev-Power</a>
-      
-      <br>
-      
-        <a href="https://twitter.com/_dev_power_" class="twitter-follow-button" data-show-count="false" data-size="large" target="_blank" rel="noopener noreferrer">Follow @_dev_power_</a>
-      
-    </div>
-  </div>
-</div>
 
-    <section id="disqus_thread"></section><!-- /#disqus_thread -->
-    <div class="read-more">
-  
-    <div class="read-more-header">
-      <a href="https://devpower.co.uk/cryptocurrency/monitoring-chia-spacepool/" class="read-more-btn">Read More</a>
-    </div>
-<!-- /.read-more-header -->
-    <div class="read-more-content">
-      <h3><a href="https://devpower.co.uk/cryptocurrency/solana-epoch-monitor/" title="Solana Epoch Monitor">Solana Epoch Monitor</a></h3>
-      <p>A Dockerized C# .NET application to monitor Solana API and send notifications when a new epoch starts <a href="https://devpower.co.uk/cryptocurrency/solana-epoch-monitor/">Continue reading</a></p>
-    </div>
-<!-- /.read-more-content -->
-  
-  <div class="read-more-list">
-    
-      <div class="list-item">
-        <h4><a href="https://devpower.co.uk/dotnet/csharp/develop-a-cli-with-csharp/" title="Develop your own CLI with C#">Develop your own CLI with C#</a></h4>
-        <span>Published on May 24, 2022</span>
-      </div>
-<!-- /.list-item -->
-    
-      <div class="list-item">
-        <h4><a href="https://devpower.co.uk/devops/exploring-github-actions/" title="Exploring GitHub Actions">Exploring GitHub Actions</a></h4>
-        <span>Published on May 23, 2022</span>
-      </div>
-<!-- /.list-item -->
-    
-  </div>
-<!-- /.read-more-list -->
-</div>
-<!-- /.read-more -->
-  </article>
 </div><!-- /#main -->
 
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -393,30 +363,6 @@
 </script>
 
 
-
-
-    <script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = 'devpower'; // required: replace example with your forum shortname
-
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function() {
-            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function () {
-            var s = document.createElement('script'); s.async = true;
-            s.type = 'text/javascript';
-            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-        }());
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" target="_blank" rel="noopener noreferrer">comments powered by Disqus.</a>
-</noscript>
-    <a href="http://disqus.com" class="dsq-brlink" target="_blank" rel="noopener noreferrer">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
 

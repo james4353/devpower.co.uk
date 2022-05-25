@@ -252,6 +252,111 @@
   <header>
     
       <div class="entry-image-index">
+        <a href="https://devpower.co.uk/cryptocurrency/solana-epoch-monitor/" title="Solana Epoch Monitor"><img src="https://devpower.co.uk/images/posts/2022/05/solana-epoch-notifications/442.jpg" alt="Solana Epoch Monitor"></a>
+        <div class="image-credit">Image source: <a target="_blank" href="https://www.freepik.com/vectors/cloud-technology" rel="noopener noreferrer">www.freepik.com</a>
+</div>
+<!-- /.image-credit -->
+
+      </div>
+<!-- /.entry-image -->
+    
+    <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2022-05-25T00:00:00+01:00"><a href="https://devpower.co.uk/cryptocurrency/solana-epoch-monitor/">May 25, 2022</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+        Reading time ~2 minutes
+      </span><!-- /.entry-reading-time -->
+      
+    </div>
+<!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="https://devpower.co.uk/cryptocurrency/solana-epoch-monitor/" rel="bookmark" title="Solana Epoch Monitor" itemprop="url">Solana Epoch Monitor</a></h1>
+    
+  </header>
+  <div class="entry-content">
+      <p>Solana is currently one of the popular blockchains. Every few days a new epoch starts at which point the staking rewards are sent to the stakers. This post’s main focus is not cryptocurrency, rather it’s about a tool that monitors Solana blockchain and sends email notifications when a new epoch starts. So I’m not going to deep into Solana terminology but just to understand the basics, here are a few definitions:</p>
+
+<ul>
+  <li>Solana: A Blockchain technology designed to host decentralized and scalable applications.</li>
+  <li>Staking: The process of locking up cryptocurrency in order to earn interest</li>
+  <li>Epoch: An epoch is the length of a certain amount of blocks. This is a variable duration and typically it’s somewhere between 2-4 days.</li>
+</ul>
+
+<p>If you are an Solana investor staking your Solana tokens, then at the end of the epoch you earn some interest. This is where this notification tool comes in. If your wallet doesn’t have a feature of notifying you when you receive staking rewards, you can use this tool to receive email notifications when an epoch ends. This way you can check your wallet and keep an eye on your rewards.</p>
+
+<h2 id="implementation">Implementation</h2>
+<p>If you would like to check the current epoch manually, you can always go to <a href="https://explorer.solana.com/" target="_blank" rel="noopener noreferrer">Solana explorer</a> page which shows the current epoch. If you look at the network traffic, it gets this data from Solana API which seems to be public to get this basic info. So I experimented a bit and captured a query and re-sent it via Postman and I got the following result:</p>
+
+<p><img src="/images/posts/2022/05/solana-epoch-notifications/postman-result.png" alt="Postman result"></p>
+
+<p>Based on this I implemented my solution in C# which is very simple and mainly looks like this (full source code is <a href="https://github.com/Dev-Power/solana-epoch-monitor" target="_blank" rel="noopener noreferrer">here</a>):</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="k">public</span> <span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="n">GetEpochInfoResponse</span><span class="p">&gt;</span> <span class="nf">GetEpochInfo</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">var</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">RestClient</span><span class="p">(</span><span class="s">"https://explorer-api.mainnet-beta.solana.com/"</span><span class="p">);</span>
+    <span class="kt">var</span> <span class="n">request</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">RestRequest</span><span class="p">(</span><span class="s">"/"</span><span class="p">,</span> <span class="n">Method</span><span class="p">.</span><span class="n">Post</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">RequestFormat</span> <span class="p">=</span> <span class="n">DataFormat</span><span class="p">.</span><span class="n">Json</span><span class="p">,</span>
+    <span class="p">};</span>
+    <span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"Content-Type"</span><span class="p">,</span> <span class="s">"application/json"</span><span class="p">);</span>
+    <span class="n">request</span><span class="p">.</span><span class="nf">AddHeader</span><span class="p">(</span><span class="s">"Accept"</span><span class="p">,</span> <span class="s">"application/json"</span><span class="p">);</span>
+    <span class="n">request</span><span class="p">.</span><span class="nf">AddJsonBody</span><span class="p">(</span><span class="k">new</span> <span class="p">{</span> <span class="n">Id</span> <span class="p">=</span> <span class="n">Guid</span><span class="p">.</span><span class="nf">NewGuid</span><span class="p">(),</span> <span class="n">Method</span> <span class="p">=</span> <span class="s">"getEpochInfo"</span><span class="p">,</span> <span class="n">Jsonrpc</span> <span class="p">=</span> <span class="s">"2.0"</span><span class="p">,</span> <span class="n">Params</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">string</span><span class="p">[]</span> <span class="p">{}</span> <span class="p">});</span> 
+    
+    <span class="kt">var</span> <span class="n">responseRaw</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="nf">ExecuteAsync</span><span class="p">(</span><span class="n">request</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">JsonConvert</span><span class="p">.</span><span class="n">DeserializeObject</span><span class="p">&lt;</span><span class="n">GetEpochInfoResponse</span><span class="p">&gt;(</span><span class="n">responseRaw</span><span class="p">.</span><span class="n">Content</span><span class="p">);</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>In the response, we can access the current epoch number. It then checks, the previous epoch that it sent notification for. This is to prevent duplicate notifications. Whenever it sends a notification, it writes the value to a JSON file. It’s important to mount that file with one on the host so that whenever the container restarts it doesn’t send an unnecessary notification.</p>
+
+<h2 id="usage">Usage</h2>
+
+<ol>
+  <li>You can either clone the repo and build it yourself or you can pull the image from Docker hub. In either case, you will need a copy of docker-compose-template.yaml and db.json files.</li>
+</ol>
+
+<p>Bother methods are shown below:</p>
+
+<p>a. Building From Source : Clone the <a href="https://github.com/Dev-Power/solana-epoch-monitor" target="_blank" rel="noopener noreferrer">repository</a></p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">git clone git@github.com:Dev-Power/solana-epoch-monitor.git</code></pre></figure>
+
+<p>b. Using the pre-built Docker image: Pull the image</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">docker pull devpowercouk/solana-epoch-monitor</code></pre></figure>
+
+<ol start="2">
+  <li>Make a copy of docker-compose-template.yaml and rename it to docker-compose.yaml</li>
+  <li>Fill in the settings such as SMTP settings, db.json path etc.</li>
+  <li>In a terminal, run</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">docker-compose up <span class="nt">-d</span></code></pre></figure>
+
+<p>Since the epoch in the db.json is a past one, it should immediately send a notification and update the db.json with the current epoch.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>This is meant to be a quick little project that talks to Solana API and gets the epoch info. It may come in handy if such notifications is something you need. You can also use this as a starter project and implement more notification types.</p>
+
+<p>I hope you found this little project useful and/or fun. Please let me know what you think in the comments below.</p>
+
+<h2 id="resources">Resources</h2>
+<ul>
+  <li><a href="https://explorer.solana.com/" target="_blank" rel="noopener noreferrer">Solana explorer</a></li>
+  <li><a href="https://github.com/Dev-Power/solana-epoch-monitor" target="_blank" rel="noopener noreferrer">Source code of the project</a></li>
+  <li><a href="https://hub.docker.com/repository/docker/devpowercouk/solana-epoch-monitor" target="_blank" rel="noopener noreferrer">Docker image in Docker Hub</a></li>
+</ul>
+
+      
+  </div>
+<!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+      <div class="entry-image-index">
         <a href="https://devpower.co.uk/dotnet/csharp/develop-a-cli-with-csharp/" title="Develop your own CLI with C#"><img src="https://devpower.co.uk/images/posts/2022/05/dotnet-cli/bash-148836.png" alt="Develop your own CLI with C#"></a>
         
 
@@ -971,122 +1076,6 @@ git push</code></pre></figure>
 <!-- /.entry-content -->
 </article><!-- /.hentry -->
 
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2022-04-25T00:00:00+01:00"><a href="https://devpower.co.uk/csharp/programming/anonymous-types-in-csharp/">April 25, 2022</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-        Reading time ~2 minutes
-      </span><!-- /.entry-reading-time -->
-      
-    </div>
-<!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="https://devpower.co.uk/csharp/programming/anonymous-types-in-csharp/" rel="bookmark" title="Anonymous Types in C#" itemprop="url">Anonymous Types in C#</a></h1>
-    
-  </header>
-  <div class="entry-content">
-      <p>In the previous <a href="/csharp/programming/using-var-keyword-in-csharp/">post</a> we talked about the usage of var keyword. One of the main use cases for keyword is <strong>anonymous types</strong>. In thos post, we are going to look closer into anonymous types.</p>
-
-<h2 id="anonymous-types">Anonymous types</h2>
-<p>An anonymous type is a nameless class that inherits from object.</p>
-
-<p>The type is inferred, by the compiler, at initialization.</p>
-
-<p>For example, a typical anonymous declaration would look like this:</p>
-
-<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">person</span> <span class="p">=</span> <span class="k">new</span> 
-<span class="p">{</span>
-  <span class="n">FirstName</span> <span class="p">=</span> <span class="s">"John"</span><span class="p">,</span>
-  <span class="n">LastName</span> <span class="p">=</span> <span class="s">"Power"</span><span class="p">,</span>
-  <span class="n">Age</span> <span class="p">=</span> <span class="m">33</span>
-<span class="p">};</span>
-</code></pre></div></div>
-
-<p>We can see, just like any other object, it supports IntelliSense. We can see all the properties we defined and the methods coming from <em>object</em> such as ToString() and Equals(). So it is a strongly-typed class. We just don’t know the type.</p>
-
-<p><img src="/images/post-images/2022/04/csharp-anonymous-types/simple-anonymous-type-with-intellisense.png" alt=""></p>
-
-<p>The properties are read-only. If we try to assign another value we get the following error:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Compilation error (line 11, col 3): Property or indexer 'AnonymousType#1.Age' cannot be assigned to -- it is read only
-</code></pre></div></div>
-
-<p><img src="/images/post-images/2022/04/csharp-anonymous-types/read-only-assignment-error.png" alt=""></p>
-
-<p>Since we don’t have a handle of the class, then how can we create another object of this type? The answer is simple: We just create another anonymous type with the same properties.</p>
-
-<p>For example, the following example would compile successfully:</p>
-
-<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">class</span> <span class="nc">Program</span>
-<span class="p">{</span>
-	<span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span><span class="p">()</span>
-	<span class="p">{</span>
-		<span class="kt">var</span> <span class="n">firstPerson</span> <span class="p">=</span> <span class="k">new</span> 
-		<span class="p">{</span>
-		  <span class="n">FirstName</span> <span class="p">=</span> <span class="s">"John"</span><span class="p">,</span>
-		  <span class="n">LastName</span> <span class="p">=</span> <span class="s">"Power"</span><span class="p">,</span>
-		  <span class="n">Age</span> <span class="p">=</span> <span class="m">33</span>
-		<span class="p">};</span>
-		
-		<span class="kt">var</span> <span class="n">secondPerson</span> <span class="p">=</span> <span class="k">new</span> 
-		<span class="p">{</span>
-		  <span class="n">FirstName</span> <span class="p">=</span> <span class="s">"Jane"</span><span class="p">,</span>
-		  <span class="n">LastName</span> <span class="p">=</span> <span class="s">"Power"</span><span class="p">,</span>
-		  <span class="n">Age</span> <span class="p">=</span> <span class="m">44</span>
-		<span class="p">};</span>
-		
-		<span class="n">firstPerson</span> <span class="p">=</span> <span class="n">secondPerson</span><span class="p">;</span>
-	<span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<p>secondPerson can be assigned to firstPerson as they have the same type. This is only possible if all the properties match. If we remove the Age property from the secondPerson, we get the error shown below:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Compilation error (line 18, col 17): Cannot implicitly convert type 'AnonymousType#1' to 'AnonymousType#2'
-</code></pre></div></div>
-
-<h3 id="shorthand-declarations">Shorthand Declarations</h3>
-<p>The names of the properties can also be inferred if they are being assigned from another object. For example, if we wanted to create a second object of the same type, with the same values we could use this syntax:</p>
-
-<p><img src="/images/post-images/2022/04/csharp-anonymous-types/shorthand-declaration.png" alt=""></p>
-
-<p>As you can see in the screenshot above, we can still see the same property names as the firstPerson object.</p>
-
-<p class="panel-note top-padding">The same feature exists in ES6. For more info, check out <a href="https://alligator.io/js/object-property-shorthand-es6/" target="_blank" rel="noopener noreferrer">this blog post</a> </p>
-
-<h3 id="internals-of-anonymous-types">Internals of Anonymous Types</h3>
-<p>So what happens when we compile our application with anonymous types? The type names are generated automatically by the compiler.</p>
-
-<p>The example below shows how our class looks like with IL viewer:</p>
-
-<p><img src="/images/post-images/2022/04/csharp-anonymous-types/anonymous-type-in-IL-viewer.png" alt=""></p>
-
-<p>The firstPerson and secondPerson objects defined (of same type) are declared as:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>instance void class '&lt;&gt;f__AnonymousType0`3'&lt;string, string, int32&gt;::.ctor(!0/*string*/, !1/*string*/, !2/*int32*/)
-</code></pre></div></div>
-
-<p>The reason these auto-generated type names are hidden from the developer is that we don’t actually need to know what they are. So it’s generally a bad practice trying to find out these types via reflection.</p>
-
-<p>The final example shows the IL output when Age property is removed from the secondPerson object. Now that the properties don’t match with firstPerson, the compiler generates a new type for secondPerson named <em>&lt;&gt;f__AnonymousType1`2</em>:</p>
-
-<p><img src="/images/post-images/2022/04/csharp-anonymous-types/multiple-anonymous-types-in-IL-viewer.png" alt=""></p>
-
-<h2 id="resources">Resources</h2>
-<ul>
-  <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/types/anonymous-types" target="_blank" rel="noopener noreferrer">Anonymous Types</a></li>
-</ul>
-
-      
-  </div>
-<!-- /.entry-content -->
-</article><!-- /.hentry -->
-
 
 
 <div class="pagination">
@@ -1114,12 +1103,19 @@ git push</code></pre></figure>
         <li><a href="https://devpower.co.uk/page2/">2</a></li>
       
     
+      
+        
+        
+        
+        <li><a href="https://devpower.co.uk/page3/">3</a></li>
+      
+    
 
     
     
 
     
-      <li><a href="https://devpower.co.uk/page3/">3</a></li>
+      <li><a href="https://devpower.co.uk/page4/">4</a></li>
     
 
     

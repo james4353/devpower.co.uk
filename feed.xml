@@ -4,13 +4,102 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="https://devpower.co.uk/feed.xml" />
 <link rel="alternate" type="text/html" href="https://devpower.co.uk" />
-<updated>2022-05-24T11:24:25+01:00</updated>
+<updated>2022-05-25T07:53:53+01:00</updated>
 <id>https://devpower.co.uk/</id>
 <author>
   <name>Volkan Paksoy</name>
   <uri>https://devpower.co.uk/</uri>
   
 </author>
+
+
+<entry>
+  <title type="html"><![CDATA[Solana Epoch Monitor]]></title>
+ <link rel="alternate" type="text/html" href="https://devpower.co.uk/cryptocurrency/solana-epoch-monitor/" />
+  <id>https://devpower.co.uk/cryptocurrency/solana-epoch-monitor</id>
+  <published>2022-05-25T00:00:00+01:00</published>
+  <updated>2022-05-25T00:00:00+01:00</updated>
+  <author>
+    <name>Volkan Paksoy</name>
+    <uri>https://devpower.co.uk</uri>
+    <email></email>
+  </author>
+  <content type="html">
+    &lt;p&gt;Solana is currently one of the popular blockchains. Every few days a new epoch starts at which point the staking rewards are sent to the stakers. This post’s main focus is not cryptocurrency, rather it’s about a tool that monitors Solana blockchain and sends email notifications when a new epoch starts. So I’m not going to deep into Solana terminology but just to understand the basics, here are a few definitions:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Solana: A Blockchain technology designed to host decentralized and scalable applications.&lt;/li&gt;
+  &lt;li&gt;Staking: The process of locking up cryptocurrency in order to earn interest&lt;/li&gt;
+  &lt;li&gt;Epoch: An epoch is the length of a certain amount of blocks. This is a variable duration and typically it’s somewhere between 2-4 days.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;If you are an Solana investor staking your Solana tokens, then at the end of the epoch you earn some interest. This is where this notification tool comes in. If your wallet doesn’t have a feature of notifying you when you receive staking rewards, you can use this tool to receive email notifications when an epoch ends. This way you can check your wallet and keep an eye on your rewards.&lt;/p&gt;
+
+&lt;h2 id=&quot;implementation&quot;&gt;Implementation&lt;/h2&gt;
+&lt;p&gt;If you would like to check the current epoch manually, you can always go to &lt;a href=&quot;https://explorer.solana.com/&quot;&gt;Solana explorer&lt;/a&gt; page which shows the current epoch. If you look at the network traffic, it gets this data from Solana API which seems to be public to get this basic info. So I experimented a bit and captured a query and re-sent it via Postman and I got the following result:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/2022/05/solana-epoch-notifications/postman-result.png&quot; alt=&quot;Postman result&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Based on this I implemented my solution in C# which is very simple and mainly looks like this (full source code is &lt;a href=&quot;https://github.com/Dev-Power/solana-epoch-monitor&quot;&gt;here&lt;/a&gt;):&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-csharp&quot; data-lang=&quot;csharp&quot;&gt;&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetEpochInfoResponse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;GetEpochInfo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;client&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;RestClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://explorer-api.mainnet-beta.solana.com/&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;RestRequest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Method&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;RequestFormat&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DataFormat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Json&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;AddHeader&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Content-Type&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;application/json&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;AddHeader&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Accept&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;application/json&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;AddJsonBody&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Id&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Guid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;NewGuid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Method&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;getEpochInfo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Jsonrpc&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;2.0&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Params&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt; 
+    
+    &lt;span class=&quot;kt&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;responseRaw&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;ExecuteAsync&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;JsonConvert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DeserializeObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetEpochInfoResponse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;responseRaw&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Content&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;In the response, we can access the current epoch number. It then checks, the previous epoch that it sent notification for. This is to prevent duplicate notifications. Whenever it sends a notification, it writes the value to a JSON file. It’s important to mount that file with one on the host so that whenever the container restarts it doesn’t send an unnecessary notification.&lt;/p&gt;
+
+&lt;h2 id=&quot;usage&quot;&gt;Usage&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;You can either clone the repo and build it yourself or you can pull the image from Docker hub. In either case, you will need a copy of docker-compose-template.yaml and db.json files.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Bother methods are shown below:&lt;/p&gt;
+
+&lt;p&gt;a. Building From Source : Clone the &lt;a href=&quot;https://github.com/Dev-Power/solana-epoch-monitor&quot;&gt;repository&lt;/a&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;git clone git@github.com:Dev-Power/solana-epoch-monitor.git&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;b. Using the pre-built Docker image: Pull the image&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;docker pull devpowercouk/solana-epoch-monitor&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ol start=&quot;2&quot;&gt;
+  &lt;li&gt;Make a copy of docker-compose-template.yaml and rename it to docker-compose.yaml&lt;/li&gt;
+  &lt;li&gt;Fill in the settings such as SMTP settings, db.json path etc.&lt;/li&gt;
+  &lt;li&gt;In a terminal, run&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;docker-compose up &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Since the epoch in the db.json is a past one, it should immediately send a notification and update the db.json with the current epoch.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;This is meant to be a quick little project that talks to Solana API and gets the epoch info. It may come in handy if such notifications is something you need. You can also use this as a starter project and implement more notification types.&lt;/p&gt;
+
+&lt;p&gt;I hope you found this little project useful and/or fun. Please let me know what you think in the comments below.&lt;/p&gt;
+
+&lt;h2 id=&quot;resources&quot;&gt;Resources&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://explorer.solana.com/&quot;&gt;Solana explorer&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/Dev-Power/solana-epoch-monitor&quot;&gt;Source code of the project&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://hub.docker.com/repository/docker/devpowercouk/solana-epoch-monitor&quot;&gt;Docker image in Docker Hub&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+    &lt;p&gt;&lt;a href=&quot;https://devpower.co.uk/cryptocurrency/solana-epoch-monitor/&quot;&gt;Solana Epoch Monitor&lt;/a&gt; was originally published by Volkan Paksoy at &lt;a href=&quot;https://devpower.co.uk&quot;&gt;💪 Dev Power&lt;/a&gt; on May 25, 2022.&lt;/p&gt;
+  </content>
+</entry>
 
 
 <entry>
