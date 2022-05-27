@@ -5,9 +5,9 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title>Customizing AWS IAM Sign-in URL &#8211; 💪 Dev Power</title>
-<meta name="description" content="A quick tip for creating user-friendly sign-in URLs for AWS Management Console">
-<meta name="keywords" content="aws, iam, alias">
+<title>Exploring Chart.js with Star Wars data &#8211; 💪 Dev Power</title>
+<meta name="description" content="This post looks into installing and using popular JavaScript charting library Chart.js by creating charts using Star Wars data">
+<meta name="keywords" content="chartjs, chart, swapi, star_wars">
 
 <!-- Twitter Cards -->
 <meta name="twitter:card" content="summary_large_image">
@@ -18,18 +18,18 @@
 <!-- Open Graph -->
 <meta property="og:locale" content="en_GB">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Customizing AWS IAM Sign-in URL">
-<meta property="og:description" content="A quick tip for creating user-friendly sign-in URLs for AWS Management Console">
-<meta property="og:url" content="https://devpower.co.uk/tips_n_tricks/aws/customizing-aws-iam-sign-in-url/">
+<meta property="og:title" content="Exploring Chart.js with Star Wars data">
+<meta property="og:description" content="This post looks into installing and using popular JavaScript charting library Chart.js by creating charts using Star Wars data">
+<meta property="og:url" content="https://devpower.co.uk/javascript/exploring-chartjs-with-star-wars-data/">
 <meta property="og:site_name" content="💪 Dev Power">
-<meta property="og:image" content="https://devpower.co.uk/images/Mar-Business_2.jpg">
+<meta property="og:image" content="https://devpower.co.uk/images/posts/2022/05/exploring-chartjs-with-star-wars-data/star-wars-chart.png">
 
 
 
 
 
 
-<link rel="canonical" href="https://devpower.co.uk/tips_n_tricks/aws/customizing-aws-iam-sign-in-url/">
+<link rel="canonical" href="https://devpower.co.uk/javascript/exploring-chartjs-with-star-wars-data/">
 <link href="https://devpower.co.uk/feed.xml" type="application/atom+xml" rel="alternate" title="💪 Dev Power Feed">
 
 <!-- http://t.co/dKP3o1e -->
@@ -162,17 +162,17 @@
 <div class="entry-header">
   <div class="header-title">
     <div class="header-title-wrap">
-      <h1>Customizing AWS IAM Sign-in URL</h1>
+      <h1>Exploring Chart.js with Star Wars data</h1>
       <h3></h3>
       
-        <h2><span class="entry-date date published updated"><time datetime="2021-12-13T00:00:00+00:00">December 13, 2021</time></span></h2>
+        <h2><span class="entry-date date published updated"><time datetime="2022-05-27T00:00:00+01:00">May 27, 2022</time></span></h2>
       
 
       
         <p class="entry-reading-time">
           <i class="fa fa-clock-o"></i>
           
-          Reading time ~1 minute
+          Reading time ~3 minutes
         </p>
 <!-- /.entry-reading-time -->
       
@@ -258,60 +258,135 @@
     <div class="entry-content">
         
             <div class="entry-image-index">
-              <img src="https://devpower.co.uk/images/Mar-Business_2.jpg" alt="Customizing AWS IAM Sign-in URL">
+              <img src="https://devpower.co.uk/images/posts/2022/05/exploring-chartjs-with-star-wars-data/star-wars-chart.png" alt="Exploring Chart.js with Star Wars data">
               
             </div>
         
-      <h1 class="post-title entry-title">Customizing AWS IAM Sign-in URL</h1>
-      <p>Normally the login URL for IAM users is in this format</p>
+      <h1 class="post-title entry-title">Exploring Chart.js with Star Wars data</h1>
+      <p>Chart.js is a popular JavaScript library to create beautiful charts with JavaScript. In this post, we are going to have some fun with it by visualising Star Wars data.</p>
 
-<blockquote>
-  <p>https://{Account Id}.signin.aws.amazon.com/console</p>
-</blockquote>
+<h2 id="installation">Installation</h2>
+<p>There are various methods to install the library.</p>
 
-<p>But it is possible to make this URL more memorable and user-friendly.</p>
+<p>When it’s used in a project, I’d recommend using NPM. It’s simple and it doesn’t invole any external CDN dependencies. You can install it by running the following command:</p>
 
-<p>In order to achieve this, follow the steps below:</p>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">npm i chart.js</code></pre></figure>
 
-<p><strong>Step 01</strong>: Go to <a href="https://console.aws.amazon.com/iamv2/home#/home" target="_blank" rel="noopener noreferrer">IAM Dashboard</a></p>
+<p>Another way to use Chart.js is using a CDN. You can use Cloudflare CDN:</p>
 
-<p><strong>Step 02</strong>: Click on the <strong>Create</strong> link that is located right next to the account id:</p>
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="dl">"</span><span class="s2">https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js</span><span class="dl">"</span> <span class="nx">integrity</span><span class="o">=</span><span class="dl">"</span><span class="s2">sha512-sW/w8s4RWTdFFSduOTGtk4isV1+190E/GghVffMA9XczdJ2MDzSzLEubKAs5h0wzgSJOQTRYyaz73L3d6RtJSg==</span><span class="dl">"</span> <span class="nx">crossorigin</span><span class="o">=</span><span class="dl">"</span><span class="s2">anonymous</span><span class="dl">"</span> <span class="nx">referrerpolicy</span><span class="o">=</span><span class="dl">"</span><span class="s2">no-referrer</span><span class="dl">"</span><span class="o">&gt;&lt;</span><span class="sr">/script&gt;</span></code></pre></figure>
 
-<p><img src="/images/post-images/2021/12/customizing-iam-url/iam-dashboard.png" alt=""></p>
+<p class="panel-note">In the sample project, I set responsive option to false so that the data is more visible. Otherwise it uses the entire window which makes it hard to see the thw whole chart.</p>
 
-<p><strong>Step 03</strong>: This brings up the <em>Create Account Alias</em> dialog box.</p>
+<h2 id="data-source">Data Source</h2>
+<p>In this little project, our data will be coming from <a href="https://swapi.dev/" target="_blank" rel="noopener noreferrer">Star Wars API</a></p>
 
-<p><img src="/images/post-images/2021/12/customizing-iam-url/create-alias-01.png" alt=""></p>
+<p><img src="/images/posts/2022/05/exploring-chartjs-with-star-wars-data/star-wars-api.png" alt="Star Wars API"></p>
 
-<p><strong>Step 03</strong>: Enter your desired alias and save.</p>
+<p>It’s a free to use API that returns Star Wars related data which can be fun to use in little projects such as this one.</p>
 
-<p class="panel-warning top-padding">Since the name we provide is used in the URL, it needs to be unique globally. </p>
+<h2 id="source-code">Source Code</h2>
+<p>I’m not going to include all the source code in this post as it becomes too lengthy. You can access the full code here: <a href="https://github.com/Dev-Power/blog-code-samples/tree/main/exploring-chartjs-with-star-wars-data" target="_blank" rel="noopener noreferrer">Source code of the project</a></p>
 
-<p>If you don’t pick a unique name, you will get an error like this:</p>
+<p><img src="/images/posts/2022/05/exploring-chartjs-with-star-wars-data/finished-demo-animated.gif" alt="Finished sample project"></p>
 
-<p><img src="/images/post-images/2021/12/customizing-iam-url/create-alias-error.png" alt=""></p>
+<h2 id="getting-started">Getting Started</h2>
 
-<p>and when you pick your unique name, you should see it in effect:</p>
+<h3 id="bar-chart">Bar Chart</h3>
+<p>Let’s get started with a bar chart that shows the number of characters and species shown on each film:</p>
 
-<p><img src="/images/post-images/2021/12/customizing-iam-url/create-alias-success.png" alt=""></p>
+<p><img src="/images/posts/2022/05/exploring-chartjs-with-star-wars-data/bar-chart.png" alt="Bar chart"></p>
 
-<p class="panel-note">You can keep on using the account id. Setting an alias just gives an additional URL that you can use.</p>
+<ul>
+  <li>In this example, we use dynamic data instead of a fixed array</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript">    <span class="p">...</span>
+    <span class="nx">data</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nl">labels</span><span class="p">:</span> <span class="nx">data</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">d</span> <span class="o">=&gt;</span> <span class="nx">d</span><span class="p">.</span><span class="nx">title</span><span class="p">),</span>
+      <span class="nx">datasets</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">...</span></code></pre></figure>
+
+<ul>
+  <li>
+    <p>Chart.js doesn’t have built-in support to generate random colors automatically. So I used a function to return random color values and called it for each member in the data array.</p>
+  </li>
+  <li>
+    <p>The data we display in the Y-axis is specified in <strong>data.datasets</strong> property. In this example, I only added 2 datasetss but you can add as many as you like.</p>
+  </li>
+</ul>
+
+<h3 id="line-chart">Line chart</h3>
+<p>The structure is very similar. The main change is to set the <strong>type</strong> property to <strong>line</strong>.</p>
+
+<ul>
+  <li>In this example, I showed how to pass in object arrays rather than primites as data.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript">    <span class="p">...</span>
+    <span class="nx">data</span><span class="p">:</span> <span class="nx">data</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">d</span> <span class="o">=&gt;</span> <span class="p">({</span> <span class="na">x</span><span class="p">:</span> <span class="nx">d</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="na">y</span><span class="p">:</span> <span class="nx">d</span><span class="p">.</span><span class="nx">height</span> <span class="p">})),</span>
+    <span class="p">...</span></code></pre></figure>
+
+<p>This way I was able to specify the x and y-axis values in one statement.</p>
+
+<ul>
+  <li>One note about responsiveness and how it handles data. The people endpoint returns 82 people and in the image below you can see all their heights:</li>
+</ul>
+
+<p><img src="/images/posts/2022/05/exploring-chartjs-with-star-wars-data/line-chart-all-names.png" alt="All people heights in a line chart"></p>
+
+<p>If you disable responsiveness and draw the chart on a smaller canvas, it hides some labels and shows what it can that is still readable. I think this is a smart approach. There is no way trying to put in 82 labels in small space when none of them can be read.</p>
+
+<p><img src="/images/posts/2022/05/exploring-chartjs-with-star-wars-data/line-chart-some-names-hidden.png" alt="Some labels hidden in a line chart"></p>
+
+<p>Also if you hover over the data points on the chart it shows the label and the value (by which we can learn Yarael Poof is the tallest person with 264cm. and Yoad is the shortest with 66cm.)</p>
+
+<h3 id="pie-and-doughnut-charts">Pie and Doughnut Charts</h3>
+<p>These charts are good at visualising a percentage compared to the whole. Star Wars API didn’t have box office data to show so I gathered box office values from another site and showed them in pie and doughnut charts:</p>
+
+<p>Pie chart:
+<img src="/images/posts/2022/05/exploring-chartjs-with-star-wars-data/box-office-values-in-pie-chart.png" alt="Star Wars box office values in pie chart"></p>
+
+<p>Doughnut chart:
+<img src="/images/posts/2022/05/exploring-chartjs-with-star-wars-data/box-office-values-in-doughnut-chart.png" alt="Star Wars box office values in doughnut chart"></p>
+
+<p>Both chart types are very similar. The only difference is the middle is empty in the doughnut chart. The only difference code-wise was to change the type:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">doughnut</span><span class="dl">'</span></code></pre></figure>
+
+<h3 id="mixed-charts">Mixed Charts</h3>
+<p>You can display different types in the same chart. The chart type for this type of chart needs to be <strong>bar</strong>. It’s not very intuitive but it’s how it works.</p>
+
+<p>In the next example, I show the number of planets as a line chart, and the number of vehicles and startships as bar charts all in the same visual:</p>
+
+<p><img src="/images/posts/2022/05/exploring-chartjs-with-star-wars-data/mixed-chart.png" alt="Mixed chart"></p>
+
+<h3 id="other-charts">Other Charts</h3>
+<p>In addition to the basic charts, Chart.js supports lots of other charts such as bubble charts, radar charts, scatter charts etc. I’d recommend checking the recources section for documentation and samples to see them in action.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>In this post we covered how to install and use Chart.Js library which can be very useful in creating beautiful charts. We used Star Wars API to visualize Star Wars trivia to make the project more fun!</p>
+
+<p>I hope you found this post useful and fun. Please let me know what you think in the comments below.</p>
 
 <h2 id="resources">Resources</h2>
 <ul>
-  <li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/console_account-alias.html" target="_blank" rel="noopener noreferrer">AWS Documentation: Your AWS account ID and its alias</a></li>
-  <li><a href="https://www.freepik.com/vectors/people" target="_blank" rel="noopener noreferrer">People vector created by jcomp - www.freepik.com</a></li>
+  <li><a href="https://www.chartjs.org/" target="_blank" rel="noopener noreferrer">Official Chart.js website</a></li>
+  <li><a href="https://www.chartjs.org/docs/latest/samples/information.html" target="_blank" rel="noopener noreferrer">Samples</a></li>
+  <li><a href="https://www.chartjs.org/docs/latest/" target="_blank" rel="noopener noreferrer">Documentation</a></li>
+  <li><a href="https://github.com/Dev-Power/blog-code-samples/tree/main/exploring-chartjs-with-star-wars-data" target="_blank" rel="noopener noreferrer">Source code of the project</a></li>
+  <li><a href="https://swapi.dev/" target="_blank" rel="noopener noreferrer">Star Wars API</a></li>
 </ul>
 
       <footer class="entry-meta">
-        <span class="entry-tags"><a href="https://devpower.co.uk/tags#aws" title="Pages tagged aws" class="tag"><span class="term">aws</span></a><a href="https://devpower.co.uk/tags#iam" title="Pages tagged iam" class="tag"><span class="term">iam</span></a><a href="https://devpower.co.uk/tags#alias" title="Pages tagged alias" class="tag"><span class="term">alias</span></a></span>
+        <span class="entry-tags"><a href="https://devpower.co.uk/tags#chartjs" title="Pages tagged chartjs" class="tag"><span class="term">chartjs</span></a><a href="https://devpower.co.uk/tags#chart" title="Pages tagged chart" class="tag"><span class="term">chart</span></a><a href="https://devpower.co.uk/tags#swapi" title="Pages tagged swapi" class="tag"><span class="term">swapi</span></a><a href="https://devpower.co.uk/tags#star_wars" title="Pages tagged star_wars" class="tag"><span class="term">star_wars</span></a></span>
         
         <span class="author vcard"><span class="fn">Volkan Paksoy</span></span>
         <div class="social-share">
   <ul class="socialcount socialcount-small inline-list">
-    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://devpower.co.uk/tips_n_tricks/aws/customizing-aws-iam-sign-in-url/" title="Share on Facebook" target="_blank" rel="noopener noreferrer"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
-    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://devpower.co.uk/tips_n_tricks/aws/customizing-aws-iam-sign-in-url/" title="Share on Twitter" target="_blank" rel="noopener noreferrer"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
-    <!-- <li class="googleplus"><a href="https://plus.google.com/share?url=https://devpower.co.uk/tips_n_tricks/aws/customizing-aws-iam-sign-in-url/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li> -->
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://devpower.co.uk/javascript/exploring-chartjs-with-star-wars-data/" title="Share on Facebook" target="_blank" rel="noopener noreferrer"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://devpower.co.uk/javascript/exploring-chartjs-with-star-wars-data/" title="Share on Twitter" target="_blank" rel="noopener noreferrer"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <!-- <li class="googleplus"><a href="https://plus.google.com/share?url=https://devpower.co.uk/javascript/exploring-chartjs-with-star-wars-data/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li> -->
   </ul>
 </div>
 <!-- /.social-share -->
@@ -355,26 +430,26 @@
     <div class="read-more">
   
     <div class="read-more-header">
-      <a href="https://devpower.co.uk/cryptocurrency/docker/dockerizing-spacepool-monitor/" class="read-more-btn">Read More</a>
+      <a href="https://devpower.co.uk/cryptocurrency/solana-epoch-monitor/" class="read-more-btn">Read More</a>
     </div>
 <!-- /.read-more-header -->
     <div class="read-more-content">
-      <h3><a href="https://devpower.co.uk/javascript/exploring-chartjs-with-star-wars-data/" title="Exploring Chart.js with Star Wars data">Exploring Chart.js with Star Wars data</a></h3>
-      <p>This post looks into installing and using popular JavaScript charting library Chart.js by creating charts using Star Wars data <a href="https://devpower.co.uk/javascript/exploring-chartjs-with-star-wars-data/">Continue reading</a></p>
+      <h3><a href="https://devpower.co.uk/cryptocurrency/solana-epoch-monitor/" title="Solana Epoch Monitor">Solana Epoch Monitor</a></h3>
+      <p>A Dockerized C# .NET application to monitor Solana API and send notifications when a new epoch starts <a href="https://devpower.co.uk/cryptocurrency/solana-epoch-monitor/">Continue reading</a></p>
     </div>
 <!-- /.read-more-content -->
   
   <div class="read-more-list">
     
       <div class="list-item">
-        <h4><a href="https://devpower.co.uk/cryptocurrency/solana-epoch-monitor/" title="Solana Epoch Monitor">Solana Epoch Monitor</a></h4>
-        <span>Published on May 25, 2022</span>
+        <h4><a href="https://devpower.co.uk/dotnet/csharp/develop-a-cli-with-csharp/" title="Develop your own CLI with C#">Develop your own CLI with C#</a></h4>
+        <span>Published on May 24, 2022</span>
       </div>
 <!-- /.list-item -->
     
       <div class="list-item">
-        <h4><a href="https://devpower.co.uk/dotnet/csharp/develop-a-cli-with-csharp/" title="Develop your own CLI with C#">Develop your own CLI with C#</a></h4>
-        <span>Published on May 24, 2022</span>
+        <h4><a href="https://devpower.co.uk/devops/exploring-github-actions/" title="Exploring GitHub Actions">Exploring GitHub Actions</a></h4>
+        <span>Published on May 23, 2022</span>
       </div>
 <!-- /.list-item -->
     

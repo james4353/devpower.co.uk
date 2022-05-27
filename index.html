@@ -255,6 +255,152 @@
   <header>
     
       <div class="entry-image-index">
+        <a href="https://devpower.co.uk/javascript/exploring-chartjs-with-star-wars-data/" title="Exploring Chart.js with Star Wars data"><img src="https://devpower.co.uk/images/posts/2022/05/exploring-chartjs-with-star-wars-data/star-wars-chart.png" alt="Exploring Chart.js with Star Wars data"></a>
+        
+
+      </div>
+<!-- /.entry-image -->
+    
+    <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2022-05-27T00:00:00+01:00"><a href="https://devpower.co.uk/javascript/exploring-chartjs-with-star-wars-data/">May 27, 2022</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+        Reading time ~3 minutes
+      </span><!-- /.entry-reading-time -->
+      
+    </div>
+<!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="https://devpower.co.uk/javascript/exploring-chartjs-with-star-wars-data/" rel="bookmark" title="Exploring Chart.js with Star Wars data" itemprop="url">Exploring Chart.js with Star Wars data</a></h1>
+    
+  </header>
+  <div class="entry-content">
+      <p>Chart.js is a popular JavaScript library to create beautiful charts with JavaScript. In this post, we are going to have some fun with it by visualising Star Wars data.</p>
+
+<h2 id="installation">Installation</h2>
+<p>There are various methods to install the library.</p>
+
+<p>When it’s used in a project, I’d recommend using NPM. It’s simple and it doesn’t invole any external CDN dependencies. You can install it by running the following command:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">npm i chart.js</code></pre></figure>
+
+<p>Another way to use Chart.js is using a CDN. You can use Cloudflare CDN:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="dl">"</span><span class="s2">https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js</span><span class="dl">"</span> <span class="nx">integrity</span><span class="o">=</span><span class="dl">"</span><span class="s2">sha512-sW/w8s4RWTdFFSduOTGtk4isV1+190E/GghVffMA9XczdJ2MDzSzLEubKAs5h0wzgSJOQTRYyaz73L3d6RtJSg==</span><span class="dl">"</span> <span class="nx">crossorigin</span><span class="o">=</span><span class="dl">"</span><span class="s2">anonymous</span><span class="dl">"</span> <span class="nx">referrerpolicy</span><span class="o">=</span><span class="dl">"</span><span class="s2">no-referrer</span><span class="dl">"</span><span class="o">&gt;&lt;</span><span class="sr">/script&gt;</span></code></pre></figure>
+
+<p class="panel-note">In the sample project, I set responsive option to false so that the data is more visible. Otherwise it uses the entire window which makes it hard to see the thw whole chart.</p>
+
+<h2 id="data-source">Data Source</h2>
+<p>In this little project, our data will be coming from <a href="https://swapi.dev/" target="_blank" rel="noopener noreferrer">Star Wars API</a></p>
+
+<p><img src="/images/posts/2022/05/exploring-chartjs-with-star-wars-data/star-wars-api.png" alt="Star Wars API"></p>
+
+<p>It’s a free to use API that returns Star Wars related data which can be fun to use in little projects such as this one.</p>
+
+<h2 id="source-code">Source Code</h2>
+<p>I’m not going to include all the source code in this post as it becomes too lengthy. You can access the full code here: <a href="https://github.com/Dev-Power/blog-code-samples/tree/main/exploring-chartjs-with-star-wars-data" target="_blank" rel="noopener noreferrer">Source code of the project</a></p>
+
+<p><img src="/images/posts/2022/05/exploring-chartjs-with-star-wars-data/finished-demo-animated.gif" alt="Finished sample project"></p>
+
+<h2 id="getting-started">Getting Started</h2>
+
+<h3 id="bar-chart">Bar Chart</h3>
+<p>Let’s get started with a bar chart that shows the number of characters and species shown on each film:</p>
+
+<p><img src="/images/posts/2022/05/exploring-chartjs-with-star-wars-data/bar-chart.png" alt="Bar chart"></p>
+
+<ul>
+  <li>In this example, we use dynamic data instead of a fixed array</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript">    <span class="p">...</span>
+    <span class="nx">data</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nl">labels</span><span class="p">:</span> <span class="nx">data</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">d</span> <span class="o">=&gt;</span> <span class="nx">d</span><span class="p">.</span><span class="nx">title</span><span class="p">),</span>
+      <span class="nx">datasets</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">...</span></code></pre></figure>
+
+<ul>
+  <li>
+    <p>Chart.js doesn’t have built-in support to generate random colors automatically. So I used a function to return random color values and called it for each member in the data array.</p>
+  </li>
+  <li>
+    <p>The data we display in the Y-axis is specified in <strong>data.datasets</strong> property. In this example, I only added 2 datasetss but you can add as many as you like.</p>
+  </li>
+</ul>
+
+<h3 id="line-chart">Line chart</h3>
+<p>The structure is very similar. The main change is to set the <strong>type</strong> property to <strong>line</strong>.</p>
+
+<ul>
+  <li>In this example, I showed how to pass in object arrays rather than primites as data.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript">    <span class="p">...</span>
+    <span class="nx">data</span><span class="p">:</span> <span class="nx">data</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">d</span> <span class="o">=&gt;</span> <span class="p">({</span> <span class="na">x</span><span class="p">:</span> <span class="nx">d</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="na">y</span><span class="p">:</span> <span class="nx">d</span><span class="p">.</span><span class="nx">height</span> <span class="p">})),</span>
+    <span class="p">...</span></code></pre></figure>
+
+<p>This way I was able to specify the x and y-axis values in one statement.</p>
+
+<ul>
+  <li>One note about responsiveness and how it handles data. The people endpoint returns 82 people and in the image below you can see all their heights:</li>
+</ul>
+
+<p><img src="/images/posts/2022/05/exploring-chartjs-with-star-wars-data/line-chart-all-names.png" alt="All people heights in a line chart"></p>
+
+<p>If you disable responsiveness and draw the chart on a smaller canvas, it hides some labels and shows what it can that is still readable. I think this is a smart approach. There is no way trying to put in 82 labels in small space when none of them can be read.</p>
+
+<p><img src="/images/posts/2022/05/exploring-chartjs-with-star-wars-data/line-chart-some-names-hidden.png" alt="Some labels hidden in a line chart"></p>
+
+<p>Also if you hover over the data points on the chart it shows the label and the value (by which we can learn Yarael Poof is the tallest person with 264cm. and Yoad is the shortest with 66cm.)</p>
+
+<h3 id="pie-and-doughnut-charts">Pie and Doughnut Charts</h3>
+<p>These charts are good at visualising a percentage compared to the whole. Star Wars API didn’t have box office data to show so I gathered box office values from another site and showed them in pie and doughnut charts:</p>
+
+<p>Pie chart:
+<img src="/images/posts/2022/05/exploring-chartjs-with-star-wars-data/box-office-values-in-pie-chart.png" alt="Star Wars box office values in pie chart"></p>
+
+<p>Doughnut chart:
+<img src="/images/posts/2022/05/exploring-chartjs-with-star-wars-data/box-office-values-in-doughnut-chart.png" alt="Star Wars box office values in doughnut chart"></p>
+
+<p>Both chart types are very similar. The only difference is the middle is empty in the doughnut chart. The only difference code-wise was to change the type:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">doughnut</span><span class="dl">'</span></code></pre></figure>
+
+<h3 id="mixed-charts">Mixed Charts</h3>
+<p>You can display different types in the same chart. The chart type for this type of chart needs to be <strong>bar</strong>. It’s not very intuitive but it’s how it works.</p>
+
+<p>In the next example, I show the number of planets as a line chart, and the number of vehicles and startships as bar charts all in the same visual:</p>
+
+<p><img src="/images/posts/2022/05/exploring-chartjs-with-star-wars-data/mixed-chart.png" alt="Mixed chart"></p>
+
+<h3 id="other-charts">Other Charts</h3>
+<p>In addition to the basic charts, Chart.js supports lots of other charts such as bubble charts, radar charts, scatter charts etc. I’d recommend checking the recources section for documentation and samples to see them in action.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>In this post we covered how to install and use Chart.Js library which can be very useful in creating beautiful charts. We used Star Wars API to visualize Star Wars trivia to make the project more fun!</p>
+
+<p>I hope you found this post useful and fun. Please let me know what you think in the comments below.</p>
+
+<h2 id="resources">Resources</h2>
+<ul>
+  <li><a href="https://www.chartjs.org/" target="_blank" rel="noopener noreferrer">Official Chart.js website</a></li>
+  <li><a href="https://www.chartjs.org/docs/latest/samples/information.html" target="_blank" rel="noopener noreferrer">Samples</a></li>
+  <li><a href="https://www.chartjs.org/docs/latest/" target="_blank" rel="noopener noreferrer">Documentation</a></li>
+  <li><a href="https://github.com/Dev-Power/blog-code-samples/tree/main/exploring-chartjs-with-star-wars-data" target="_blank" rel="noopener noreferrer">Source code of the project</a></li>
+  <li><a href="https://swapi.dev/" target="_blank" rel="noopener noreferrer">Star Wars API</a></li>
+</ul>
+
+      
+  </div>
+<!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+      <div class="entry-image-index">
         <a href="https://devpower.co.uk/cryptocurrency/solana-epoch-monitor/" title="Solana Epoch Monitor"><img src="https://devpower.co.uk/images/posts/2022/05/solana-epoch-notifications/442.jpg" alt="Solana Epoch Monitor"></a>
         <div class="image-credit">Image source: <a target="_blank" href="https://www.freepik.com/vectors/cloud-technology" rel="noopener noreferrer">www.freepik.com</a>
 </div>
@@ -962,117 +1108,6 @@ git push</code></pre></figure>
   <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Console_API" target="_blank" rel="noopener noreferrer">MDN Web Docs: Console API</a></li>
   <li><a href="https://swapi.py4e.com/" target="_blank" rel="noopener noreferrer">Star Wars API</a></li>
 </ul>
-
-      
-  </div>
-<!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-      <div class="entry-image-index">
-        <a href="https://devpower.co.uk/tools/how-to-download-media-from-RSS-feed-with-csharp-6/" title="How to download audio/video from an RSS feed with C# 6.0"><img src="https://devpower.co.uk/images/posts/2022/05/rss-download/64615.jpg" alt="How to download audio/video from an RSS feed with C# 6.0"></a>
-        <div class="image-credit">Image source: <a target="_blank" href="https://www.freepik.com/vectors/upload-icon" rel="noopener noreferrer">www.freepik.com</a>
-</div>
-<!-- /.image-credit -->
-
-      </div>
-<!-- /.entry-image -->
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2022-05-21T00:00:00+01:00"><a href="https://devpower.co.uk/tools/how-to-download-media-from-RSS-feed-with-csharp-6/">May 21, 2022</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-        Reading time ~1 minute
-      </span><!-- /.entry-reading-time -->
-      
-    </div>
-<!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="https://devpower.co.uk/tools/how-to-download-media-from-RSS-feed-with-csharp-6/" rel="bookmark" title="How to download audio/video from an RSS feed with C# 6.0" itemprop="url">How to download audio/video from an RSS feed with C# 6.0</a></h1>
-    
-  </header>
-  <div class="entry-content">
-      <p>When you listen to a podcast, your podcast player basically downloads the <a href="https://en.wikipedia.org/wiki/RSS" target="_blank" rel="noopener noreferrer">RSS</a> feed of the publisher. Checks the local downloaded files and downloads the new ones as they come along. In this small project, I’m going to develop a small C# application that downloads the entire media from an RSS feed.</p>
-
-<p>All the information in the RSS feed is public and clients are meant to download these media files.</p>
-
-<p>Here’s how the program works in a nutshell:</p>
-
-<ul>
-  <li>It accepts 2 arguments: the URL of the RSS feed and the target directory to save the files into</li>
-  <li>It then downloads the RSS feed into a temporary XML file</li>
-  <li>It parses the XML and gets the following values: Title, publication date and the URL to download</li>
-  <li>It loops through all the entries in the feed and saves the files to the local file system (It skips existing files so you can run it multiple times and it won’t re-download unnecessarily)</li>
-  <li>After it’s done, it deletes the temp XML file</li>
-</ul>
-
-<p>That’s all! Not a fancy podcatcher by no means, but it’s fun little project that can be used to archive your favourite podcasts.</p>
-
-<p>The entire source code for the C# 6.0 Console Application is below. Enjoy!</p>
-
-<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="k">using</span> <span class="nn">System.Xml</span><span class="p">;</span>
-<span class="k">using</span> <span class="nn">System.Net</span><span class="p">;</span>
-
-<span class="kt">string</span> <span class="n">feedUrl</span> <span class="p">=</span> <span class="n">args</span><span class="p">[</span><span class="m">0</span><span class="p">];</span>
-<span class="kt">string</span> <span class="n">feedLocalFileNnme</span> <span class="p">=</span> <span class="s">"temp-feed.xml"</span><span class="p">;</span>
-
-<span class="kt">string</span> <span class="n">targetLocalDirectory</span> <span class="p">=</span> <span class="n">args</span><span class="p">[</span><span class="m">1</span><span class="p">].</span><span class="nf">TrimEnd</span><span class="p">(</span><span class="sc">'/'</span><span class="p">);</span>
-
-<span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">WebClient</span><span class="p">())</span>
-<span class="p">{</span>
-    <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">$"Downloading </span><span class="p">{</span><span class="n">feedUrl</span><span class="p">}</span><span class="s"> to </span><span class="p">{</span><span class="n">feedLocalFileNnme</span><span class="p">}</span><span class="s">"</span><span class="p">);</span>
-    <span class="n">client</span><span class="p">.</span><span class="nf">DownloadFile</span><span class="p">(</span><span class="n">feedUrl</span><span class="p">,</span> <span class="n">feedLocalFileNnme</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="kt">string</span> <span class="n">rawXml</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="nf">ReadAllText</span><span class="p">(</span><span class="n">feedLocalFileNnme</span><span class="p">);</span>
-<span class="kt">var</span> <span class="n">xmlDocument</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">XmlDocument</span><span class="p">();</span>
-<span class="n">xmlDocument</span><span class="p">.</span><span class="nf">LoadXml</span><span class="p">(</span><span class="n">rawXml</span><span class="p">);</span>
-
-<span class="n">XmlNodeList</span> <span class="n">itemNodeList</span> <span class="p">=</span> <span class="n">xmlDocument</span><span class="p">.</span><span class="nf">SelectNodes</span><span class="p">(</span><span class="s">"/rss/channel/item"</span><span class="p">);</span>
-
-<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">itemNodeList</span><span class="p">.</span><span class="n">Count</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
-<span class="p">{</span>
-    <span class="n">XmlNode</span> <span class="n">titleNode</span> <span class="p">=</span> <span class="n">itemNodeList</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="nf">SelectNodes</span><span class="p">(</span><span class="s">"title"</span><span class="p">)[</span><span class="m">0</span><span class="p">];</span>
-    <span class="n">XmlNode</span> <span class="n">enclosureNode</span> <span class="p">=</span> <span class="n">itemNodeList</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="nf">SelectNodes</span><span class="p">(</span><span class="s">"enclosure"</span><span class="p">)[</span><span class="m">0</span><span class="p">];</span>
-    <span class="n">XmlNode</span> <span class="n">pubDateNode</span> <span class="p">=</span> <span class="n">itemNodeList</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="nf">SelectNodes</span><span class="p">(</span><span class="s">"pubDate"</span><span class="p">)[</span><span class="m">0</span><span class="p">];</span>
-    <span class="kt">string</span> <span class="n">urlToDownload</span> <span class="p">=</span> <span class="n">enclosureNode</span><span class="p">.</span><span class="n">Attributes</span><span class="p">[</span><span class="s">"url"</span><span class="p">].</span><span class="n">Value</span><span class="p">;</span>
-    <span class="n">DateTime</span> <span class="n">pubDate</span> <span class="p">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="nf">Parse</span><span class="p">(</span><span class="n">pubDateNode</span><span class="p">.</span><span class="n">InnerText</span><span class="p">);</span>
-    <span class="kt">string</span> <span class="n">localFileName</span> <span class="p">=</span> <span class="s">$"</span><span class="p">{</span><span class="n">targetLocalDirectory</span><span class="p">}</span><span class="s">/</span><span class="p">{</span><span class="nf">GetDate</span><span class="p">(</span><span class="n">pubDate</span><span class="p">)}</span><span class="s">-</span><span class="p">{</span><span class="n">titleNode</span><span class="p">.</span><span class="n">InnerText</span><span class="p">}</span><span class="s">.mp3"</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">(!</span><span class="n">File</span><span class="p">.</span><span class="nf">Exists</span><span class="p">(</span><span class="n">localFileName</span><span class="p">))</span>
-    <span class="p">{</span>
-        <span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">WebClient</span><span class="p">())</span>
-        <span class="p">{</span>
-            <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">$"Downloading </span><span class="p">{</span><span class="n">urlToDownload</span><span class="p">}</span><span class="s"> to </span><span class="p">{</span><span class="n">localFileName</span><span class="p">}</span><span class="s">"</span><span class="p">);</span>
-            <span class="n">client</span><span class="p">.</span><span class="nf">DownloadFile</span><span class="p">(</span><span class="n">urlToDownload</span><span class="p">,</span> <span class="n">localFileName</span><span class="p">);</span>
-            <span class="n">Thread</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="m">2000</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="k">else</span>
-    <span class="p">{</span>
-        <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">$"Skipping. File at </span><span class="p">{</span><span class="n">localFileName</span><span class="p">}</span><span class="s"> already exists."</span><span class="p">);</span>
-    <span class="p">}</span>
-    
-    <span class="kt">string</span> <span class="nf">GetDate</span><span class="p">(</span><span class="n">DateTime</span> <span class="n">pubDate</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="k">return</span> <span class="s">$"</span><span class="p">{</span><span class="n">pubDate</span><span class="p">.</span><span class="n">Year</span><span class="p">}</span><span class="s">-</span><span class="p">{</span><span class="n">pubDate</span><span class="p">.</span><span class="n">Month</span><span class="p">.</span><span class="nf">ToString</span><span class="p">().</span><span class="nf">PadLeft</span><span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="sc">'0'</span><span class="p">)}</span><span class="s">-</span><span class="p">{</span><span class="n">pubDate</span><span class="p">.</span><span class="n">Day</span><span class="p">.</span><span class="nf">ToString</span><span class="p">().</span><span class="nf">PadLeft</span><span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="sc">'0'</span><span class="p">)}</span><span class="s">"</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="n">File</span><span class="p">.</span><span class="nf">Delete</span><span class="p">(</span><span class="n">feedLocalFileNnme</span><span class="p">);</span></code></pre></figure>
-
-<h3 id="usage">Usage</h3>
-
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">dotnet run <span class="nt">--</span> <span class="o">{</span>RSS URL<span class="o">}</span> <span class="o">{</span>Target Local Directory<span class="o">}</span></code></pre></figure>
-
-<h2 id="resources">Resources</h2>
-<ul>
-  <li><a href="https://www.w3schools.com/xml/xml_rss.asp" target="_blank" rel="noopener noreferrer">XML RSS</a></li>
-</ul>
-
 
       
   </div>

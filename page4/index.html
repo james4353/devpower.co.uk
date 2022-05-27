@@ -255,6 +255,77 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2021-11-16T00:00:00+00:00"><a href="https://devpower.co.uk/docker/blogging-with-Jekyll-and-Docker/">November 16, 2021</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+        Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div>
+<!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="https://devpower.co.uk/docker/blogging-with-Jekyll-and-Docker/" rel="bookmark" title="Blogging with Jekyll and Docker" itemprop="url">Blogging with Jekyll and Docker</a></h1>
+    
+  </header>
+  <div class="entry-content">
+      <p>I think the best option for a blog is a static website. I love blogging using Jekyll for that reason. Just write your posts in markdown and create a static website out of it so that you can host everywhere for either free or a very affordable price.</p>
+
+<p><img src="/images/company-logos/jekyll-01.png" alt=""></p>
+
+<p>So far my local development environment for my blog was a MacBook Pro and everything installed on bare-metal. By everything I mean Jekyll and all its dependencies such as Ruby. I’m not a Ruby developer myself and when something breaks it’s hard to figure out how to fix it.</p>
+
+<p>You might think once you set it up, you don’t need to change much. It’s true in general with the exception of macOS updates. In the recent years, after almost every major OS upgrade I found out my blogging environment was broken. To mitigate this, I decided to use Docker.</p>
+
+<p><img src="/images/company-logos/docker-01.png" alt=""></p>
+
+<h1 id="create-your-blog">Create your blog</h1>
+<p>In this post, I’m going to assume you don’t already have a Jekyll blog. Creating a new one is very easy as shown in the official Jekyll <a href="https://jekyllrb.com/" target="_blank" rel="noopener noreferrer">website</a>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gem install bundler jekyll
+jekyll new my-awesome-site
+cd my-awesome-site
+</code></pre></div></div>
+
+<p>Since we don’t want to install anything on our system, we are not going to use the first command and go straight to creating the site from within a Docker container like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run --rm -v "${PWD}:/srv/jekyll" jekyll/jekyll /bin/bash -c "jekyll new my-awesome-site"
+cd my-awesome-site
+</code></pre></div></div>
+
+<p>We only have to do this once to initialize our blog. After that each time we want to run it locally for testing purposes, we can simply run this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run --rm -v "${PWD}:/srv/jekyll" -p 4000:4000 -it jekyll/jekyll /bin/bash -c "jekyll serve --drafts --trace"
+</code></pre></div></div>
+
+<p>Notice the current directory is mounted so make sure you are in the correct directory (which is root of your blog) before you tun this command.</p>
+
+<p>And that’s all there is to it!. Just navigate to 127.0.0.1:4000 on your machine to confirm it’s working and get cranking.</p>
+
+<p>Happy blogging!</p>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>Moral of the story is: Never install anything on bare-metal! Ever again!</p>
+
+<p>This is my biggest takeaway from all the containerized application movement. Every time my development environment broke because of an unrelated change in the OS, I regretted not doing this earlier. No more!</p>
+
+<p>Here’s how to create a full Jekyll development environment for your blog:</p>
+
+<h2 id="resources">Resources</h2>
+<ul>
+  <li><a href="https://jekyllrb.com/" target="_blank" rel="noopener noreferrer">Jekyll official website</a></li>
+</ul>
+
+      
+  </div>
+<!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2021-10-04T00:00:00+01:00"><a href="https://devpower.co.uk/meta/hello-world/">October 04, 2021</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
       
       <span class="entry-reading-time">

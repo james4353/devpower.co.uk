@@ -1,6 +1,14 @@
 [
   
     {
+      "title"    : "Exploring Chart.js with Star Wars data",
+      "category" : "",
+      "tags"     : "chartjs, chart, swapi, star_wars",
+      "url"      : "https://devpower.co.uk/javascript/exploring-chartjs-with-star-wars-data/",
+      "date"     : "2022-05-27 00:00:00 +0100"
+    } ,
+  
+    {
       "title"    : "Solana Epoch Monitor",
       "category" : "",
       "tags"     : "solana, monitoring, notification",
