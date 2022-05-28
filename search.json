@@ -1,6 +1,14 @@
 [
   
     {
+      "title"    : "Dockerizing Podcast Downloader",
+      "category" : "",
+      "tags"     : "csharp, dotnet, rss, podcast, docker",
+      "url"      : "https://devpower.co.uk/tools/dockerizing-podcast-downloader/",
+      "date"     : "2022-05-28 00:00:00 +0100"
+    } ,
+  
+    {
       "title"    : "Exploring Chart.js with Star Wars data",
       "category" : "",
       "tags"     : "chartjs, chart, swapi, star_wars",
@@ -43,7 +51,7 @@
     {
       "title"    : "How to download audio/video from an RSS feed with C# 6.0",
       "category" : "",
-      "tags"     : "csharp, dotnet, rss",
+      "tags"     : "csharp, dotnet, rss, podcast",
       "url"      : "https://devpower.co.uk/tools/how-to-download-media-from-RSS-feed-with-csharp-6/",
       "date"     : "2022-05-21 00:00:00 +0100"
     } ,

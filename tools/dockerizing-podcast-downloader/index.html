@@ -5,29 +5,31 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title>Anonymous Types in C# &#8211; 💪 Dev Power</title>
-<meta name="description" content="A detailed look into C#'s anonymous types">
-<meta name="keywords" content="anonymous_type">
+<title>Dockerizing Podcast Downloader &#8211; 💪 Dev Power</title>
+<meta name="description" content="In this post we are Dockerizing our weekend project that downloads podcasts from an RSS feed">
+<meta name="keywords" content="csharp, dotnet, rss, podcast, docker">
 
 <!-- Twitter Cards -->
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
+
 <meta name="twitter:site" content="@_dev_power_">
 <meta name="twitter:creator" content="@_dev_power_">
 
 <!-- Open Graph -->
 <meta property="og:locale" content="en_GB">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Anonymous Types in C#">
-<meta property="og:description" content="A detailed look into C#'s anonymous types">
-<meta property="og:url" content="https://devpower.co.uk/csharp/programming/anonymous-types-in-csharp/">
+<meta property="og:title" content="Dockerizing Podcast Downloader">
+<meta property="og:description" content="In this post we are Dockerizing our weekend project that downloads podcasts from an RSS feed">
+<meta property="og:url" content="https://devpower.co.uk/tools/dockerizing-podcast-downloader/">
 <meta property="og:site_name" content="💪 Dev Power">
-<meta property="og:image" content="https://devpower.co.uk/images/">
+<meta property="og:image" content="https://devpower.co.uk/images/posts/2022/05/rss-download/64615.jpg">
 
 
 
 
 
-<link rel="canonical" href="https://devpower.co.uk/csharp/programming/anonymous-types-in-csharp/">
+
+<link rel="canonical" href="https://devpower.co.uk/tools/dockerizing-podcast-downloader/">
 <link href="https://devpower.co.uk/feed.xml" type="application/atom+xml" rel="alternate" title="💪 Dev Power Feed">
 
 <!-- http://t.co/dKP3o1e -->
@@ -71,7 +73,7 @@
  -->
 </head>
 
-<body id="post" >
+<body id="post" class="feature">
 
 <!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
 
@@ -160,17 +162,17 @@
 <div class="entry-header">
   <div class="header-title">
     <div class="header-title-wrap">
-      <h1>Anonymous Types in C#</h1>
+      <h1>Dockerizing Podcast Downloader</h1>
       <h3></h3>
       
-        <h2><span class="entry-date date published updated"><time datetime="2022-04-25T00:00:00+01:00">April 25, 2022</time></span></h2>
+        <h2><span class="entry-date date published updated"><time datetime="2022-05-28T00:00:00+01:00">May 28, 2022</time></span></h2>
       
 
       
         <p class="entry-reading-time">
           <i class="fa fa-clock-o"></i>
           
-          Reading time ~2 minutes
+          Reading time ~1 minute
         </p>
 <!-- /.entry-reading-time -->
       
@@ -255,108 +257,70 @@
   <article class="hentry">
     <div class="entry-content">
         
-      <h1 class="post-title entry-title">Anonymous Types in C#</h1>
-      <p>In the previous <a href="/csharp/programming/using-var-keyword-in-csharp/">post</a> we talked about the usage of var keyword. One of the main use cases for keyword is <strong>anonymous types</strong>. In thos post, we are going to look closer into anonymous types.</p>
+            <div class="entry-image-index">
+              <img src="https://devpower.co.uk/images/posts/2022/05/rss-download/64615.jpg" alt="Dockerizing Podcast Downloader">
+              <div class="image-credit">Image source: <a target="_blank" href="https://www.freepik.com/vectors/upload-icon" rel="noopener noreferrer">www.freepik.com</a>
+</div>
+<!-- /.image-credit -->
+            </div>
+        
+      <h1 class="post-title entry-title">Dockerizing Podcast Downloader</h1>
+      <p>Last week, I published a <a href="/tools/how-to-download-media-from-RSS-feed-with-csharp-6">weekend project</a> that downloads media files from an RSS feed. I decided to Dockerize that code so that I can easily run it on a schedule on my local environment.</p>
 
-<h2 id="anonymous-types">Anonymous types</h2>
-<p>An anonymous type is a nameless class that inherits from object.</p>
+<p>Check out the links to the source code and Docker image in the resources section if you would like to use the tool yourself.</p>
 
-<p>The type is inferred, by the compiler, at initialization.</p>
+<h2 id="usage">Usage</h2>
+<p>Create a docker-compose.yaml file (You can use docker-compose-template.yaml in the GitHub repo)</p>
 
-<p>For example, a typical anonymous declaration would look like this:</p>
+<p>It should look like this:</p>
 
-<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">person</span> <span class="p">=</span> <span class="k">new</span> 
-<span class="p">{</span>
-  <span class="n">FirstName</span> <span class="p">=</span> <span class="s">"John"</span><span class="p">,</span>
-  <span class="n">LastName</span> <span class="p">=</span> <span class="s">"Power"</span><span class="p">,</span>
-  <span class="n">Age</span> <span class="p">=</span> <span class="m">33</span>
-<span class="p">};</span>
-</code></pre></div></div>
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="na">version</span><span class="pi">:</span> <span class="s2">"</span><span class="s">3.9"</span>
 
-<p>We can see, just like any other object, it supports IntelliSense. We can see all the properties we defined and the methods coming from <em>object</em> such as ToString() and Equals(). So it is a strongly-typed class. We just don’t know the type.</p>
+<span class="na">services</span><span class="pi">:</span>
+  <span class="na">podcast-downloader</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">devpowercouk/podcast-downloader</span>
+    <span class="na">restart</span><span class="pi">:</span> <span class="s">always</span>
+    <span class="na">environment</span><span class="pi">:</span>
+      <span class="na">AppSettings__CheckIntervalInDays</span><span class="pi">:</span> <span class="m">5</span>
+      <span class="na">AppSettings__PodcastInfoList__0__PodcastName</span><span class="pi">:</span> <span class="s2">"</span><span class="s">{podcast</span><span class="nv"> </span><span class="s">name}"</span>
+      <span class="na">AppSettings__PodcastInfoList__0__RssUrl</span><span class="pi">:</span> <span class="s2">"</span><span class="s">{rss</span><span class="nv"> </span><span class="s">feed}"</span>
+      <span class="na">AppSettings__PodcastInfoList__0__LocalDirectory</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/Downloads/{podcast</span><span class="nv"> </span><span class="s">name}"</span>
+      <span class="na">AppSettings__PodcastInfoList__1__PodcastName</span><span class="pi">:</span> <span class="s2">"</span><span class="s">{podcast</span><span class="nv"> </span><span class="s">name}"</span>
+      <span class="na">AppSettings__PodcastInfoList__1__RssUrl</span><span class="pi">:</span> <span class="s2">"</span><span class="s">{rss</span><span class="nv"> </span><span class="s">feed}"</span>
+      <span class="na">AppSettings__PodcastInfoList__1__LocalDirectory</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/Downloads/{podcast</span><span class="nv"> </span><span class="s">name}"</span>
+    <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="pi">{</span> <span class="nv">path to download root folder on host</span> <span class="pi">}</span><span class="s">:/Downloads</span></code></pre></figure>
 
-<p><img src="/images/post-images/2022/04/csharp-anonymous-types/simple-anonymous-type-with-intellisense.png" alt=""></p>
+<p>Update the missing parts such as the podcasts you’d like to download and where to download.</p>
 
-<p>The properties are read-only. If we try to assign another value we get the following error:</p>
+<p>Set the interval duration. I’d choose somewhere between 5 - 10 days to avoid downloading the RSS feed too often.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Compilation error (line 11, col 3): Property or indexer 'AnonymousType#1.Age' cannot be assigned to -- it is read only
-</code></pre></div></div>
+<p>After you’re done with the settings, open a terminal and run the following command:</p>
 
-<p><img src="/images/post-images/2022/04/csharp-anonymous-types/read-only-assignment-error.png" alt=""></p>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">docker-compose up <span class="nt">-d</span></code></pre></figure>
 
-<p>Since we don’t have a handle of the class, then how can we create another object of this type? The answer is simple: We just create another anonymous type with the same properties.</p>
+<p>You can then open your local download directory and watch the audio/video files pour in 💪.</p>
 
-<p>For example, the following example would compile successfully:</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>It’s nice to use proper podcatcher app to listen to the new episodes of my favourite podcasts but I also like to keep a local copy so that I can pick a random episode at random times. It may also come in handy if the RSS feed is pulled or stops working at some point. At the very least, it’s a fun project that allowed me to play with Docker more.</p>
 
-<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">class</span> <span class="nc">Program</span>
-<span class="p">{</span>
-	<span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span><span class="p">()</span>
-	<span class="p">{</span>
-		<span class="kt">var</span> <span class="n">firstPerson</span> <span class="p">=</span> <span class="k">new</span> 
-		<span class="p">{</span>
-		  <span class="n">FirstName</span> <span class="p">=</span> <span class="s">"John"</span><span class="p">,</span>
-		  <span class="n">LastName</span> <span class="p">=</span> <span class="s">"Power"</span><span class="p">,</span>
-		  <span class="n">Age</span> <span class="p">=</span> <span class="m">33</span>
-		<span class="p">};</span>
-		
-		<span class="kt">var</span> <span class="n">secondPerson</span> <span class="p">=</span> <span class="k">new</span> 
-		<span class="p">{</span>
-		  <span class="n">FirstName</span> <span class="p">=</span> <span class="s">"Jane"</span><span class="p">,</span>
-		  <span class="n">LastName</span> <span class="p">=</span> <span class="s">"Power"</span><span class="p">,</span>
-		  <span class="n">Age</span> <span class="p">=</span> <span class="m">44</span>
-		<span class="p">};</span>
-		
-		<span class="n">firstPerson</span> <span class="p">=</span> <span class="n">secondPerson</span><span class="p">;</span>
-	<span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<p>secondPerson can be assigned to firstPerson as they have the same type. This is only possible if all the properties match. If we remove the Age property from the secondPerson, we get the error shown below:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Compilation error (line 18, col 17): Cannot implicitly convert type 'AnonymousType#1' to 'AnonymousType#2'
-</code></pre></div></div>
-
-<h3 id="shorthand-declarations">Shorthand Declarations</h3>
-<p>The names of the properties can also be inferred if they are being assigned from another object. For example, if we wanted to create a second object of the same type, with the same values we could use this syntax:</p>
-
-<p><img src="/images/post-images/2022/04/csharp-anonymous-types/shorthand-declaration.png" alt=""></p>
-
-<p>As you can see in the screenshot above, we can still see the same property names as the firstPerson object.</p>
-
-<p class="panel-note top-padding">The same feature exists in ES6. For more info, check out <a href="https://alligator.io/js/object-property-shorthand-es6/" target="_blank" rel="noopener noreferrer">this blog post</a> </p>
-
-<h3 id="internals-of-anonymous-types">Internals of Anonymous Types</h3>
-<p>So what happens when we compile our application with anonymous types? The type names are generated automatically by the compiler.</p>
-
-<p>The example below shows how our class looks like with IL viewer:</p>
-
-<p><img src="/images/post-images/2022/04/csharp-anonymous-types/anonymous-type-in-IL-viewer.png" alt=""></p>
-
-<p>The firstPerson and secondPerson objects defined (of same type) are declared as:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>instance void class '&lt;&gt;f__AnonymousType0`3'&lt;string, string, int32&gt;::.ctor(!0/*string*/, !1/*string*/, !2/*int32*/)
-</code></pre></div></div>
-
-<p>The reason these auto-generated type names are hidden from the developer is that we don’t actually need to know what they are. So it’s generally a bad practice trying to find out these types via reflection.</p>
-
-<p>The final example shows the IL output when Age property is removed from the secondPerson object. Now that the properties don’t match with firstPerson, the compiler generates a new type for secondPerson named <em>&lt;&gt;f__AnonymousType1`2</em>:</p>
-
-<p><img src="/images/post-images/2022/04/csharp-anonymous-types/multiple-anonymous-types-in-IL-viewer.png" alt=""></p>
+<p>Have fun and let me know what you think about the project in the comments below.</p>
 
 <h2 id="resources">Resources</h2>
 <ul>
-  <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/types/anonymous-types" target="_blank" rel="noopener noreferrer">Anonymous Types</a></li>
+  <li><a href="https://github.com/Dev-Power/podcast-downloader" target="_blank" rel="noopener noreferrer">Source code on GitHub</a></li>
+  <li><a href="https://hub.docker.com/repository/docker/devpowercouk/podcast-downloader" target="_blank" rel="noopener noreferrer">Docker image</a></li>
 </ul>
 
       <footer class="entry-meta">
-        <span class="entry-tags"><a href="https://devpower.co.uk/tags#anonymous_type" title="Pages tagged anonymous_type" class="tag"><span class="term">anonymous_type</span></a></span>
+        <span class="entry-tags"><a href="https://devpower.co.uk/tags#csharp" title="Pages tagged csharp" class="tag"><span class="term">csharp</span></a><a href="https://devpower.co.uk/tags#dotnet" title="Pages tagged dotnet" class="tag"><span class="term">dotnet</span></a><a href="https://devpower.co.uk/tags#rss" title="Pages tagged rss" class="tag"><span class="term">rss</span></a><a href="https://devpower.co.uk/tags#podcast" title="Pages tagged podcast" class="tag"><span class="term">podcast</span></a><a href="https://devpower.co.uk/tags#docker" title="Pages tagged docker" class="tag"><span class="term">docker</span></a></span>
         
         <span class="author vcard"><span class="fn">Volkan Paksoy</span></span>
         <div class="social-share">
   <ul class="socialcount socialcount-small inline-list">
-    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://devpower.co.uk/csharp/programming/anonymous-types-in-csharp/" title="Share on Facebook" target="_blank" rel="noopener noreferrer"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
-    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://devpower.co.uk/csharp/programming/anonymous-types-in-csharp/" title="Share on Twitter" target="_blank" rel="noopener noreferrer"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
-    <!-- <li class="googleplus"><a href="https://plus.google.com/share?url=https://devpower.co.uk/csharp/programming/anonymous-types-in-csharp/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li> -->
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://devpower.co.uk/tools/dockerizing-podcast-downloader/" title="Share on Facebook" target="_blank" rel="noopener noreferrer"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://devpower.co.uk/tools/dockerizing-podcast-downloader/" title="Share on Twitter" target="_blank" rel="noopener noreferrer"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <!-- <li class="googleplus"><a href="https://plus.google.com/share?url=https://devpower.co.uk/tools/dockerizing-podcast-downloader/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li> -->
   </ul>
 </div>
 <!-- /.social-share -->
@@ -400,26 +364,26 @@
     <div class="read-more">
   
     <div class="read-more-header">
-      <a href="https://devpower.co.uk/csharp/programming/using-var-keyword-in-csharp/" class="read-more-btn">Read More</a>
+      <a href="https://devpower.co.uk/javascript/exploring-chartjs-with-star-wars-data/" class="read-more-btn">Read More</a>
     </div>
 <!-- /.read-more-header -->
     <div class="read-more-content">
-      <h3><a href="https://devpower.co.uk/tools/dockerizing-podcast-downloader/" title="Dockerizing Podcast Downloader">Dockerizing Podcast Downloader</a></h3>
-      <p>In this post we are Dockerizing our weekend project that downloads podcasts from an RSS feed <a href="https://devpower.co.uk/tools/dockerizing-podcast-downloader/">Continue reading</a></p>
+      <h3><a href="https://devpower.co.uk/javascript/exploring-chartjs-with-star-wars-data/" title="Exploring Chart.js with Star Wars data">Exploring Chart.js with Star Wars data</a></h3>
+      <p>This post looks into installing and using popular JavaScript charting library Chart.js by creating charts using Star Wars data <a href="https://devpower.co.uk/javascript/exploring-chartjs-with-star-wars-data/">Continue reading</a></p>
     </div>
 <!-- /.read-more-content -->
   
   <div class="read-more-list">
     
       <div class="list-item">
-        <h4><a href="https://devpower.co.uk/javascript/exploring-chartjs-with-star-wars-data/" title="Exploring Chart.js with Star Wars data">Exploring Chart.js with Star Wars data</a></h4>
-        <span>Published on May 27, 2022</span>
+        <h4><a href="https://devpower.co.uk/cryptocurrency/solana-epoch-monitor/" title="Solana Epoch Monitor">Solana Epoch Monitor</a></h4>
+        <span>Published on May 25, 2022</span>
       </div>
 <!-- /.list-item -->
     
       <div class="list-item">
-        <h4><a href="https://devpower.co.uk/cryptocurrency/solana-epoch-monitor/" title="Solana Epoch Monitor">Solana Epoch Monitor</a></h4>
-        <span>Published on May 25, 2022</span>
+        <h4><a href="https://devpower.co.uk/dotnet/csharp/develop-a-cli-with-csharp/" title="Develop your own CLI with C#">Develop your own CLI with C#</a></h4>
+        <span>Published on May 24, 2022</span>
       </div>
 <!-- /.list-item -->
     

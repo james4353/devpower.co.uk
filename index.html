@@ -255,6 +255,86 @@
   <header>
     
       <div class="entry-image-index">
+        <a href="https://devpower.co.uk/tools/dockerizing-podcast-downloader/" title="Dockerizing Podcast Downloader"><img src="https://devpower.co.uk/images/posts/2022/05/rss-download/64615.jpg" alt="Dockerizing Podcast Downloader"></a>
+        <div class="image-credit">Image source: <a target="_blank" href="https://www.freepik.com/vectors/upload-icon" rel="noopener noreferrer">www.freepik.com</a>
+</div>
+<!-- /.image-credit -->
+
+      </div>
+<!-- /.entry-image -->
+    
+    <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2022-05-28T00:00:00+01:00"><a href="https://devpower.co.uk/tools/dockerizing-podcast-downloader/">May 28, 2022</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+        Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div>
+<!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="https://devpower.co.uk/tools/dockerizing-podcast-downloader/" rel="bookmark" title="Dockerizing Podcast Downloader" itemprop="url">Dockerizing Podcast Downloader</a></h1>
+    
+  </header>
+  <div class="entry-content">
+      <p>Last week, I published a <a href="/tools/how-to-download-media-from-RSS-feed-with-csharp-6">weekend project</a> that downloads media files from an RSS feed. I decided to Dockerize that code so that I can easily run it on a schedule on my local environment.</p>
+
+<p>Check out the links to the source code and Docker image in the resources section if you would like to use the tool yourself.</p>
+
+<h2 id="usage">Usage</h2>
+<p>Create a docker-compose.yaml file (You can use docker-compose-template.yaml in the GitHub repo)</p>
+
+<p>It should look like this:</p>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="na">version</span><span class="pi">:</span> <span class="s2">"</span><span class="s">3.9"</span>
+
+<span class="na">services</span><span class="pi">:</span>
+  <span class="na">podcast-downloader</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">devpowercouk/podcast-downloader</span>
+    <span class="na">restart</span><span class="pi">:</span> <span class="s">always</span>
+    <span class="na">environment</span><span class="pi">:</span>
+      <span class="na">AppSettings__CheckIntervalInDays</span><span class="pi">:</span> <span class="m">5</span>
+      <span class="na">AppSettings__PodcastInfoList__0__PodcastName</span><span class="pi">:</span> <span class="s2">"</span><span class="s">{podcast</span><span class="nv"> </span><span class="s">name}"</span>
+      <span class="na">AppSettings__PodcastInfoList__0__RssUrl</span><span class="pi">:</span> <span class="s2">"</span><span class="s">{rss</span><span class="nv"> </span><span class="s">feed}"</span>
+      <span class="na">AppSettings__PodcastInfoList__0__LocalDirectory</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/Downloads/{podcast</span><span class="nv"> </span><span class="s">name}"</span>
+      <span class="na">AppSettings__PodcastInfoList__1__PodcastName</span><span class="pi">:</span> <span class="s2">"</span><span class="s">{podcast</span><span class="nv"> </span><span class="s">name}"</span>
+      <span class="na">AppSettings__PodcastInfoList__1__RssUrl</span><span class="pi">:</span> <span class="s2">"</span><span class="s">{rss</span><span class="nv"> </span><span class="s">feed}"</span>
+      <span class="na">AppSettings__PodcastInfoList__1__LocalDirectory</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/Downloads/{podcast</span><span class="nv"> </span><span class="s">name}"</span>
+    <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="pi">{</span> <span class="nv">path to download root folder on host</span> <span class="pi">}</span><span class="s">:/Downloads</span></code></pre></figure>
+
+<p>Update the missing parts such as the podcasts you’d like to download and where to download.</p>
+
+<p>Set the interval duration. I’d choose somewhere between 5 - 10 days to avoid downloading the RSS feed too often.</p>
+
+<p>After you’re done with the settings, open a terminal and run the following command:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">docker-compose up <span class="nt">-d</span></code></pre></figure>
+
+<p>You can then open your local download directory and watch the audio/video files pour in 💪.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>It’s nice to use proper podcatcher app to listen to the new episodes of my favourite podcasts but I also like to keep a local copy so that I can pick a random episode at random times. It may also come in handy if the RSS feed is pulled or stops working at some point. At the very least, it’s a fun project that allowed me to play with Docker more.</p>
+
+<p>Have fun and let me know what you think about the project in the comments below.</p>
+
+<h2 id="resources">Resources</h2>
+<ul>
+  <li><a href="https://github.com/Dev-Power/podcast-downloader" target="_blank" rel="noopener noreferrer">Source code on GitHub</a></li>
+  <li><a href="https://hub.docker.com/repository/docker/devpowercouk/podcast-downloader" target="_blank" rel="noopener noreferrer">Docker image</a></li>
+</ul>
+
+      
+  </div>
+<!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+      <div class="entry-image-index">
         <a href="https://devpower.co.uk/javascript/exploring-chartjs-with-star-wars-data/" title="Exploring Chart.js with Star Wars data"><img src="https://devpower.co.uk/images/posts/2022/05/exploring-chartjs-with-star-wars-data/star-wars-chart.png" alt="Exploring Chart.js with Star Wars data"></a>
         
 
@@ -938,175 +1018,6 @@ git push</code></pre></figure>
   <li><a href="https://github.com/features/actions" target="_blank" rel="noopener noreferrer">GitHub Actions</a></li>
   <li><a href="https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners" target="_blank" rel="noopener noreferrer">GitHub Hosted Runners</a></li>
   <li><a href="https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions" target="_blank" rel="noopener noreferrer">GitHub Action Billing</a></li>
-</ul>
-
-      
-  </div>
-<!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-      <div class="entry-image-index">
-        <a href="https://devpower.co.uk/javascript/hidden-gems-in-javascript-console-api/" title="Hidden gems in JavaScript Console API"><img src="https://devpower.co.uk/images/posts/2022/05/javascript-console/3094293.jpg" alt="Hidden gems in JavaScript Console API"></a>
-        <div class="image-credit">Image source: <a target="_blank" href="https://www.freepik.com/vectors/js" rel="noopener noreferrer">www.freepik.com</a>
-</div>
-<!-- /.image-credit -->
-
-      </div>
-<!-- /.entry-image -->
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2022-05-22T00:00:00+01:00"><a href="https://devpower.co.uk/javascript/hidden-gems-in-javascript-console-api/">May 22, 2022</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-        Reading time ~3 minutes
-      </span><!-- /.entry-reading-time -->
-      
-    </div>
-<!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="https://devpower.co.uk/javascript/hidden-gems-in-javascript-console-api/" rel="bookmark" title="Hidden gems in JavaScript Console API" itemprop="url">Hidden gems in JavaScript Console API</a></h1>
-    
-  </header>
-  <div class="entry-content">
-      <p>Any developer who wrote any JavaScript code must have used console.log() method at some point to log informational messages or for <a href="https://en.wikipedia.org/wiki/Debugging#Print_debugging" target="_blank" rel="noopener noreferrer">print debugging</a>. However, while that method is quite useful, it is not the only one in our arsenal. So let’s look at some useful methods that are not very commonly known to most developers.</p>
-
-<h2 id="consoletime--consoletimelog--consoletimeend">console.time() / console.timeLog() / console.timeEnd()</h2>
-<p>If you have some long-running tasks and want to get some insights into how long a task takes, these methods are handy. You can start a timer by calling</p>
-
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">();</span></code></pre></figure>
-
-<p>and end the timer by calling</p>
-
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">console</span><span class="p">.</span><span class="nx">timeEnd</span><span class="p">();</span></code></pre></figure>
-
-<p>You can also pass a label to these methods to make the logs more readable. Otherwise, the times are logged under <em>“default”</em> label.</p>
-
-<p>timeLog() method can be used anywhere between time and timeEnd to log the timer’s current value.</p>
-
-<p>The example below uses all the features discussed above:</p>
-
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript">  <span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">();</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">10000000</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">i</span> <span class="o">===</span> <span class="mi">5000000</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nx">timeLog</span><span class="p">();</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">timeEnd</span><span class="p">();</span></code></pre></figure>
-
-<p>It loops 10 million times and logs the time halfway through (console.timeLog()) and at the end (console.timeEnd())</p>
-
-<p>and the output looks like this:</p>
-
-<p><img src="/images/posts/2022/05/javascript-console/console-time-output.png" alt=""></p>
-
-<h2 id="consoletable">console.table()</h2>
-<p>This is a neat little feature that can useful when displaying tabular data. In this example, we are going to get the first 10 results from people endpoint on <a href="https://swapi.py4e.com/" target="_blank" rel="noopener noreferrer">Star Wars API</a> and display them in a table:</p>
-
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript">  <span class="nx">fetch</span> <span class="p">(</span><span class="dl">"</span><span class="s2">https://swapi.py4e.com/api/people/</span><span class="dl">"</span><span class="p">)</span>
-    <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span> <span class="o">=&gt;</span> <span class="nx">data</span><span class="p">.</span><span class="nx">text</span><span class="p">())</span>
-    <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span> <span class="o">=&gt;</span> <span class="p">{</span> 
-      <span class="nx">console</span><span class="p">.</span><span class="nx">table</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">response</span><span class="p">).</span><span class="nx">results</span><span class="p">);</span>
-    <span class="p">});</span></code></pre></figure>
-
-<p>Let’s check out the results:</p>
-
-<p><img src="/images/posts/2022/05/javascript-console/console-table-output.png" alt=""></p>
-
-<p>And all it takes is 5 lines of code to produce this!</p>
-
-<h2 id="consolewarn--consoleerror">console.warn() / console.error()</h2>
-<p>console.log() is fine for logging informational statements, but to make the warning and errors more readable, you can use warn() and error() methods. When checking the console, they surely stand out among all the other log lines.</p>
-
-<p>For example, the following code</p>
-
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript">  <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">i</span> <span class="o">===</span> <span class="mi">5</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nx">warn</span><span class="p">(</span><span class="dl">"</span><span class="s2">warning: half-way through</span><span class="dl">"</span><span class="p">);</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="dl">"</span><span class="s2">error: all gone now</span><span class="dl">"</span><span class="p">);</span></code></pre></figure>
-
-<p>produces this output:</p>
-
-<p><img src="/images/posts/2022/05/javascript-console/console-warn-error-output.png" alt=""></p>
-
-<h2 id="consoledebug">console.debug()</h2>
-<p>I chose to cover debug in a separate section even though it works very similarly to log(), warn() and error() methods. By default, the log level in browsers is not set to display debug messages.</p>
-
-<p><img src="/images/posts/2022/05/javascript-console/browser-log-level-settings.png" alt=""></p>
-
-<p>So if we run the previous example with <em>log()</em> call replaced by <em>debug()</em> call, the output looks very simplified:</p>
-
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript">  <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">debug</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">i</span> <span class="o">===</span> <span class="mi">5</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nx">warn</span><span class="p">(</span><span class="dl">"</span><span class="s2">warning: half-way through</span><span class="dl">"</span><span class="p">);</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="dl">"</span><span class="s2">error: all gone now</span><span class="dl">"</span><span class="p">);</span></code></pre></figure>
-
-<p>Output with debug:</p>
-
-<p><img src="/images/posts/2022/05/javascript-console/console-debug-output-hidden.png" alt=""></p>
-
-<p>If we want to see all the statements, we need to explicitly set the logging level to verbose and get the same results as before.</p>
-
-<p><img src="/images/posts/2022/05/javascript-console/log-level-set-to-verbose.png" alt=""></p>
-
-<h2 id="consolegroup--groupend--groupcollapsed">console.group() / groupEnd() / groupCollapsed()</h2>
-<p>group() and groupEnd() let us create indented log entries within a group label.</p>
-
-<p>For example, the following code</p>
-
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">console</span><span class="p">.</span><span class="nx">group</span><span class="p">(</span><span class="dl">"</span><span class="s2">Group 1</span><span class="dl">"</span><span class="p">);</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">entry 1</span><span class="dl">"</span><span class="p">);</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">entry 2</span><span class="dl">"</span><span class="p">);</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">entry 3</span><span class="dl">"</span><span class="p">);</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">groupEnd</span><span class="p">(</span><span class="dl">"</span><span class="s2">Group 1</span><span class="dl">"</span><span class="p">);</span>
-
-<span class="nx">console</span><span class="p">.</span><span class="nx">group</span><span class="p">(</span><span class="dl">"</span><span class="s2">Group 2</span><span class="dl">"</span><span class="p">);</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">entry 1</span><span class="dl">"</span><span class="p">);</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">entry 2</span><span class="dl">"</span><span class="p">);</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">entry 3</span><span class="dl">"</span><span class="p">);</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">groupEnd</span><span class="p">(</span><span class="dl">"</span><span class="s2">Group 2</span><span class="dl">"</span><span class="p">);</span></code></pre></figure>
-
-<p>produces this result:</p>
-
-<p><img src="/images/posts/2022/05/javascript-console/console-group-output.png" alt=""></p>
-
-<p>We can also create log entries in a collapsed state so that they can only be viewed when we explicitly expand the log group:</p>
-
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">console</span><span class="p">.</span><span class="nx">group</span><span class="p">(</span><span class="dl">"</span><span class="s2">Group 1</span><span class="dl">"</span><span class="p">);</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">entry 1</span><span class="dl">"</span><span class="p">);</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">entry 2</span><span class="dl">"</span><span class="p">);</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">entry 3</span><span class="dl">"</span><span class="p">);</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">groupCollapsed</span><span class="p">(</span><span class="dl">"</span><span class="s2">Hidden stuff until you expand</span><span class="dl">"</span><span class="p">);</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Hidden entry 1</span><span class="dl">"</span><span class="p">);</span>  
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Hidden entry 2</span><span class="dl">"</span><span class="p">);</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">groupEnd</span><span class="p">(</span><span class="dl">"</span><span class="s2">Group 1</span><span class="dl">"</span><span class="p">);</span></code></pre></figure>
-
-<p>By default, the output looks like this:</p>
-
-<p><img src="/images/posts/2022/05/javascript-console/console-group-collapsed.png" alt=""></p>
-
-<p>To see the contents of the collapsed group, we need to expand it explicitly:</p>
-
-<p><img src="/images/posts/2022/05/javascript-console/console-group-expanded.png" alt=""></p>
-
-<h2 id="conclusion">Conclusion</h2>
-<p>This post looked into useful Console API methods that are not commonly known. We didn’t look into non-standard methods such as timeStamp() and profile() to ensure compatibility. I’d recommend visiting the resources below and looking into all the methods. Some of them are not covered here but might be quite useful to you.</p>
-
-<h2 id="resources">Resources</h2>
-<ul>
-  <li><a href="https://www.w3schools.com/jsref/obj_console.asp" target="_blank" rel="noopener noreferrer">W3Schools: Window Console Object</a></li>
-  <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Console_API" target="_blank" rel="noopener noreferrer">MDN Web Docs: Console API</a></li>
-  <li><a href="https://swapi.py4e.com/" target="_blank" rel="noopener noreferrer">Star Wars API</a></li>
 </ul>
 
       
