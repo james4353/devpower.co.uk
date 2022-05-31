@@ -4,13 +4,133 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="https://devpower.co.uk/feed.xml" />
 <link rel="alternate" type="text/html" href="https://devpower.co.uk" />
-<updated>2022-05-29T18:11:15+01:00</updated>
+<updated>2022-05-31T07:34:18+01:00</updated>
 <id>https://devpower.co.uk/</id>
 <author>
   <name>Volkan Paksoy</name>
   <uri>https://devpower.co.uk/</uri>
   
 </author>
+
+
+<entry>
+  <title type="html"><![CDATA[Semantic Versioning]]></title>
+ <link rel="alternate" type="text/html" href="https://devpower.co.uk/programming/semantic-versioning/" />
+  <id>https://devpower.co.uk/programming/semantic-versioning</id>
+  <published>2022-05-31T00:00:00+01:00</published>
+  <updated>2022-05-31T00:00:00+01:00</updated>
+  <author>
+    <name>Volkan Paksoy</name>
+    <uri>https://devpower.co.uk</uri>
+    <email></email>
+  </author>
+  <content type="html">
+    &lt;p&gt;Versioning is an important and one of the rather tricky aspects of software development. Simply put, versioning is assigning a unique number that identifies a specific package or release. In this post, we are going to look into a popular versioning method called Semantic Versioning.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-is-semantic-versioning&quot;&gt;What is Semantic Versioning?&lt;/h2&gt;
+&lt;p&gt;Semantic Versioning, is a popular versioning scheme that mainly uses a three-part version number. The version number is in the following format (there are pre-release versions as well which we will look into in detail later):&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;MAJOR.MINOR.PATCH&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;For example, if the version number is 2.3.54, the individual parts would mean:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;2: Major version&lt;/li&gt;
+  &lt;li&gt;3: Minor version&lt;/li&gt;
+  &lt;li&gt;54: Patch version&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The rule of thumb when it comes to incrementing these numbers is:&lt;/p&gt;
+
+&lt;h3 id=&quot;major-version&quot;&gt;Major version&lt;/h3&gt;
+&lt;p&gt;Major version number is incremented when you make incompatible changes.&lt;/p&gt;
+
+&lt;p&gt;Examples:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;You removed an entire public class from a NuGet package
+
+You changed the parameters that API endpoint accepts
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;minor-version&quot;&gt;Minor version&lt;/h3&gt;
+&lt;p&gt;Minor version is incremented when you add new functionality in a backwards compatible manner.&lt;/p&gt;
+
+&lt;p&gt;Examples:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;You add a new endpoint to a public API
+
+You add a new parameter to a method with a default value so that old consumers can still call the method without breaking 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;patch-version&quot;&gt;Patch version&lt;/h3&gt;
+&lt;p&gt;Patch version is incremented when make backwards compatible fixes.&lt;/p&gt;
+
+&lt;p&gt;Examples:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;You fixed a bug without making backwards incompatible changes
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;pre-releases&quot;&gt;Pre-releases&lt;/h2&gt;
+&lt;p&gt;In addition to the major, minor and patch versions we may want to use pre-release versions. This would indicate that the product is not finalized. Examples of pre-release version:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;2.0.0-alpha
+2.0.0-alpha.1
+2.0.0-beta
+2.0.0-beta.1
+2.0.0-beta.2
+2.0.0-rc.1&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;All the examples above are pre-release versions and they are ordered from lowest precedence to the highest one.&lt;/p&gt;
+
+&lt;p class=&quot;panel-note&quot;&gt;Please note semantic versioning has no knowledge of the words “alpha”, “beta” or “rc”. The comparison is purely done by alphabetical order for non-numeric versions.&lt;/p&gt;
+
+&lt;h2 id=&quot;build-metadata&quot;&gt;Build metadata&lt;/h2&gt;
+&lt;p&gt;In addition to all the release and pre-release versions, we can also use extra metadata by using plus sign (+) as a separator. This part is not used in precedence calculations and has informational purposes only. The metadata that follows the plus sign can be a series of dot-separated identifier list.&lt;/p&gt;
+
+&lt;p&gt;For example, a version number with build metadata could look like this:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;2.1.5+20220531 // Append the &lt;span class=&quot;nb&quot;&gt;date &lt;/span&gt;of the release
+1.8-beta+sha.a4b5d6 // Append a &lt;span class=&quot;nb&quot;&gt;hash &lt;/span&gt;value of the package&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;refactoring&quot;&gt;Refactoring&lt;/h2&gt;
+&lt;p&gt;How about refactoring? It’s not a major breaking change and you don’t add new functionality. Also it doesn’t count as bugfixes. It might help preventing bugs from being introduced in the future but it doesn’t stricly count as fixing anything.&lt;/p&gt;
+
+&lt;p&gt;We can find the answer in the Semantic Versioning specs:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Patch version Z (x.y.Z | x &amp;gt; 0) MUST be incremented if only backwards compatible bug fixes are introduced. A bug fix is defined as an internal change that fixes incorrect behavior.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;So if you change the code for whatever reason, you must at least increment the patch version so that you maintain uniqueness of the package/release.&lt;/p&gt;
+
+&lt;h2 id=&quot;front-end-versioning&quot;&gt;Front-end Versioning&lt;/h2&gt;
+&lt;p&gt;A common question and debated issue is how to version front-ends. The Semantic Versioning specs is all about “API changes”. API in this context can refer to a HTTP API or a package (NuGet, npm, Maven etc).&lt;/p&gt;
+
+&lt;p&gt;Front-ends are consumed by end-users and they are not consumed by other software.&lt;/p&gt;
+
+&lt;p class=&quot;panel-note&quot;&gt;By saying not consumed by other software, I’m not counting the webscrapers. When you develop a front-end page you don’t make a contract with an external tool whose goal is to scrape data from your page. Most likely, it happens without your consent. Therefore, if you make a change in your markup that breaks webscrapers it doesn’t constitute breaking change in an API&lt;/p&gt;
+
+&lt;p&gt;Defining a “breaking change” in a front-end is not easy. If you move a functionality to another page, it might be seen as breaking change as some users might fail to find the new location of the functionality. Does this mean that you should increment the major version? If you did, what would that mean to the end-users? They still need to use the application/website just like they did before. I think when interacting with actual human users, version numbers don’t mean much.&lt;/p&gt;
+
+&lt;h3 id=&quot;users-dont-care-about-your-versions&quot;&gt;Users don’t care about your versions&lt;/h3&gt;
+&lt;p&gt;The only exception I can think of is a complete overhaul of the project. If everything changes so drastically, you may choose to refer to it as version 2.0 of your application.&lt;/p&gt;
+
+&lt;p&gt;Other than that, I’d argue the best way to handle changes in a user-facing application is leveraging &lt;strong&gt;changelogs&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;When a user logs in, you can display them a nice little pop-up and briefly explain the key things that changed. Some more complicated changes might need some interactive walkthroughs etc. The main point is, a user doesn’t want to or need to know that you deployed 2.10.24 version of your application. Just show them how it effects their experience and leave the technical details out.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Semantic Versioning is a very popular versioning scheme as it’s simple and quite flexible. There are some aspects that are debatable whether or not it should be used such as front-end versioning but this doesn’t mean that it does a good job most of the time. We also discussed how to handle versioning in user-facing applications.&lt;/p&gt;
+
+&lt;p&gt;I hope you found this post useful. Please let me know what you think in the comments below.&lt;/p&gt;
+
+&lt;h2 id=&quot;resources&quot;&gt;Resources&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://semver.org&quot;&gt;Semantic Versioning&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+    &lt;p&gt;&lt;a href=&quot;https://devpower.co.uk/programming/semantic-versioning/&quot;&gt;Semantic Versioning&lt;/a&gt; was originally published by Volkan Paksoy at &lt;a href=&quot;https://devpower.co.uk&quot;&gt;💪 Dev Power&lt;/a&gt; on May 31, 2022.&lt;/p&gt;
+  </content>
+</entry>
 
 
 <entry>

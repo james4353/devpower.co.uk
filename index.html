@@ -255,6 +255,142 @@
   <header>
     
       <div class="entry-image-index">
+        <a href="https://devpower.co.uk/programming/semantic-versioning/" title="Semantic Versioning"><img src="https://devpower.co.uk/images/posts/2022/05/semantic-versioning/4011825.jpg" alt="Semantic Versioning"></a>
+        <div class="image-credit">Image source: <a target="_blank" href="https://www.freepik.com/vectors/software-update" rel="noopener noreferrer">www.freepik.com</a>
+</div>
+<!-- /.image-credit -->
+
+      </div>
+<!-- /.entry-image -->
+    
+    <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2022-05-31T00:00:00+01:00"><a href="https://devpower.co.uk/programming/semantic-versioning/">May 31, 2022</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+        Reading time ~4 minutes
+      </span><!-- /.entry-reading-time -->
+      
+    </div>
+<!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="https://devpower.co.uk/programming/semantic-versioning/" rel="bookmark" title="Semantic Versioning" itemprop="url">Semantic Versioning</a></h1>
+    
+  </header>
+  <div class="entry-content">
+      <p>Versioning is an important and one of the rather tricky aspects of software development. Simply put, versioning is assigning a unique number that identifies a specific package or release. In this post, we are going to look into a popular versioning method called Semantic Versioning.</p>
+
+<h2 id="what-is-semantic-versioning">What is Semantic Versioning?</h2>
+<p>Semantic Versioning, is a popular versioning scheme that mainly uses a three-part version number. The version number is in the following format (there are pre-release versions as well which we will look into in detail later):</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">MAJOR.MINOR.PATCH</code></pre></figure>
+
+<p>For example, if the version number is 2.3.54, the individual parts would mean:</p>
+
+<ul>
+  <li>2: Major version</li>
+  <li>3: Minor version</li>
+  <li>54: Patch version</li>
+</ul>
+
+<p>The rule of thumb when it comes to incrementing these numbers is:</p>
+
+<h3 id="major-version">Major version</h3>
+<p>Major version number is incremented when you make incompatible changes.</p>
+
+<p>Examples:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>You removed an entire public class from a NuGet package
+
+You changed the parameters that API endpoint accepts
+</code></pre></div></div>
+
+<h3 id="minor-version">Minor version</h3>
+<p>Minor version is incremented when you add new functionality in a backwards compatible manner.</p>
+
+<p>Examples:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>You add a new endpoint to a public API
+
+You add a new parameter to a method with a default value so that old consumers can still call the method without breaking 
+</code></pre></div></div>
+
+<h3 id="patch-version">Patch version</h3>
+<p>Patch version is incremented when make backwards compatible fixes.</p>
+
+<p>Examples:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>You fixed a bug without making backwards incompatible changes
+</code></pre></div></div>
+
+<h2 id="pre-releases">Pre-releases</h2>
+<p>In addition to the major, minor and patch versions we may want to use pre-release versions. This would indicate that the product is not finalized. Examples of pre-release version:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">2.0.0-alpha
+2.0.0-alpha.1
+2.0.0-beta
+2.0.0-beta.1
+2.0.0-beta.2
+2.0.0-rc.1</code></pre></figure>
+
+<p>All the examples above are pre-release versions and they are ordered from lowest precedence to the highest one.</p>
+
+<p class="panel-note">Please note semantic versioning has no knowledge of the words “alpha”, “beta” or “rc”. The comparison is purely done by alphabetical order for non-numeric versions.</p>
+
+<h2 id="build-metadata">Build metadata</h2>
+<p>In addition to all the release and pre-release versions, we can also use extra metadata by using plus sign (+) as a separator. This part is not used in precedence calculations and has informational purposes only. The metadata that follows the plus sign can be a series of dot-separated identifier list.</p>
+
+<p>For example, a version number with build metadata could look like this:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">2.1.5+20220531 // Append the <span class="nb">date </span>of the release
+1.8-beta+sha.a4b5d6 // Append a <span class="nb">hash </span>value of the package</code></pre></figure>
+
+<h2 id="refactoring">Refactoring</h2>
+<p>How about refactoring? It’s not a major breaking change and you don’t add new functionality. Also it doesn’t count as bugfixes. It might help preventing bugs from being introduced in the future but it doesn’t stricly count as fixing anything.</p>
+
+<p>We can find the answer in the Semantic Versioning specs:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Patch version Z (x.y.Z | x &gt; 0) MUST be incremented if only backwards compatible bug fixes are introduced. A bug fix is defined as an internal change that fixes incorrect behavior.
+</code></pre></div></div>
+
+<p>So if you change the code for whatever reason, you must at least increment the patch version so that you maintain uniqueness of the package/release.</p>
+
+<h2 id="front-end-versioning">Front-end Versioning</h2>
+<p>A common question and debated issue is how to version front-ends. The Semantic Versioning specs is all about “API changes”. API in this context can refer to a HTTP API or a package (NuGet, npm, Maven etc).</p>
+
+<p>Front-ends are consumed by end-users and they are not consumed by other software.</p>
+
+<p class="panel-note">By saying not consumed by other software, I’m not counting the webscrapers. When you develop a front-end page you don’t make a contract with an external tool whose goal is to scrape data from your page. Most likely, it happens without your consent. Therefore, if you make a change in your markup that breaks webscrapers it doesn’t constitute breaking change in an API</p>
+
+<p>Defining a “breaking change” in a front-end is not easy. If you move a functionality to another page, it might be seen as breaking change as some users might fail to find the new location of the functionality. Does this mean that you should increment the major version? If you did, what would that mean to the end-users? They still need to use the application/website just like they did before. I think when interacting with actual human users, version numbers don’t mean much.</p>
+
+<h3 id="users-dont-care-about-your-versions">Users don’t care about your versions</h3>
+<p>The only exception I can think of is a complete overhaul of the project. If everything changes so drastically, you may choose to refer to it as version 2.0 of your application.</p>
+
+<p>Other than that, I’d argue the best way to handle changes in a user-facing application is leveraging <strong>changelogs</strong>.</p>
+
+<p>When a user logs in, you can display them a nice little pop-up and briefly explain the key things that changed. Some more complicated changes might need some interactive walkthroughs etc. The main point is, a user doesn’t want to or need to know that you deployed 2.10.24 version of your application. Just show them how it effects their experience and leave the technical details out.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>Semantic Versioning is a very popular versioning scheme as it’s simple and quite flexible. There are some aspects that are debatable whether or not it should be used such as front-end versioning but this doesn’t mean that it does a good job most of the time. We also discussed how to handle versioning in user-facing applications.</p>
+
+<p>I hope you found this post useful. Please let me know what you think in the comments below.</p>
+
+<h2 id="resources">Resources</h2>
+<ul>
+  <li><a href="https://semver.org" target="_blank" rel="noopener noreferrer">Semantic Versioning</a></li>
+</ul>
+
+      
+  </div>
+<!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+      <div class="entry-image-index">
         <a href="https://devpower.co.uk/tools/dockerizing-podcast-downloader/" title="Dockerizing Podcast Downloader"><img src="https://devpower.co.uk/images/posts/2022/05/rss-download/64615.jpg" alt="Dockerizing Podcast Downloader"></a>
         <div class="image-credit">Image source: <a target="_blank" href="https://www.freepik.com/vectors/upload-icon" rel="noopener noreferrer">www.freepik.com</a>
 </div>
@@ -798,227 +934,6 @@ dotnet tool update <span class="nt">--global</span> <span class="nt">--add-sourc
   <li><a href="https://github.com/Dev-Power/blog-code-samples/tree/main/develop-a-cli-with-csharp" target="_blank" rel="noopener noreferrer">Sample code</a></li>
 </ul>
 
-
-      
-  </div>
-<!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-      <div class="entry-image-index">
-        <a href="https://devpower.co.uk/devops/exploring-github-actions/" title="Exploring GitHub Actions"><img src="https://devpower.co.uk/images/posts/2022/05/github-actions/13094.jpg" alt="Exploring GitHub Actions"></a>
-        <div class="image-credit">Image source: <a target="_blank" href="https://www.freepik.com/vectors/repair-man" rel="noopener noreferrer">www.freepik.com</a>
-</div>
-<!-- /.image-credit -->
-
-      </div>
-<!-- /.entry-image -->
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2022-05-23T00:00:00+01:00"><a href="https://devpower.co.uk/devops/exploring-github-actions/">May 23, 2022</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-        Reading time ~3 minutes
-      </span><!-- /.entry-reading-time -->
-      
-    </div>
-<!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="https://devpower.co.uk/devops/exploring-github-actions/" rel="bookmark" title="Exploring GitHub Actions" itemprop="url">Exploring GitHub Actions</a></h1>
-    
-  </header>
-  <div class="entry-content">
-      <p>In a nutsehll, GitHub Actions is GitHub’s automated wokflow solution. It allows developers to run custom build and deployment actions straight in GitHub. This makes sense if you already have your code in GitHub. Even free accounts have 500MB straoge and 2,000 worker minutes allowance. So all you need is a free account to follow along.</p>
-
-<h2 id="basics">Basics</h2>
-<p>GitHub Actions is quite a flexible event driven mechanism. In addition to be able to run jobs on events, you can run on schedule as well.</p>
-
-<p>The units executed by GitHub Actions are called <strong>workflows</strong>. To create a workflow, you can create a file under <strong>.github/workflows</strong> directory inside your GitHub repository.</p>
-
-<p class="panel-note">By default, .github directory is likely to be excluded in the left pane. You can update VS Code settings to remove it from the exclusions list by following this guide: <a href="https://knowitall.pro/posts/how-to-show-hidden-directories-in-visual-studio-code" target="_blank" rel="noopener noreferrer">How to show hidden directories in Visual Studio Code</a>
-</p>
-
-<p>You can view the process mainly as an IFTTT (if this then that) workflow. If some event happens then some list of actions (jobs) are executed. For example, let’s take a look at this very basic workflow:</p>
-
-<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="na">name</span><span class="pi">:</span> <span class="s">Demo</span>
-
-<span class="na">on</span><span class="pi">:</span>
-  <span class="na">push</span><span class="pi">:</span>
-    <span class="na">branches</span><span class="pi">:</span> <span class="pi">[</span> <span class="nv">main</span> <span class="pi">]</span>
-
-<span class="na">jobs</span><span class="pi">:</span>
-  <span class="na">build</span><span class="pi">:</span>
-    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
-    <span class="na">steps</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Run a one-line script</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="s">echo Hello, GitHub Actions!</span></code></pre></figure>
-
-<p>So the process we are defining is</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>When some code is pushed 
-To the main branch
-Create a new virtual machine based on ubuntu-latest template (Currently it's Ubuntu 20.04)
-Execute the following command: echo Hello, GitHub Actions!
-</code></pre></div></div>
-
-<p>And to test the workflow, you can simply create and push a new file:</p>
-
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">touch </span>demo-trigger
-git add demo-trigger
-git commit <span class="nt">-m</span> <span class="s2">"testing demo workflow"</span>
-git push</code></pre></figure>
-
-<p>At this point if you go to your repository’s Actions tab, you should see something like:</p>
-
-<p><img src="/images/posts/2022/05/github-actions/testing-demo-workflow.png" alt=""></p>
-
-<p>And after waiting a few seconds, you should see the job complete. Click on the name and expand the details to see the logs:</p>
-
-<p><img src="/images/posts/2022/05/github-actions/demo-workflow-output.png" alt=""></p>
-
-<p>You can see it prints the statement we put in the workflow YAML file.</p>
-
-<h2 id="lets-do-something-useful-with-it">Let’s Do Something Useful With It!</h2>
-<p>Printing something is useful but most of the time you would to run some build process and deploy the artifacts to somewhere. Let’s move one step further and try something meaningful.</p>
-
-<p>In this walkthrough, we are going to create a CI/CD pipeline that builds a React application and deploys it to another branch called _site where it’s served as a static website using GitHub Pages.</p>
-
-<p>Without further ado, let’s start the walkthrough:</p>
-
-<ol>
-  <li>Create a new branch called _site:</li>
-</ol>
-
-<p><img src="/images/posts/2022/05/github-actions/site-branch.png" alt=""></p>
-
-<ol start="2">
-  <li>Go to repo Settings -&gt; Pages. Select _site as the Source branch and click Save</li>
-</ol>
-
-<p><img src="/images/posts/2022/05/github-actions/set-gh-pages-branch.png" alt=""></p>
-
-<ol start="3">
-  <li>Confirm that your site is ready to be served on gitHub Pages. You should see a notification that looks like this:</li>
-</ol>
-
-<p><img src="/images/posts/2022/05/github-actions/gh-pages-confirmation.png" alt=""></p>
-
-<p>and if you visit the link, it should look like this:</p>
-
-<p><img src="/images/posts/2022/05/github-actions/gh-pages-version-1.png" alt=""></p>
-
-<ol start="4">
-  <li>
-    <p>Clone the repo and checkout main branch</p>
-  </li>
-  <li>
-    <p>Change to the repo path in terminal and create a new React app</p>
-  </li>
-</ol>
-
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">npx create-react-app .</code></pre></figure>
-
-<ol start="6">
-  <li>After the installation has completed, you can test your application by running</li>
-</ol>
-
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">npm start</code></pre></figure>
-
-<p>The output should look something like this:</p>
-
-<p><img src="/images/posts/2022/05/github-actions/npm-start-output.png" alt=""></p>
-
-<p>We are going to use the app as-is with one exception. Open package.json and add the following file:</p>
-
-<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="w">  </span><span class="nl">"homepage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/github-actions-workout/"</span><span class="err">,</span></code></pre></figure>
-
-<p>so that it looks like this:</p>
-
-<p><img src="/images/posts/2022/05/github-actions/package-json-update.png" alt=""></p>
-
-<p>This is necessary for the paths in the built application. Because our application is not in the root level of the subdomain we have to tell React the relative path to adjust the URLs.</p>
-
-<ol start="7">
-  <li>
-    <p>Now, create a new file called <strong>publish-site.yml</strong> under <strong>./github/workflows</strong> directory.</p>
-  </li>
-  <li>
-    <p>Enter the code below as the contents of publish-site.yml file:</p>
-  </li>
-</ol>
-
-<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="na">name</span><span class="pi">:</span> <span class="s">Generate a build and push to another branch</span>
-
-<span class="na">on</span><span class="pi">:</span>
-  <span class="na">push</span><span class="pi">:</span>
-    <span class="na">branches</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">main</span>
-
-<span class="na">jobs</span><span class="pi">:</span>
-  <span class="na">build</span><span class="pi">:</span>
-    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
-    <span class="na">name</span><span class="pi">:</span> <span class="s">Build and push to _site</span>
-    <span class="na">steps</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">git-checkout</span>
-        <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v2</span>
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Install all dependencies</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="s">npm install</span>
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Build</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="s">npm run build</span>
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Push</span>
-        <span class="na">uses</span><span class="pi">:</span> <span class="s">s0/git-publish-subdir-action@develop</span>
-        <span class="na">env</span><span class="pi">:</span>
-          <span class="na">REPO</span><span class="pi">:</span> <span class="s">self</span>
-          <span class="na">BRANCH</span><span class="pi">:</span> <span class="s">_site</span>
-          <span class="na">FOLDER</span><span class="pi">:</span> <span class="s">build</span>
-          <span class="na">GITHUB_TOKEN</span><span class="pi">:</span>  <span class="s">${{ secrets.GITHUB_TOKEN }}</span> </code></pre></figure>
-
-<ol start="9">
-  <li>Commit and push your changes in the main branch</li>
-</ol>
-
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">git add <span class="nb">.</span>
-git add ./.github/workflows/publish-site.yml
-git commit <span class="nt">-m</span> <span class="s2">"testing react CI/CD"</span>
-git push</code></pre></figure>
-
-<ol start="10">
-  <li>Go to Actions tab and you should see the workflow we just pushed:</li>
-</ol>
-
-<p><img src="/images/posts/2022/05/github-actions/react-ci-cd-workflow.png" alt=""></p>
-
-<ol start="11">
-  <li>And after some brief queuing and waiting, you should get the output:</li>
-</ol>
-
-<p><img src="/images/posts/2022/05/github-actions/publish-site-workflow-output.png" alt=""></p>
-
-<ol start="12">
-  <li>Also notice that GitHub’s own Pages feature is also another action. You can see it in action in the same actions list. Just check “pages build and deployment” jobs after you push code</li>
-</ol>
-
-<p><img src="/images/posts/2022/05/github-actions/gh-pages-action.png" alt=""></p>
-
-<ol start="13">
-  <li>After succesful GitHub Pages build, if you visit your page again you should see a new React app runnning</li>
-</ol>
-
-<p><img src="/images/posts/2022/05/github-actions/gh-pages-version-2.png" alt=""></p>
-
-<h2 id="conclusion">Conclusion</h2>
-<p>In this post, we covered the basics of GitHub Actions and created a CI/CD pipeline for a React application only by using GitHub. I hope this post has been helpful to you. If you want move coverage on GitHub actions, please leave a comment below.</p>
-
-<h2 id="resources">Resources</h2>
-<ul>
-  <li><a href="https://github.com/features/actions" target="_blank" rel="noopener noreferrer">GitHub Actions</a></li>
-  <li><a href="https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners" target="_blank" rel="noopener noreferrer">GitHub Hosted Runners</a></li>
-  <li><a href="https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions" target="_blank" rel="noopener noreferrer">GitHub Action Billing</a></li>
-</ul>
 
       
   </div>

@@ -255,6 +255,57 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2021-12-09T00:00:00+00:00"><a href="https://devpower.co.uk/tips_n_tricks/linqpad-dump-extension-dump/">December 09, 2021</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+        Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div>
+<!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="https://devpower.co.uk/tips_n_tricks/linqpad-dump-extension-dump/" rel="bookmark" title="LINQPad Dump Extension Method" itemprop="url">LINQPad Dump Extension Method</a></h1>
+    
+  </header>
+  <div class="entry-content">
+      <p>I like LINQPad for prototyping C# applications and trying out short snippets. In many scenarios I have to see the output of what I’m trying out. I used to treat my snippets as they if they were small console applications and I used to use <em>Console.WriteLine()</em> statements to display the output.</p>
+
+<p>Not anymore! In a tech video on YouTube I saw this option and loved it:</p>
+
+<p>In LINQPad, there’s a generic extension method called <strong>Dump()</strong>. It writes the output to the console. Exactly as Console.WriteLine but in a much more concise way.</p>
+
+<p>For example:</p>
+
+<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">nums</span> <span class="p">=</span> <span class="k">new</span><span class="p">[]</span> <span class="p">{</span> <span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="m">6</span> <span class="p">};</span>
+<span class="kt">var</span> <span class="n">sum</span> <span class="p">=</span> <span class="n">nums</span><span class="p">.</span><span class="nf">Aggregate</span><span class="p">((</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="n">a</span> <span class="p">+</span> <span class="n">b</span><span class="p">);</span>
+<span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="n">sum</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>This displays 21 and it can be shortened with Dump method</p>
+
+<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">nums</span> <span class="p">=</span> <span class="k">new</span><span class="p">[]</span> <span class="p">{</span> <span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="m">6</span> <span class="p">};</span>
+<span class="n">nums</span><span class="p">.</span><span class="nf">Aggregate</span><span class="p">((</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="n">a</span> <span class="p">+</span> <span class="n">b</span><span class="p">).</span><span class="nf">Dump</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>It shows the same result but in a shorter way.</p>
+
+<h2 id="resources">Resources</h2>
+<ul>
+  <li><a href="https://www.linqpad.net/CustomizingDump.aspx" target="_blank" rel="noopener noreferrer">Customizing Dump Output</a></li>
+  <li><a href="https://www.danclarke.com/linqpad-tips-and-tricks" target="_blank" rel="noopener noreferrer">LINQPad Tips and Tricks</a></li>
+</ul>
+
+      
+  </div>
+<!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2021-12-08T00:00:00+00:00"><a href="https://devpower.co.uk/cryptocurrency/monitoring-chia-spacepool/">December 08, 2021</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
       
       <span class="entry-reading-time">

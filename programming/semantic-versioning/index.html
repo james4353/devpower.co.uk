@@ -5,29 +5,31 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title>Developing a custom monitoring tool in C# for SpacePool Chia cryptocurrency farming &#8211; 💪 Dev Power</title>
-<meta name="description" content="This post discusses how to get an API key and develop a C# application to verify your farm is healthy.">
-<meta name="keywords" content="chia, spacepool, monitoring">
+<title>Semantic Versioning &#8211; 💪 Dev Power</title>
+<meta name="description" content="The post covers what semantic versioning is, how it helps the development process and how front-ends should be versioned">
+<meta name="keywords" content="semantic, versioning, changelog">
 
 <!-- Twitter Cards -->
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
+
 <meta name="twitter:site" content="@_dev_power_">
 <meta name="twitter:creator" content="@_dev_power_">
 
 <!-- Open Graph -->
 <meta property="og:locale" content="en_GB">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Developing a custom monitoring tool in C# for SpacePool Chia cryptocurrency farming">
-<meta property="og:description" content="This post discusses how to get an API key and develop a C# application to verify your farm is healthy.">
-<meta property="og:url" content="https://devpower.co.uk/cryptocurrency/monitoring-chia-spacepool/">
+<meta property="og:title" content="Semantic Versioning">
+<meta property="og:description" content="The post covers what semantic versioning is, how it helps the development process and how front-ends should be versioned">
+<meta property="og:url" content="https://devpower.co.uk/programming/semantic-versioning/">
 <meta property="og:site_name" content="💪 Dev Power">
-<meta property="og:image" content="https://devpower.co.uk/images/">
+<meta property="og:image" content="https://devpower.co.uk/images/posts/2022/05/semantic-versioning/4011825.jpg">
 
 
 
 
 
-<link rel="canonical" href="https://devpower.co.uk/cryptocurrency/monitoring-chia-spacepool/">
+
+<link rel="canonical" href="https://devpower.co.uk/programming/semantic-versioning/">
 <link href="https://devpower.co.uk/feed.xml" type="application/atom+xml" rel="alternate" title="💪 Dev Power Feed">
 
 <!-- http://t.co/dKP3o1e -->
@@ -71,7 +73,7 @@
  -->
 </head>
 
-<body id="post" >
+<body id="post" class="feature">
 
 <!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
 
@@ -160,17 +162,17 @@
 <div class="entry-header">
   <div class="header-title">
     <div class="header-title-wrap">
-      <h1>Developing a custom monitoring tool in C# for SpacePool Chia cryptocurrency farming</h1>
+      <h1>Semantic Versioning</h1>
       <h3></h3>
       
-        <h2><span class="entry-date date published updated"><time datetime="2021-12-08T00:00:00+00:00">December 08, 2021</time></span></h2>
+        <h2><span class="entry-date date published updated"><time datetime="2022-05-31T00:00:00+01:00">May 31, 2022</time></span></h2>
       
 
       
         <p class="entry-reading-time">
           <i class="fa fa-clock-o"></i>
           
-          Reading time ~2 minutes
+          Reading time ~4 minutes
         </p>
 <!-- /.entry-reading-time -->
       
@@ -255,102 +257,126 @@
   <article class="hentry">
     <div class="entry-content">
         
-      <h1 class="post-title entry-title">Developing a custom monitoring tool in C# for SpacePool Chia cryptocurrency farming</h1>
-      <p>If you are one of the crypto early adopters, the chances are that you’ve heard about a new cryptocurrency called <a href="https://chia.net" target="_blank" rel="noopener noreferrer">Chia</a>. In this post, we will develop a simple monitoring tool to send alerts if Chia farming stops. We are going to use SpacePool’s Developer API to achieve this.</p>
+            <div class="entry-image-index">
+              <img src="https://devpower.co.uk/images/posts/2022/05/semantic-versioning/4011825.jpg" alt="Semantic Versioning">
+              <div class="image-credit">Image source: <a target="_blank" href="https://www.freepik.com/vectors/software-update" rel="noopener noreferrer">www.freepik.com</a>
+</div>
+<!-- /.image-credit -->
+            </div>
+        
+      <h1 class="post-title entry-title">Semantic Versioning</h1>
+      <p>Versioning is an important and one of the rather tricky aspects of software development. Simply put, versioning is assigning a unique number that identifies a specific package or release. In this post, we are going to look into a popular versioning method called Semantic Versioning.</p>
 
-<h2 id="getting-started">Getting Started</h2>
-<p>The best resource to get started is SpacePool’s own <a href="https://blog.pool.space/how-to-get-started-with-space-pool-developer-apis-915b153b2c40" target="_blank" rel="noopener noreferrer">blog post</a></p>
+<h2 id="what-is-semantic-versioning">What is Semantic Versioning?</h2>
+<p>Semantic Versioning, is a popular versioning scheme that mainly uses a three-part version number. The version number is in the following format (there are pre-release versions as well which we will look into in detail later):</p>
 
-<p>First of all, we will need an API key and as of this writing, obtaining a key is a manual process. You have to explain your use case in their Discord server by answering a list of fixed questions (listed in the blog post), and you’ll get a private message with your key.</p>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">MAJOR.MINOR.PATCH</code></pre></figure>
 
-<h3 id="testing-the-key">Testing the key</h3>
-<p>The easiest way to test your setup is to visit the <a href="https://developer.pool.space/" target="_blank" rel="noopener noreferrer">API reference</a></p>
+<p>For example, if the version number is 2.3.54, the individual parts would mean:</p>
 
-<p>Enter your launcher id, API key and some value for User-Agent. Then, when you click the Try It Out button, you should be able to see some results as shown in the screenshot below:</p>
+<ul>
+  <li>2: Major version</li>
+  <li>3: Minor version</li>
+  <li>54: Patch version</li>
+</ul>
 
-<p><img src="/images/post-images/2021/12/spacepool/api-reference-page.png" alt=""></p>
+<p>The rule of thumb when it comes to incrementing these numbers is:</p>
 
-<h2 id="developing-a-custom-application">Developing a custom application</h2>
+<h3 id="major-version">Major version</h3>
+<p>Major version number is incremented when you make incompatible changes.</p>
 
-<p>It’s a REST API with OpenAPI specs at https://developer.pool.space/api/v1/docs/openapi.json. I used this to generate my C# client:</p>
+<p>Examples:</p>
 
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">docker</span><span class="w"> </span><span class="nx">run</span><span class="w"> </span><span class="nt">--rm</span><span class="w"> </span><span class="nt">-v</span><span class="w"> </span><span class="s2">"</span><span class="nv">${PWD}</span><span class="s2">:/local"</span><span class="w"> </span><span class="nx">openapitools/openapi-generator-cli</span><span class="w"> </span><span class="nx">generate</span><span class="w"> </span><span class="se">`
-</span><span class="w">    </span><span class="nt">-i</span><span class="w"> </span><span class="nx">https://developer.pool.space/api/v1/docs/openapi.json</span><span class="w"> </span><span class="se">`
-</span><span class="w">    </span><span class="nt">-g</span><span class="w"> </span><span class="nx">csharp-netcore</span><span class="w"> </span><span class="se">`
-</span><span class="w">    </span><span class="nt">-o</span><span class="w"> </span><span class="nx">/local/csharp-netcore</span><span class="w">
-</span></code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>You removed an entire public class from a NuGet package
 
-<p>The generated project has the API clients for the endpoints:</p>
-
-<p><img src="/images/post-images/2021/12/spacepool/auto-generated-api-client.png" alt=""></p>
-
-<p>For monitoring purposes, we are interested in the GetFarmPartialsV1Api endpoint.</p>
-
-<p>Here’s my simple console application that calls the endpoint and checks if the latest verified submission happened within an expected timeframe:</p>
-
-<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">const</span> <span class="kt">string</span> <span class="n">launcherId</span> <span class="p">=</span> <span class="s">"{launcher id}"</span><span class="p">;</span>
-<span class="k">const</span> <span class="kt">string</span> <span class="n">apiKey</span> <span class="p">=</span> <span class="s">"{api key}"</span><span class="p">;</span>
-<span class="k">const</span> <span class="kt">string</span> <span class="n">userAgent</span> <span class="p">=</span> <span class="s">"{custom user agent}"</span><span class="p">;</span>
-
-<span class="kt">var</span> <span class="n">apiClient</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">GetFarmPartialsV1Api</span><span class="p">();</span>
-<span class="kt">var</span> <span class="n">response</span> <span class="p">=</span> <span class="k">await</span> <span class="n">apiClient</span><span class="p">.</span><span class="nf">ApiV1FarmsLauncherIdOrAliasPartialsGetAsync</span><span class="p">(</span><span class="n">launcherId</span><span class="p">,</span> <span class="n">apiKey</span><span class="p">,</span> <span class="n">userAgent</span><span class="p">);</span>
-
-<span class="kt">var</span> <span class="n">latestSuccessfulSubmission</span> <span class="p">=</span> <span class="n">response</span><span class="p">.</span><span class="n">Results</span>
-    <span class="p">.</span><span class="nf">OrderByDescending</span><span class="p">(</span><span class="n">r</span> <span class="p">=&gt;</span> <span class="n">r</span><span class="p">.</span><span class="n">SubmissionDateTimeUtc</span><span class="p">)</span>
-    <span class="p">.</span><span class="nf">FirstOrDefault</span><span class="p">(</span><span class="n">r</span> <span class="p">=&gt;</span> <span class="n">r</span><span class="p">.</span><span class="n">State</span><span class="p">.</span><span class="n">Description</span> <span class="p">==</span> <span class="s">"Verified"</span><span class="p">);</span>
-
-<span class="k">if</span> <span class="p">(</span><span class="n">latestSuccessfulSubmission</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">"No verified partials"</span><span class="p">);</span>
-    <span class="c1">// Send an alert somewhere </span>
-    <span class="k">return</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kt">var</span> <span class="n">timeElapsedSinceLastVerifiedPartial</span> <span class="p">=</span>
-    <span class="n">DateTime</span><span class="p">.</span><span class="n">UtcNow</span> <span class="p">-</span> <span class="n">DateTime</span><span class="p">.</span><span class="nf">Parse</span><span class="p">(</span><span class="n">latestSuccessfulSubmission</span><span class="p">.</span><span class="n">SubmissionDateTimeUtc</span><span class="p">);</span>
-
-<span class="kt">var</span> <span class="n">interval</span> <span class="p">=</span> <span class="m">10</span><span class="p">;</span>
-<span class="k">if</span> <span class="p">(</span><span class="n">timeElapsedSinceLastVerifiedPartial</span><span class="p">.</span><span class="n">TotalMinutes</span> <span class="p">&gt;=</span> <span class="n">interval</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">$"No verified partials in the last </span><span class="p">{</span><span class="n">interval</span><span class="p">}</span><span class="s"> minutes"</span><span class="p">);</span>
-    <span class="c1">// Send an alert somewhere </span>
-<span class="p">}</span>
-<span class="k">else</span>
-<span class="p">{</span>
-    <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">$"Last verified partial received </span><span class="p">{</span><span class="n">Math</span><span class="p">.</span><span class="nf">Floor</span><span class="p">(</span><span class="n">timeElapsedSinceLastVerifiedPartial</span><span class="p">.</span><span class="n">TotalMinutes</span><span class="p">)}</span><span class="s"> minutes ago. All looking good."</span><span class="p">);</span>
-<span class="p">}</span>
+You changed the parameters that API endpoint accepts
 </code></pre></div></div>
 
-<p>and after we run the application, we can see it checks the results:</p>
+<h3 id="minor-version">Minor version</h3>
+<p>Minor version is incremented when you add new functionality in a backwards compatible manner.</p>
 
-<p><img src="/images/post-images/2021/12/spacepool/test-result.png" alt=""></p>
+<p>Examples:</p>
 
-<h1 id="conclusion">Conclusion</h1>
-<p>In this post, we looked into generating API clients automatically from an OpenAPI spec. Then used the client to talk to the SpacePool API and get some information about our Chia farm.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>You add a new endpoint to a public API
 
-<p>I left out sending the actual alerts as they are open-ended, and anyone can customize them to fit their system. In the future, I might post a complete Dockerized solution so that the deployment can be as simple as running a container and providing it with the launcher id and API key.</p>
+You add a new parameter to a method with a default value so that old consumers can still call the method without breaking 
+</code></pre></div></div>
 
-<p>Let me know if this is of any interest to you to prioritize it over other content.</p>
+<h3 id="patch-version">Patch version</h3>
+<p>Patch version is incremented when make backwards compatible fixes.</p>
 
-<p>Happy farming!</p>
+<p>Examples:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>You fixed a bug without making backwards incompatible changes
+</code></pre></div></div>
+
+<h2 id="pre-releases">Pre-releases</h2>
+<p>In addition to the major, minor and patch versions we may want to use pre-release versions. This would indicate that the product is not finalized. Examples of pre-release version:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">2.0.0-alpha
+2.0.0-alpha.1
+2.0.0-beta
+2.0.0-beta.1
+2.0.0-beta.2
+2.0.0-rc.1</code></pre></figure>
+
+<p>All the examples above are pre-release versions and they are ordered from lowest precedence to the highest one.</p>
+
+<p class="panel-note">Please note semantic versioning has no knowledge of the words “alpha”, “beta” or “rc”. The comparison is purely done by alphabetical order for non-numeric versions.</p>
+
+<h2 id="build-metadata">Build metadata</h2>
+<p>In addition to all the release and pre-release versions, we can also use extra metadata by using plus sign (+) as a separator. This part is not used in precedence calculations and has informational purposes only. The metadata that follows the plus sign can be a series of dot-separated identifier list.</p>
+
+<p>For example, a version number with build metadata could look like this:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">2.1.5+20220531 // Append the <span class="nb">date </span>of the release
+1.8-beta+sha.a4b5d6 // Append a <span class="nb">hash </span>value of the package</code></pre></figure>
+
+<h2 id="refactoring">Refactoring</h2>
+<p>How about refactoring? It’s not a major breaking change and you don’t add new functionality. Also it doesn’t count as bugfixes. It might help preventing bugs from being introduced in the future but it doesn’t stricly count as fixing anything.</p>
+
+<p>We can find the answer in the Semantic Versioning specs:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Patch version Z (x.y.Z | x &gt; 0) MUST be incremented if only backwards compatible bug fixes are introduced. A bug fix is defined as an internal change that fixes incorrect behavior.
+</code></pre></div></div>
+
+<p>So if you change the code for whatever reason, you must at least increment the patch version so that you maintain uniqueness of the package/release.</p>
+
+<h2 id="front-end-versioning">Front-end Versioning</h2>
+<p>A common question and debated issue is how to version front-ends. The Semantic Versioning specs is all about “API changes”. API in this context can refer to a HTTP API or a package (NuGet, npm, Maven etc).</p>
+
+<p>Front-ends are consumed by end-users and they are not consumed by other software.</p>
+
+<p class="panel-note">By saying not consumed by other software, I’m not counting the webscrapers. When you develop a front-end page you don’t make a contract with an external tool whose goal is to scrape data from your page. Most likely, it happens without your consent. Therefore, if you make a change in your markup that breaks webscrapers it doesn’t constitute breaking change in an API</p>
+
+<p>Defining a “breaking change” in a front-end is not easy. If you move a functionality to another page, it might be seen as breaking change as some users might fail to find the new location of the functionality. Does this mean that you should increment the major version? If you did, what would that mean to the end-users? They still need to use the application/website just like they did before. I think when interacting with actual human users, version numbers don’t mean much.</p>
+
+<h3 id="users-dont-care-about-your-versions">Users don’t care about your versions</h3>
+<p>The only exception I can think of is a complete overhaul of the project. If everything changes so drastically, you may choose to refer to it as version 2.0 of your application.</p>
+
+<p>Other than that, I’d argue the best way to handle changes in a user-facing application is leveraging <strong>changelogs</strong>.</p>
+
+<p>When a user logs in, you can display them a nice little pop-up and briefly explain the key things that changed. Some more complicated changes might need some interactive walkthroughs etc. The main point is, a user doesn’t want to or need to know that you deployed 2.10.24 version of your application. Just show them how it effects their experience and leave the technical details out.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>Semantic Versioning is a very popular versioning scheme as it’s simple and quite flexible. There are some aspects that are debatable whether or not it should be used such as front-end versioning but this doesn’t mean that it does a good job most of the time. We also discussed how to handle versioning in user-facing applications.</p>
+
+<p>I hope you found this post useful. Please let me know what you think in the comments below.</p>
 
 <h2 id="resources">Resources</h2>
 <ul>
-  <li><a href="https://pool.space" target="_blank" rel="noopener noreferrer">SpacePool official website</a></li>
-  <li><a href="https://developer.pool.space/" target="_blank" rel="noopener noreferrer">SpacePool API reference</a></li>
-  <li><a href="https://blog.pool.space/how-to-get-started-with-space-pool-developer-apis-915b153b2c40" target="_blank" rel="noopener noreferrer">SpacePool blog post on getting started with the API</a></li>
-  <li><a href="https://chia.net" target="_blank" rel="noopener noreferrer">Chia official website</a></li>
+  <li><a href="https://semver.org" target="_blank" rel="noopener noreferrer">Semantic Versioning</a></li>
 </ul>
 
       <footer class="entry-meta">
-        <span class="entry-tags"><a href="https://devpower.co.uk/tags#chia" title="Pages tagged chia" class="tag"><span class="term">chia</span></a><a href="https://devpower.co.uk/tags#spacepool" title="Pages tagged spacepool" class="tag"><span class="term">spacepool</span></a><a href="https://devpower.co.uk/tags#monitoring" title="Pages tagged monitoring" class="tag"><span class="term">monitoring</span></a></span>
+        <span class="entry-tags"><a href="https://devpower.co.uk/tags#semantic" title="Pages tagged semantic" class="tag"><span class="term">semantic</span></a><a href="https://devpower.co.uk/tags#versioning" title="Pages tagged versioning" class="tag"><span class="term">versioning</span></a><a href="https://devpower.co.uk/tags#changelog" title="Pages tagged changelog" class="tag"><span class="term">changelog</span></a></span>
         
         <span class="author vcard"><span class="fn">Volkan Paksoy</span></span>
         <div class="social-share">
   <ul class="socialcount socialcount-small inline-list">
-    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://devpower.co.uk/cryptocurrency/monitoring-chia-spacepool/" title="Share on Facebook" target="_blank" rel="noopener noreferrer"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
-    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://devpower.co.uk/cryptocurrency/monitoring-chia-spacepool/" title="Share on Twitter" target="_blank" rel="noopener noreferrer"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
-    <!-- <li class="googleplus"><a href="https://plus.google.com/share?url=https://devpower.co.uk/cryptocurrency/monitoring-chia-spacepool/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li> -->
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://devpower.co.uk/programming/semantic-versioning/" title="Share on Facebook" target="_blank" rel="noopener noreferrer"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://devpower.co.uk/programming/semantic-versioning/" title="Share on Twitter" target="_blank" rel="noopener noreferrer"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <!-- <li class="googleplus"><a href="https://plus.google.com/share?url=https://devpower.co.uk/programming/semantic-versioning/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li> -->
   </ul>
 </div>
 <!-- /.social-share -->
@@ -394,26 +420,26 @@
     <div class="read-more">
   
     <div class="read-more-header">
-      <a href="https://devpower.co.uk/docker/blogging-with-Jekyll-and-Docker/" class="read-more-btn">Read More</a>
+      <a href="https://devpower.co.uk/tools/dockerizing-podcast-downloader/" class="read-more-btn">Read More</a>
     </div>
 <!-- /.read-more-header -->
     <div class="read-more-content">
-      <h3><a href="https://devpower.co.uk/programming/semantic-versioning/" title="Semantic Versioning">Semantic Versioning</a></h3>
-      <p>The post covers what semantic versioning is, how it helps the development process and how front-ends should be versioned <a href="https://devpower.co.uk/programming/semantic-versioning/">Continue reading</a></p>
+      <h3><a href="https://devpower.co.uk/tools/dockerizing-podcast-downloader/" title="Dockerizing Podcast Downloader">Dockerizing Podcast Downloader</a></h3>
+      <p>In this post we are Dockerizing our weekend project that downloads podcasts from an RSS feed <a href="https://devpower.co.uk/tools/dockerizing-podcast-downloader/">Continue reading</a></p>
     </div>
 <!-- /.read-more-content -->
   
   <div class="read-more-list">
     
       <div class="list-item">
-        <h4><a href="https://devpower.co.uk/tools/dockerizing-podcast-downloader/" title="Dockerizing Podcast Downloader">Dockerizing Podcast Downloader</a></h4>
-        <span>Published on May 28, 2022</span>
+        <h4><a href="https://devpower.co.uk/javascript/exploring-chartjs-with-star-wars-data/" title="Exploring Chart.js with Star Wars data">Exploring Chart.js with Star Wars data</a></h4>
+        <span>Published on May 27, 2022</span>
       </div>
 <!-- /.list-item -->
     
       <div class="list-item">
-        <h4><a href="https://devpower.co.uk/javascript/exploring-chartjs-with-star-wars-data/" title="Exploring Chart.js with Star Wars data">Exploring Chart.js with Star Wars data</a></h4>
-        <span>Published on May 27, 2022</span>
+        <h4><a href="https://devpower.co.uk/cryptocurrency/solana-epoch-monitor/" title="Solana Epoch Monitor">Solana Epoch Monitor</a></h4>
+        <span>Published on May 25, 2022</span>
       </div>
 <!-- /.list-item -->
     
