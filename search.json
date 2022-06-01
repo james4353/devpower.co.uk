@@ -1,6 +1,14 @@
 [
   
     {
+      "title"    : "Programmatically Manage Excel Spreadsheets with .NET",
+      "category" : "",
+      "tags"     : "spreadsheet, excel, office, openxml, closedxml",
+      "url"      : "https://devpower.co.uk/dotnet/csharp/programmatically-manage-excel-spreadsheets-with-dotnet/",
+      "date"     : "2022-06-01 00:00:00 +0100"
+    } ,
+  
+    {
       "title"    : "Semantic Versioning",
       "category" : "",
       "tags"     : "semantic, versioning, changelog",

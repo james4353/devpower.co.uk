@@ -255,6 +255,228 @@
   <header>
     
       <div class="entry-image-index">
+        <a href="https://devpower.co.uk/dotnet/csharp/develop-a-cli-with-csharp/" title="Develop your own CLI with C#"><img src="https://devpower.co.uk/images/posts/2022/05/dotnet-cli/bash-148836.png" alt="Develop your own CLI with C#"></a>
+        
+
+      </div>
+<!-- /.entry-image -->
+    
+    <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2022-05-24T00:00:00+01:00"><a href="https://devpower.co.uk/dotnet/csharp/develop-a-cli-with-csharp/">May 24, 2022</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+        Reading time ~3 minutes
+      </span><!-- /.entry-reading-time -->
+      
+    </div>
+<!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="https://devpower.co.uk/dotnet/csharp/develop-a-cli-with-csharp/" rel="bookmark" title="Develop your own CLI with C#" itemprop="url">Develop your own CLI with C#</a></h1>
+    
+  </header>
+  <div class="entry-content">
+      <p>Command Line Interfaces (CLI) are invaluable tools for a developer. We use them everyday for interacting with AWS, Docker, GitHub, dotnet etc. We can develop scripts based on CLI commands to carry out complex tasks. In this post, we are going to develop a CLI for ourselves. Let’s get started!</p>
+
+<h2 id="getting-started">Getting Started</h2>
+<p>We are going to use two things:</p>
+
+<ul>
+  <li>dotnet tool command</li>
+  <li>a very handy NuGet package called <a href="https://github.com/Tyrrrz/CliFx" target="_blank" rel="noopener noreferrer">CliFx</a>
+</li>
+</ul>
+
+<h2 id="dotnet-tool">dotnet tool</h2>
+<p>The simplest way to describe a dotnet tool is that it’s a <strong>console application</strong> distributed as a NuGet package.</p>
+
+<p>Normally, when you go to a NuGet source site as <a href="https://nuget.org" target="_blank" rel="noopener noreferrer">Nuget.org</a>, you deal with <strong>class libraries</strong>. You download the class library and consume it in your application.</p>
+
+<p>Similarly, you can publish your console application as a dotnet tool in NuGet pacakge format. This allows to install applications by simply using dotnet CLI such as:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">dotnet tool <span class="nb">install</span> <span class="nt">--global</span> <span class="nt">--add-source</span> <span class="o">{</span>PACKAGE PATH<span class="o">}</span> <span class="o">{</span>PACKAGE NAME<span class="o">}</span></code></pre></figure>
+
+<p>To achieve that all we have to do is create a new console application and modify csproj file by adding the following lines:</p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;PackAsTool&gt;</span>true<span class="nt">&lt;/PackAsTool&gt;</span>
+<span class="nt">&lt;ToolCommandName&gt;</span>{ COMMAND NAME }<span class="nt">&lt;/ToolCommandName&gt;</span>
+<span class="nt">&lt;PackageOutputPath&gt;</span>./nupkg<span class="nt">&lt;/PackageOutputPath&gt;</span></code></pre></figure>
+
+<p>Now let’s have a walkthrough and see it in action:</p>
+
+<ol>
+  <li>Create a console application using dotnet CLI:</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">dotnet new console</code></pre></figure>
+
+<ol start="2">
+  <li>Edit the csproj file. In this example, I’m going to use JetBrains Rider IDE to edit but you can use any IDE/text editor you want:</li>
+</ol>
+
+<p><img src="/images/posts/2022/05/dotnet-cli/edit-csproj.png" alt="Edit csproj"></p>
+
+<ol start="3">
+  <li>Add the following lines inside PropertyGroup element so that it looks something like this:</li>
+</ol>
+
+<p><img src="/images/posts/2022/05/dotnet-cli/add-xml-elements.png" alt="Add XML elements"></p>
+
+<ol start="4">
+  <li>Run the following command to create the nuget package</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">dotnet pack</code></pre></figure>
+
+<p><img src="/images/posts/2022/05/dotnet-cli/dotnet-pack-output.png" alt="Add XML elements"></p>
+
+<ol start="5">
+  <li>Install it globally on your computer by running the following command</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">dotnet tool <span class="nb">install</span> <span class="nt">--global</span> <span class="nt">--add-source</span> ./nupkg develop-a-cli-with-csharp</code></pre></figure>
+
+<p class="panel-note">Please note the last argument is the name of the root namespace, not the name of the CLI we are creating</p>
+
+<ol start="6">
+  <li>Now we you can test the tool simply by running the name of the tool in the terminal:</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">mycli</code></pre></figure>
+
+<p>and the output should look like this:</p>
+
+<p><img src="/images/posts/2022/05/dotnet-cli/tool-output.png" alt="Terminal output"></p>
+
+<p>Great! We have our tool installed nicely on the computer. We can run it anywhere in the terminal (regardless of the path we are in). But there is more to a CLI then simply executing a console application. The most important of a CLI is to have commands and subcommands. For example, when we use the dotnet CLI we entered the following command:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">dotnet tool <span class="nb">install</span> <span class="nt">--global</span> <span class="nt">--add-source</span> ./nupkg develop-a-cli-with-csharp</code></pre></figure>
+
+<p>In this example,</p>
+
+<ul>
+  <li>dotnet is the name of the CLI</li>
+  <li>tool is the command</li>
+  <li>install is the subcommand</li>
+  <li>The rest are arguments passed to the subcommand</li>
+</ul>
+
+<p>Currently, we don’t have any mechanism to understand commands, subcommands and arguments. This is where CliFx comes in.</p>
+
+<h2 id="clifx">CliFx</h2>
+<p>CliFx is a simple to use NuGet package that adds the full capabilities of a CLI to our console application.</p>
+
+<ol>
+  <li>Let’s start with installing the package:</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">dotnet add package CliFx</code></pre></figure>
+
+<p>You should be able too see the package after running the command above:</p>
+
+<p><img src="/images/posts/2022/05/dotnet-cli/package-install-output.png" alt="Package installation output"></p>
+
+<ol start="2">
+  <li>Replace the Main method with the following code:</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="k">using</span> <span class="nn">CliFx</span><span class="p">;</span>
+
+<span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">Program</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="nf">Main</span><span class="p">()</span> <span class="p">=&gt;</span>
+        <span class="k">await</span> <span class="k">new</span> <span class="nf">CliApplicationBuilder</span><span class="p">()</span>
+            <span class="p">.</span><span class="nf">AddCommandsFromThisAssembly</span><span class="p">()</span>
+            <span class="p">.</span><span class="nf">SetExecutableName</span><span class="p">(</span><span class="s">"mycli"</span><span class="p">)</span>
+            <span class="p">.</span><span class="nf">SetTitle</span><span class="p">(</span><span class="s">"My CLI"</span><span class="p">)</span>
+            <span class="p">.</span><span class="nf">SetDescription</span><span class="p">(</span><span class="s">"A useful CLI tool to demo"</span><span class="p">)</span>
+            <span class="p">.</span><span class="nf">Build</span><span class="p">()</span>
+            <span class="p">.</span><span class="nf">RunAsync</span><span class="p">();</span>
+<span class="p">}</span></code></pre></figure>
+
+<ol start="3">
+  <li>Now, let’s create our commands by creating two new classes named HelloCommand and WorldCommand. They should look like below:</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="p">[</span><span class="nf">Command</span><span class="p">(</span><span class="s">"hello"</span><span class="p">)]</span>
+<span class="k">public</span> <span class="k">class</span> <span class="nc">HelloCommand</span> <span class="p">:</span> <span class="n">ICommand</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="n">ValueTask</span> <span class="nf">ExecuteAsync</span><span class="p">(</span><span class="n">IConsole</span> <span class="n">console</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">console</span><span class="p">.</span><span class="n">Output</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">"Hello"</span><span class="p">);</span>
+        <span class="k">return</span> <span class="k">default</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="p">[</span><span class="nf">Command</span><span class="p">(</span><span class="s">"hello world"</span><span class="p">)]</span>
+<span class="k">public</span> <span class="k">class</span> <span class="nc">WorldCommand</span> <span class="p">:</span> <span class="n">ICommand</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="n">ValueTask</span> <span class="nf">ExecuteAsync</span><span class="p">(</span><span class="n">IConsole</span> <span class="n">console</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">console</span><span class="p">.</span><span class="n">Output</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">"Hello, World!"</span><span class="p">);</span>
+        <span class="k">return</span> <span class="k">default</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<ol start="4">
+  <li>Now run the application in the terminal without any parameters, you should get a nice help output:</li>
+</ol>
+
+<p><img src="/images/posts/2022/05/dotnet-cli/clifx-help-output.png" alt="CliFx help output"></p>
+
+<ol start="5">
+  <li>Test the command and subcommand by running the following commands:</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">dotnet run <span class="nt">--</span> hello
+dotnet run <span class="nt">--</span> hello world</code></pre></figure>
+
+<p>The output should look like this:</p>
+
+<p><img src="/images/posts/2022/05/dotnet-cli/clifx-command-output.png" alt="CliFx command output"></p>
+
+<p>Notice that by running “hello” command we are executing ExecuteAsync method in HelloCommand class. WorldCommand is a subcommand of hello command so we can execute a different method by running “hello world”.</p>
+
+<p>At this point, our installed tool is not affected by these changes. So we have to pack and update our tool now by running the following commands:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">dotnet pack
+dotnet tool update <span class="nt">--global</span> <span class="nt">--add-source</span> ./nupkg develop-a-cli-with-csharp</code></pre></figure>
+
+<p>You can confirm the tool is updated by looking for an output like this:</p>
+
+<p><img src="/images/posts/2022/05/dotnet-cli/dotnet-tool-update-output.png" alt="dotnet tool update output"></p>
+
+<ol start="6">
+  <li>Finally, open another terminal window type the CLI name</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">mycli</code></pre></figure>
+
+<p>and you should see the new help output listing the available commands in the CLI:</p>
+
+<p><img src="/images/posts/2022/05/dotnet-cli/clifx-final-output.png" alt="CliFx final output"></p>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>CLIs are very useful tools for developers. In this post, we looked into creating a CLI that’s capable of creating commands, subcommands. It can be also be installed as a dotnet tool and can be distributed as a NuGet package.</p>
+
+<h2 id="resources">Resources</h2>
+<ul>
+  <li><a href="https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-tool-install" target="_blank" rel="noopener noreferrer">dotnet tool documentation</a></li>
+  <li><a href="https://github.com/Tyrrrz/CliFx" target="_blank" rel="noopener noreferrer">CliFx GitHub repo</a></li>
+  <li><a href="https://github.com/Dev-Power/blog-code-samples/tree/main/develop-a-cli-with-csharp" target="_blank" rel="noopener noreferrer">Sample code</a></li>
+</ul>
+
+
+      
+  </div>
+<!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+      <div class="entry-image-index">
         <a href="https://devpower.co.uk/devops/exploring-github-actions/" title="Exploring GitHub Actions"><img src="https://devpower.co.uk/images/posts/2022/05/github-actions/13094.jpg" alt="Exploring GitHub Actions"></a>
         <div class="image-credit">Image source: <a target="_blank" href="https://www.freepik.com/vectors/repair-man" rel="noopener noreferrer">www.freepik.com</a>
 </div>
@@ -860,135 +1082,6 @@ git push</code></pre></figure>
 
 <h2 id="resources">Resources</h2>
 <ul>
-  <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/types/anonymous-types" target="_blank" rel="noopener noreferrer">Anonymous Types</a></li>
-</ul>
-
-      
-  </div>
-<!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2022-04-18T00:00:00+01:00"><a href="https://devpower.co.uk/csharp/programming/using-var-keyword-in-csharp/">April 18, 2022</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-        Reading time ~3 minutes
-      </span><!-- /.entry-reading-time -->
-      
-    </div>
-<!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="https://devpower.co.uk/csharp/programming/using-var-keyword-in-csharp/" rel="bookmark" title="Using var keyword in C#" itemprop="url">Using var keyword in C#</a></h1>
-    
-  </header>
-  <div class="entry-content">
-      <p>The var keyword in C# gives the programmer freedom to declare variables with implicit type using the <strong>var</strong> keyword. However, when to use it is a highly debated subject in the C# community. In this post, we will look at the origins of the var keyword and our conclusion on when to use it.</p>
-
-<h2 id="origins">Origins</h2>
-<p>The var keyword was introduced in C# 3.0, and it allows declaring “implicit” variable declarations. The variables declared with the var keyword are still strongly typed. The difference is that you don’t need to declare it yourself; the compiler determines the type.</p>
-
-<p>For example, the following code would not compile:</p>
-
-<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">i</span> <span class="p">=</span> <span class="m">10</span><span class="p">;</span>
-<span class="n">i</span> <span class="p">=</span> <span class="s">"x"</span><span class="p">;</span>
-</code></pre></div></div>
-
-<p>When i is declared, the type is determined to be an integer, so the string assignment fails with the following error:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Compilation error (line 7, col 7): Cannot implicitly convert type 'string' to 'int'
-</code></pre></div></div>
-
-<p>For the same reason, as you can imagine, you cannot just declare a variable with var type such as:</p>
-
-<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">i</span><span class="p">;</span>
-</code></pre></div></div>
-
-<p>which would fail with the following error:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Implicitly-typed local variables must be initialized
-</code></pre></div></div>
-
-<h2 id="usage">Usage</h2>
-<p>Var keyword mainly has two usages:</p>
-
-<ol>
-  <li>Declare anonymous types</li>
-  <li>Not repeat type name in a variable declaration and object instantiation</li>
-</ol>
-
-<p>The first usage is non-debatable, meaning that if you declare anonymous types, var is your only option. Below is an example of using the var keyword to declare an anonymous type:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var person = new {Id = 1, Name = "Jack", Age = 25 }
-</code></pre></div></div>
-
-<p>Another use case is a query expression where you select a new type.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var somePeople = from person in people
-                 where person.Age &gt; 20
-                 select new { person.Id, person.Name }
-</code></pre></div></div>
-
-<p>In the second example, we create a new type on the fly rather than returning an existing one, so we must use the var keyword.</p>
-
-<h2 id="the-debate">The debate</h2>
-<p>The debate around when to use var revolves around the second usage, as the first one is mandatory if you need anonymous types. The question is should we use it as a shortcut and skip type declarations? Does that make the code easier or harder to read?</p>
-
-<p>For example, consider a complex variable declaration as shown below:</p>
-
-<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;&gt;&gt;</span> <span class="n">items</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;&gt;&gt;();</span>
-</code></pre></div></div>
-
-<p>We can declare the same variable with the var keyword:</p>
-
-<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">items</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;&gt;&gt;();</span>
-</code></pre></div></div>
-
-<p>In my opinion, the second option is a lot clearer and makes the code easier to read.</p>
-
-<p class="panel-note top-padding">Try to avoid duplication whenever possible.</p>
-
-<p>Now let’s take a look at another example:</p>
-
-<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">userService</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">UserService</span><span class="p">();</span>
-<span class="kt">var</span> <span class="n">user</span> <span class="p">=</span> <span class="n">userService</span><span class="p">.</span><span class="nf">GetUser</span><span class="p">(</span><span class="m">1</span><span class="p">);</span>
-</code></pre></div></div>
-
-<p>What is the type of “user”? Without the help of the IDE we are using, there is no way to know for sure just by looking at the code above. It can be a User class; it can be an IUser interface or a subclass of User. At this point, we don’t know.</p>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p>Here’s my rule of thumb on when to use var:</p>
-
-<p class="panel-note">If the type of the variable is clear in the initialization of the variable, it’s ok to use var</p>
-
-<p>For example, to review the above example, I’d go with explicit usage:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var userService = new UserService();
-User user = userService.GetUser(1);
-</code></pre></div></div>
-
-<p>But if I were declaring the variable with a new keyword, I’d go with var:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var user = new User();
-</code></pre></div></div>
-
-<p>The benefit of this is approach is especially obvious with complex types like the dictionary shown above:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var items = new Dictionary&lt;string, Dictionary&lt;string, List&lt;string&gt;&gt;&gt;();
-</code></pre></div></div>
-
-<p>In this case, duplicating the type name doesn’t add more clarity.</p>
-
-<p>I hope this article helps you decide when to use the var keyword in C#.</p>
-
-<h2 id="resources">Resources</h2>
-<ul>
-  <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/var" target="_blank" rel="noopener noreferrer">var (C# reference)</a></li>
   <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/types/anonymous-types" target="_blank" rel="noopener noreferrer">Anonymous Types</a></li>
 </ul>
 

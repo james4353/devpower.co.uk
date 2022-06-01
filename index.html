@@ -255,6 +255,116 @@
   <header>
     
       <div class="entry-image-index">
+        <a href="https://devpower.co.uk/dotnet/csharp/programmatically-manage-excel-spreadsheets-with-dotnet/" title="Programmatically Manage Excel Spreadsheets with .NET"><img src="https://devpower.co.uk/images/posts/2022/06/programmatically-manage-excel-spreadsheets-with-dotnet/3094324.jpg" alt="Programmatically Manage Excel Spreadsheets with .NET"></a>
+        <div class="image-credit">Image source: <a target="_blank" href="https://www.freepik.com/vectors/balance-sheet" rel="noopener noreferrer">www.freepik.com</a>
+</div>
+<!-- /.image-credit -->
+
+      </div>
+<!-- /.entry-image -->
+    
+    <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2022-06-01T00:00:00+01:00"><a href="https://devpower.co.uk/dotnet/csharp/programmatically-manage-excel-spreadsheets-with-dotnet/">June 01, 2022</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+        Reading time ~2 minutes
+      </span><!-- /.entry-reading-time -->
+      
+    </div>
+<!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="https://devpower.co.uk/dotnet/csharp/programmatically-manage-excel-spreadsheets-with-dotnet/" rel="bookmark" title="Programmatically Manage Excel Spreadsheets with .NET" itemprop="url">Programmatically Manage Excel Spreadsheets with .NET</a></h1>
+    
+  </header>
+  <div class="entry-content">
+      <p>Spreadsheets are great tools. They are user interface and database combined in one application and they have been infinitely useful for ages. In this post, we are going to look into a very useful NuGet package called ClosedXML to create and manipulate Excel spreadsheets by using a CLI demo application.</p>
+
+<h2 id="demo-use-case">Demo Use Case</h2>
+<p>As the energy crisis is getting worse, the electricity prices are skyrocketing everywhere. So I decided to programmatically create a spreadsheet to log daily electricity costs. This generally is possible if you have a Smart Meter can get daily costs from your supplier. Either way, the main objective is to demonstrate using .NET and ClosedXML package.</p>
+
+<p>The final spreadsheet will look like this:</p>
+
+<p><img src="/images/posts/2022/06/programmatically-manage-excel-spreadsheets-with-dotnet/finished-spreadsheet.png" alt="Finished sample project"></p>
+
+<h2 id="usage">Usage</h2>
+<p>The project is a CLI project created by using dotnet tool and CliFx. You can find the detailed <a href="https://devpower.co.uk/dotnet/csharp/develop-a-cli-with-csharp/">blog post</a> about creating your own CLIs published on this blog as well.</p>
+
+<p>After you’ve cloned the repository, publish the application as a dotnet tool</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">dotnet pack
+dotnet tool <span class="nb">install</span> <span class="nt">--global</span> <span class="nt">--add-source</span> ./ElectricityCost.CLI/nupkg/ ElectricityCost.CLI</code></pre></figure>
+
+<p>Then you can use it anywhere in your machine.</p>
+
+<p>For example to create a new spreadsheet from the builtin template, you can run this:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">ec closedxml template new <span class="nt">--path</span> ElectricityCosts.xlsx</code></pre></figure>
+
+<p>And you can add new costs by providing the day of month and the cost value:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">ec closedxml add <span class="nt">--path</span> ElectricityCosts.xlsx <span class="nt">--day</span> 2 <span class="nt">--cost</span> 3.44</code></pre></figure>
+
+<h2 id="implementation-using-closexml---an-easier-alternative-to-openxml-sdk">Implementation: Using CloseXML - An easier alternative to OpenXML SDK</h2>
+<p><a href="https://www.nuget.org/packages/ClosedXML/" target="_blank" rel="noopener noreferrer">ClosedXML</a> is a wrapper around OpenXML that makes Excel spreadsheet manipulation a breeze.</p>
+
+<p>When working with a spreadsheet, most of the time you want to address the cells by row and columns as you would normally do in a table and read/write data into it. ClosedXML allows us to do exactly that.</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="k">using</span> <span class="nn">ClosedXML.Excel</span><span class="p">;</span>
+
+<span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">workbook</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">XLWorkbook</span><span class="p">())</span>
+<span class="p">{</span>
+    <span class="kt">var</span> <span class="n">worksheet</span> <span class="p">=</span> <span class="n">workbook</span><span class="p">.</span><span class="n">Worksheets</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="s">"ClosedXMLDemo"</span><span class="p">);</span>
+    <span class="n">worksheet</span><span class="p">.</span><span class="nf">Cell</span><span class="p">(</span><span class="s">"A1"</span><span class="p">).</span><span class="n">Value</span> <span class="p">=</span> <span class="s">"Hello World!"</span><span class="p">;</span>
+    <span class="n">workbook</span><span class="p">.</span><span class="nf">SaveAs</span><span class="p">(</span><span class="s">"Sample1.xlsx"</span><span class="p">);</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>The code snippet above creates a new Excel file and saves it in Sample.xlsx file. SaveAs might sound like it only handles existing files but it actually is called to create new files as well.</p>
+
+<p>Working on existing spreadsheets is also quite straightforward. Pass in the path of the file to XLWorkbook constructor and you can find the spreadsheet by a simple LINQ query.</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">workbook</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">XLWorkbook</span><span class="p">(</span><span class="s">"Sample1.xlsx"</span><span class="p">)</span> <span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">var</span> <span class="n">worksheet</span> <span class="p">=</span> <span class="n">workbook</span><span class="p">.</span><span class="n">Worksheets</span><span class="p">.</span><span class="nf">First</span><span class="p">(</span><span class="n">ws</span> <span class="p">=&gt;</span> <span class="n">ws</span><span class="p">.</span><span class="n">Name</span> <span class="p">==</span> <span class="s">"ClosedXMLDemo"</span><span class="p">);</span>
+    <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="n">worksheet</span><span class="p">.</span><span class="nf">Cell</span><span class="p">(</span><span class="s">"A1"</span><span class="p">).</span><span class="n">Value</span><span class="p">);</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>And setting a formula is also as simple as setting the value. The following snippet shows a formula to calculate the sum of daily costs:</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="n">worksheet</span><span class="p">.</span><span class="nf">Cell</span><span class="p">(</span><span class="s">"E1"</span><span class="p">).</span><span class="n">FormulaA1</span> <span class="p">=</span> <span class="s">$"=SUM(B2:B</span><span class="p">{</span><span class="n">numberOfDaysInCurrentMonth</span> <span class="p">+</span> <span class="m">1</span><span class="p">}</span><span class="s">)"</span><span class="p">;</span></code></pre></figure>
+
+<p>Managing the styles is also quite intuitive:</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="kt">var</span> <span class="n">rngSubTotals</span> <span class="p">=</span> <span class="n">rngTable</span><span class="p">.</span><span class="nf">Range</span><span class="p">(</span><span class="s">"D2:E3"</span><span class="p">);</span>
+<span class="n">rngSubTotals</span><span class="p">.</span><span class="n">Style</span><span class="p">.</span><span class="n">Alignment</span><span class="p">.</span><span class="n">Horizontal</span> <span class="p">=</span> <span class="n">XLAlignmentHorizontalValues</span><span class="p">.</span><span class="n">Center</span><span class="p">;</span>
+<span class="n">rngSubTotals</span><span class="p">.</span><span class="n">Style</span><span class="p">.</span><span class="n">Font</span><span class="p">.</span><span class="n">Bold</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+<span class="n">rngSubTotals</span><span class="p">.</span><span class="n">Style</span><span class="p">.</span><span class="n">Font</span><span class="p">.</span><span class="n">FontSize</span> <span class="p">=</span> <span class="m">20</span><span class="p">;</span>
+<span class="n">rngSubTotals</span><span class="p">.</span><span class="n">Style</span><span class="p">.</span><span class="n">Font</span><span class="p">.</span><span class="n">FontColor</span> <span class="p">=</span> <span class="n">XLColor</span><span class="p">.</span><span class="n">Red</span><span class="p">;</span>
+<span class="n">rngSubTotals</span><span class="p">.</span><span class="n">Style</span><span class="p">.</span><span class="n">NumberFormat</span><span class="p">.</span><span class="n">Format</span> <span class="p">=</span> <span class="s">$"</span><span class="p">{</span><span class="n">CURRENCY_SYMBOL</span><span class="p">}</span><span class="s"> #,##0.00"</span><span class="p">;</span></code></pre></figure>
+
+<p>For the sake of brevity, I’m not going to put all the code in this post. Please feel free to visit the <a href="https://github.com/Dev-Power/programmatically-manage-excel-spreadsheets-with-dotnet/tree/main" target="_blank" rel="noopener noreferrer">GitHub repo</a> and play around with the code.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>In this post we looked into using a very intuitive and powerful NuGet package: ClosedXML. Dealing with openXML directly can be overwhelming so having the ability to manipulate Excel spreadsheets with a straightforward tool is handy.</p>
+
+<p>I hope you’ve found this post useful. Please feel free to leave feedback in the comments section below.</p>
+
+<h2 id="resources">Resources</h2>
+<ul>
+  <li><a href="https://github.com/ClosedXML/ClosedXML" target="_blank" rel="noopener noreferrer">ClosedXML GitHub repository</a></li>
+  <li><a href="https://github.com/Dev-Power/programmatically-manage-excel-spreadsheets-with-dotnet/tree/main" target="_blank" rel="noopener noreferrer">Source code of the project</a></li>
+</ul>
+
+      
+  </div>
+<!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+      <div class="entry-image-index">
         <a href="https://devpower.co.uk/programming/semantic-versioning/" title="Semantic Versioning"><img src="https://devpower.co.uk/images/posts/2022/05/semantic-versioning/4011825.jpg" alt="Semantic Versioning"></a>
         <div class="image-credit">Image source: <a target="_blank" href="https://www.freepik.com/vectors/software-update" rel="noopener noreferrer">www.freepik.com</a>
 </div>
@@ -712,228 +822,6 @@ You add a new parameter to a method with a default value so that old consumers c
   <li><a href="https://github.com/Dev-Power/solana-epoch-monitor" target="_blank" rel="noopener noreferrer">Source code of the project</a></li>
   <li><a href="https://hub.docker.com/repository/docker/devpowercouk/solana-epoch-monitor" target="_blank" rel="noopener noreferrer">Docker image in Docker Hub</a></li>
 </ul>
-
-      
-  </div>
-<!-- /.entry-content -->
-</article><!-- /.hentry -->
-
-<article class="hentry">
-  <header>
-    
-      <div class="entry-image-index">
-        <a href="https://devpower.co.uk/dotnet/csharp/develop-a-cli-with-csharp/" title="Develop your own CLI with C#"><img src="https://devpower.co.uk/images/posts/2022/05/dotnet-cli/bash-148836.png" alt="Develop your own CLI with C#"></a>
-        
-
-      </div>
-<!-- /.entry-image -->
-    
-    <div class="entry-meta">
-      <span class="entry-date date published updated"><time datetime="2022-05-24T00:00:00+01:00"><a href="https://devpower.co.uk/dotnet/csharp/develop-a-cli-with-csharp/">May 24, 2022</a></time></span><span class="author vcard"><span class="fn"><a href="https://devpower.co.uk/about/" title="About Volkan Paksoy">Volkan Paksoy</a></span></span>
-      
-      <span class="entry-reading-time">
-        <i class="fa fa-clock-o"></i>
-        
-        Reading time ~3 minutes
-      </span><!-- /.entry-reading-time -->
-      
-    </div>
-<!-- /.entry-meta -->
-    
-      <h1 class="entry-title"><a href="https://devpower.co.uk/dotnet/csharp/develop-a-cli-with-csharp/" rel="bookmark" title="Develop your own CLI with C#" itemprop="url">Develop your own CLI with C#</a></h1>
-    
-  </header>
-  <div class="entry-content">
-      <p>Command Line Interfaces (CLI) are invaluable tools for a developer. We use them everyday for interacting with AWS, Docker, GitHub, dotnet etc. We can develop scripts based on CLI commands to carry out complex tasks. In this post, we are going to develop a CLI for ourselves. Let’s get started!</p>
-
-<h2 id="getting-started">Getting Started</h2>
-<p>We are going to use two things:</p>
-
-<ul>
-  <li>dotnet tool command</li>
-  <li>a very handy NuGet package called <a href="https://github.com/Tyrrrz/CliFx" target="_blank" rel="noopener noreferrer">CliFx</a>
-</li>
-</ul>
-
-<h2 id="dotnet-tool">dotnet tool</h2>
-<p>The simplest way to describe a dotnet tool is that it’s a <strong>console application</strong> distributed as a NuGet package.</p>
-
-<p>Normally, when you go to a NuGet source site as <a href="https://nuget.org" target="_blank" rel="noopener noreferrer">Nuget.org</a>, you deal with <strong>class libraries</strong>. You download the class library and consume it in your application.</p>
-
-<p>Similarly, you can publish your console application as a dotnet tool in NuGet pacakge format. This allows to install applications by simply using dotnet CLI such as:</p>
-
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">dotnet tool <span class="nb">install</span> <span class="nt">--global</span> <span class="nt">--add-source</span> <span class="o">{</span>PACKAGE PATH<span class="o">}</span> <span class="o">{</span>PACKAGE NAME<span class="o">}</span></code></pre></figure>
-
-<p>To achieve that all we have to do is create a new console application and modify csproj file by adding the following lines:</p>
-
-<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;PackAsTool&gt;</span>true<span class="nt">&lt;/PackAsTool&gt;</span>
-<span class="nt">&lt;ToolCommandName&gt;</span>{ COMMAND NAME }<span class="nt">&lt;/ToolCommandName&gt;</span>
-<span class="nt">&lt;PackageOutputPath&gt;</span>./nupkg<span class="nt">&lt;/PackageOutputPath&gt;</span></code></pre></figure>
-
-<p>Now let’s have a walkthrough and see it in action:</p>
-
-<ol>
-  <li>Create a console application using dotnet CLI:</li>
-</ol>
-
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">dotnet new console</code></pre></figure>
-
-<ol start="2">
-  <li>Edit the csproj file. In this example, I’m going to use JetBrains Rider IDE to edit but you can use any IDE/text editor you want:</li>
-</ol>
-
-<p><img src="/images/posts/2022/05/dotnet-cli/edit-csproj.png" alt="Edit csproj"></p>
-
-<ol start="3">
-  <li>Add the following lines inside PropertyGroup element so that it looks something like this:</li>
-</ol>
-
-<p><img src="/images/posts/2022/05/dotnet-cli/add-xml-elements.png" alt="Add XML elements"></p>
-
-<ol start="4">
-  <li>Run the following command to create the nuget package</li>
-</ol>
-
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">dotnet pack</code></pre></figure>
-
-<p><img src="/images/posts/2022/05/dotnet-cli/dotnet-pack-output.png" alt="Add XML elements"></p>
-
-<ol start="5">
-  <li>Install it globally on your computer by running the following command</li>
-</ol>
-
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">dotnet tool <span class="nb">install</span> <span class="nt">--global</span> <span class="nt">--add-source</span> ./nupkg develop-a-cli-with-csharp</code></pre></figure>
-
-<p class="panel-note">Please note the last argument is the name of the root namespace, not the name of the CLI we are creating</p>
-
-<ol start="6">
-  <li>Now we you can test the tool simply by running the name of the tool in the terminal:</li>
-</ol>
-
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">mycli</code></pre></figure>
-
-<p>and the output should look like this:</p>
-
-<p><img src="/images/posts/2022/05/dotnet-cli/tool-output.png" alt="Terminal output"></p>
-
-<p>Great! We have our tool installed nicely on the computer. We can run it anywhere in the terminal (regardless of the path we are in). But there is more to a CLI then simply executing a console application. The most important of a CLI is to have commands and subcommands. For example, when we use the dotnet CLI we entered the following command:</p>
-
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">dotnet tool <span class="nb">install</span> <span class="nt">--global</span> <span class="nt">--add-source</span> ./nupkg develop-a-cli-with-csharp</code></pre></figure>
-
-<p>In this example,</p>
-
-<ul>
-  <li>dotnet is the name of the CLI</li>
-  <li>tool is the command</li>
-  <li>install is the subcommand</li>
-  <li>The rest are arguments passed to the subcommand</li>
-</ul>
-
-<p>Currently, we don’t have any mechanism to understand commands, subcommands and arguments. This is where CliFx comes in.</p>
-
-<h2 id="clifx">CliFx</h2>
-<p>CliFx is a simple to use NuGet package that adds the full capabilities of a CLI to our console application.</p>
-
-<ol>
-  <li>Let’s start with installing the package:</li>
-</ol>
-
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">dotnet add package CliFx</code></pre></figure>
-
-<p>You should be able too see the package after running the command above:</p>
-
-<p><img src="/images/posts/2022/05/dotnet-cli/package-install-output.png" alt="Package installation output"></p>
-
-<ol start="2">
-  <li>Replace the Main method with the following code:</li>
-</ol>
-
-<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="k">using</span> <span class="nn">CliFx</span><span class="p">;</span>
-
-<span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">Program</span>
-<span class="p">{</span>
-    <span class="k">public</span> <span class="k">static</span> <span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="nf">Main</span><span class="p">()</span> <span class="p">=&gt;</span>
-        <span class="k">await</span> <span class="k">new</span> <span class="nf">CliApplicationBuilder</span><span class="p">()</span>
-            <span class="p">.</span><span class="nf">AddCommandsFromThisAssembly</span><span class="p">()</span>
-            <span class="p">.</span><span class="nf">SetExecutableName</span><span class="p">(</span><span class="s">"mycli"</span><span class="p">)</span>
-            <span class="p">.</span><span class="nf">SetTitle</span><span class="p">(</span><span class="s">"My CLI"</span><span class="p">)</span>
-            <span class="p">.</span><span class="nf">SetDescription</span><span class="p">(</span><span class="s">"A useful CLI tool to demo"</span><span class="p">)</span>
-            <span class="p">.</span><span class="nf">Build</span><span class="p">()</span>
-            <span class="p">.</span><span class="nf">RunAsync</span><span class="p">();</span>
-<span class="p">}</span></code></pre></figure>
-
-<ol start="3">
-  <li>Now, let’s create our commands by creating two new classes named HelloCommand and WorldCommand. They should look like below:</li>
-</ol>
-
-<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="p">[</span><span class="nf">Command</span><span class="p">(</span><span class="s">"hello"</span><span class="p">)]</span>
-<span class="k">public</span> <span class="k">class</span> <span class="nc">HelloCommand</span> <span class="p">:</span> <span class="n">ICommand</span>
-<span class="p">{</span>
-    <span class="k">public</span> <span class="n">ValueTask</span> <span class="nf">ExecuteAsync</span><span class="p">(</span><span class="n">IConsole</span> <span class="n">console</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">console</span><span class="p">.</span><span class="n">Output</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">"Hello"</span><span class="p">);</span>
-        <span class="k">return</span> <span class="k">default</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span></code></pre></figure>
-
-<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="p">[</span><span class="nf">Command</span><span class="p">(</span><span class="s">"hello world"</span><span class="p">)]</span>
-<span class="k">public</span> <span class="k">class</span> <span class="nc">WorldCommand</span> <span class="p">:</span> <span class="n">ICommand</span>
-<span class="p">{</span>
-    <span class="k">public</span> <span class="n">ValueTask</span> <span class="nf">ExecuteAsync</span><span class="p">(</span><span class="n">IConsole</span> <span class="n">console</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">console</span><span class="p">.</span><span class="n">Output</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">"Hello, World!"</span><span class="p">);</span>
-        <span class="k">return</span> <span class="k">default</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span></code></pre></figure>
-
-<ol start="4">
-  <li>Now run the application in the terminal without any parameters, you should get a nice help output:</li>
-</ol>
-
-<p><img src="/images/posts/2022/05/dotnet-cli/clifx-help-output.png" alt="CliFx help output"></p>
-
-<ol start="5">
-  <li>Test the command and subcommand by running the following commands:</li>
-</ol>
-
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">dotnet run <span class="nt">--</span> hello
-dotnet run <span class="nt">--</span> hello world</code></pre></figure>
-
-<p>The output should look like this:</p>
-
-<p><img src="/images/posts/2022/05/dotnet-cli/clifx-command-output.png" alt="CliFx command output"></p>
-
-<p>Notice that by running “hello” command we are executing ExecuteAsync method in HelloCommand class. WorldCommand is a subcommand of hello command so we can execute a different method by running “hello world”.</p>
-
-<p>At this point, our installed tool is not affected by these changes. So we have to pack and update our tool now by running the following commands:</p>
-
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">dotnet pack
-dotnet tool update <span class="nt">--global</span> <span class="nt">--add-source</span> ./nupkg develop-a-cli-with-csharp</code></pre></figure>
-
-<p>You can confirm the tool is updated by looking for an output like this:</p>
-
-<p><img src="/images/posts/2022/05/dotnet-cli/dotnet-tool-update-output.png" alt="dotnet tool update output"></p>
-
-<ol start="6">
-  <li>Finally, open another terminal window type the CLI name</li>
-</ol>
-
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">mycli</code></pre></figure>
-
-<p>and you should see the new help output listing the available commands in the CLI:</p>
-
-<p><img src="/images/posts/2022/05/dotnet-cli/clifx-final-output.png" alt="CliFx final output"></p>
-
-<h2 id="conclusion">Conclusion</h2>
-<p>CLIs are very useful tools for developers. In this post, we looked into creating a CLI that’s capable of creating commands, subcommands. It can be also be installed as a dotnet tool and can be distributed as a NuGet package.</p>
-
-<h2 id="resources">Resources</h2>
-<ul>
-  <li><a href="https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-tool-install" target="_blank" rel="noopener noreferrer">dotnet tool documentation</a></li>
-  <li><a href="https://github.com/Tyrrrz/CliFx" target="_blank" rel="noopener noreferrer">CliFx GitHub repo</a></li>
-  <li><a href="https://github.com/Dev-Power/blog-code-samples/tree/main/develop-a-cli-with-csharp" target="_blank" rel="noopener noreferrer">Sample code</a></li>
-</ul>
-
 
       
   </div>

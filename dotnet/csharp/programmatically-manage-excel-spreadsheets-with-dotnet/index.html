@@ -5,29 +5,31 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title>Counting Objects in AWS S3 &#8211; 💪 Dev Power</title>
-<meta name="description" content="A quick tip for counting S3 objects with AWS CLI and PowerShell">
-<meta name="keywords" content="aws, s3, powershell">
+<title>Programmatically Manage Excel Spreadsheets with .NET &#8211; 💪 Dev Power</title>
+<meta name="description" content="">
+<meta name="keywords" content="spreadsheet, excel, office, openxml, closedxml">
 
 <!-- Twitter Cards -->
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
+
 <meta name="twitter:site" content="@_dev_power_">
 <meta name="twitter:creator" content="@_dev_power_">
 
 <!-- Open Graph -->
 <meta property="og:locale" content="en_GB">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Counting Objects in AWS S3">
-<meta property="og:description" content="A quick tip for counting S3 objects with AWS CLI and PowerShell">
-<meta property="og:url" content="https://devpower.co.uk/tips_n_tricks/aws/counting-objects-in-aws-s3/">
+<meta property="og:title" content="Programmatically Manage Excel Spreadsheets with .NET">
+<meta property="og:description" content="">
+<meta property="og:url" content="https://devpower.co.uk/dotnet/csharp/programmatically-manage-excel-spreadsheets-with-dotnet/">
 <meta property="og:site_name" content="💪 Dev Power">
-<meta property="og:image" content="https://devpower.co.uk/images/">
+<meta property="og:image" content="https://devpower.co.uk/images/posts/2022/06/programmatically-manage-excel-spreadsheets-with-dotnet/3094324.jpg">
 
 
 
 
 
-<link rel="canonical" href="https://devpower.co.uk/tips_n_tricks/aws/counting-objects-in-aws-s3/">
+
+<link rel="canonical" href="https://devpower.co.uk/dotnet/csharp/programmatically-manage-excel-spreadsheets-with-dotnet/">
 <link href="https://devpower.co.uk/feed.xml" type="application/atom+xml" rel="alternate" title="💪 Dev Power Feed">
 
 <!-- http://t.co/dKP3o1e -->
@@ -71,7 +73,7 @@
  -->
 </head>
 
-<body id="post" >
+<body id="post" class="feature">
 
 <!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
 
@@ -160,17 +162,17 @@
 <div class="entry-header">
   <div class="header-title">
     <div class="header-title-wrap">
-      <h1>Counting Objects in AWS S3</h1>
+      <h1>Programmatically Manage Excel Spreadsheets with .NET</h1>
       <h3></h3>
       
-        <h2><span class="entry-date date published updated"><time datetime="2021-12-12T00:00:00+00:00">December 12, 2021</time></span></h2>
+        <h2><span class="entry-date date published updated"><time datetime="2022-06-01T00:00:00+01:00">June 01, 2022</time></span></h2>
       
 
       
         <p class="entry-reading-time">
           <i class="fa fa-clock-o"></i>
           
-          Reading time ~1 minute
+          Reading time ~2 minutes
         </p>
 <!-- /.entry-reading-time -->
       
@@ -255,44 +257,100 @@
   <article class="hentry">
     <div class="entry-content">
         
-      <h1 class="post-title entry-title">Counting Objects in AWS S3</h1>
-      <p>Yesterday I had to find the count of objects in a folder in an S3 bucket. Unfortunately, I only had access to AWS via the command line and was working on a Windows Server.</p>
+            <div class="entry-image-index">
+              <img src="https://devpower.co.uk/images/posts/2022/06/programmatically-manage-excel-spreadsheets-with-dotnet/3094324.jpg" alt="Programmatically Manage Excel Spreadsheets with .NET">
+              <div class="image-credit">Image source: <a target="_blank" href="https://www.freepik.com/vectors/balance-sheet" rel="noopener noreferrer">www.freepik.com</a>
+</div>
+<!-- /.image-credit -->
+            </div>
+        
+      <h1 class="post-title entry-title">Programmatically Manage Excel Spreadsheets with .NET</h1>
+      <p>Spreadsheets are great tools. They are user interface and database combined in one application and they have been infinitely useful for ages. In this post, we are going to look into a very useful NuGet package called ClosedXML to create and manipulate Excel spreadsheets by using a CLI demo application.</p>
 
-<h2 id="using-aws-cli">Using AWS CLI</h2>
-<p>After digging around, I found the solution using PowerShells’ Measure-Object cmdlet.</p>
+<h2 id="demo-use-case">Demo Use Case</h2>
+<p>As the energy crisis is getting worse, the electricity prices are skyrocketing everywhere. So I decided to programmatically create a spreadsheet to log daily electricity costs. This generally is possible if you have a Smart Meter can get daily costs from your supplier. Either way, the main objective is to demonstrate using .NET and ClosedXML package.</p>
 
-<p>The solution to getting the object count was:</p>
+<p>The final spreadsheet will look like this:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aws s3 ls s3://{bucket}/path/to/files | Measure-Object
-</code></pre></div></div>
+<p><img src="/images/posts/2022/06/programmatically-manage-excel-spreadsheets-with-dotnet/finished-spreadsheet.png" alt="Finished sample project"></p>
 
-<p>This can be used in local folders as well. It also can be used to get the minimum/maximum/average/total size of the folder too so quite handy to get some quick stats about a folder/bucket</p>
+<h2 id="usage">Usage</h2>
+<p>The project is a CLI project created by using dotnet tool and CliFx. You can find the detailed <a href="https://devpower.co.uk/dotnet/csharp/develop-a-cli-with-csharp/">blog post</a> about creating your own CLIs published on this blog as well.</p>
 
-<h2 id="using-aws-tools-for-powershell">Using AWS Tools for PowerShell</h2>
-<p>If you have AWS Tools for PowerShell installed, you can achieve the same goal by running Get-S3Object cmdlet like this:</p>
+<p>After you’ve cloned the repository, publish the application as a dotnet tool</p>
 
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Get-S3Object</span><span class="w"> </span><span class="nt">-BucketName</span><span class="w"> </span><span class="p">{</span><span class="n">bucket</span><span class="p">}</span><span class="w"> </span><span class="nt">-Prefix</span><span class="w"> </span><span class="n">path/to/files</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Measure-Object</span><span class="w">
-</span></code></pre></div></div>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">dotnet pack
+dotnet tool <span class="nb">install</span> <span class="nt">--global</span> <span class="nt">--add-source</span> ./ElectricityCost.CLI/nupkg/ ElectricityCost.CLI</code></pre></figure>
 
-<p>Alternatively, if you want to get the object count, you can run this as well:</p>
+<p>Then you can use it anywhere in your machine.</p>
 
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="n">Get-S3Object</span><span class="w"> </span><span class="nt">-BucketName</span><span class="w"> </span><span class="p">{</span><span class="n">bucket</span><span class="p">}</span><span class="w"> </span><span class="nt">-Prefix</span><span class="w"> </span><span class="n">path/to/files</span><span class="p">)</span><span class="o">.</span><span class="nf">Count</span><span class="w">
-</span></code></pre></div></div>
+<p>For example to create a new spreadsheet from the builtin template, you can run this:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">ec closedxml template new <span class="nt">--path</span> ElectricityCosts.xlsx</code></pre></figure>
+
+<p>And you can add new costs by providing the day of month and the cost value:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">ec closedxml add <span class="nt">--path</span> ElectricityCosts.xlsx <span class="nt">--day</span> 2 <span class="nt">--cost</span> 3.44</code></pre></figure>
+
+<h2 id="implementation-using-closexml---an-easier-alternative-to-openxml-sdk">Implementation: Using CloseXML - An easier alternative to OpenXML SDK</h2>
+<p><a href="https://www.nuget.org/packages/ClosedXML/" target="_blank" rel="noopener noreferrer">ClosedXML</a> is a wrapper around OpenXML that makes Excel spreadsheet manipulation a breeze.</p>
+
+<p>When working with a spreadsheet, most of the time you want to address the cells by row and columns as you would normally do in a table and read/write data into it. ClosedXML allows us to do exactly that.</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="k">using</span> <span class="nn">ClosedXML.Excel</span><span class="p">;</span>
+
+<span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">workbook</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">XLWorkbook</span><span class="p">())</span>
+<span class="p">{</span>
+    <span class="kt">var</span> <span class="n">worksheet</span> <span class="p">=</span> <span class="n">workbook</span><span class="p">.</span><span class="n">Worksheets</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="s">"ClosedXMLDemo"</span><span class="p">);</span>
+    <span class="n">worksheet</span><span class="p">.</span><span class="nf">Cell</span><span class="p">(</span><span class="s">"A1"</span><span class="p">).</span><span class="n">Value</span> <span class="p">=</span> <span class="s">"Hello World!"</span><span class="p">;</span>
+    <span class="n">workbook</span><span class="p">.</span><span class="nf">SaveAs</span><span class="p">(</span><span class="s">"Sample1.xlsx"</span><span class="p">);</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>The code snippet above creates a new Excel file and saves it in Sample.xlsx file. SaveAs might sound like it only handles existing files but it actually is called to create new files as well.</p>
+
+<p>Working on existing spreadsheets is also quite straightforward. Pass in the path of the file to XLWorkbook constructor and you can find the spreadsheet by a simple LINQ query.</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="k">using</span> <span class="p">(</span><span class="kt">var</span> <span class="n">workbook</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">XLWorkbook</span><span class="p">(</span><span class="s">"Sample1.xlsx"</span><span class="p">)</span> <span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">var</span> <span class="n">worksheet</span> <span class="p">=</span> <span class="n">workbook</span><span class="p">.</span><span class="n">Worksheets</span><span class="p">.</span><span class="nf">First</span><span class="p">(</span><span class="n">ws</span> <span class="p">=&gt;</span> <span class="n">ws</span><span class="p">.</span><span class="n">Name</span> <span class="p">==</span> <span class="s">"ClosedXMLDemo"</span><span class="p">);</span>
+    <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="n">worksheet</span><span class="p">.</span><span class="nf">Cell</span><span class="p">(</span><span class="s">"A1"</span><span class="p">).</span><span class="n">Value</span><span class="p">);</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>And setting a formula is also as simple as setting the value. The following snippet shows a formula to calculate the sum of daily costs:</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="n">worksheet</span><span class="p">.</span><span class="nf">Cell</span><span class="p">(</span><span class="s">"E1"</span><span class="p">).</span><span class="n">FormulaA1</span> <span class="p">=</span> <span class="s">$"=SUM(B2:B</span><span class="p">{</span><span class="n">numberOfDaysInCurrentMonth</span> <span class="p">+</span> <span class="m">1</span><span class="p">}</span><span class="s">)"</span><span class="p">;</span></code></pre></figure>
+
+<p>Managing the styles is also quite intuitive:</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="kt">var</span> <span class="n">rngSubTotals</span> <span class="p">=</span> <span class="n">rngTable</span><span class="p">.</span><span class="nf">Range</span><span class="p">(</span><span class="s">"D2:E3"</span><span class="p">);</span>
+<span class="n">rngSubTotals</span><span class="p">.</span><span class="n">Style</span><span class="p">.</span><span class="n">Alignment</span><span class="p">.</span><span class="n">Horizontal</span> <span class="p">=</span> <span class="n">XLAlignmentHorizontalValues</span><span class="p">.</span><span class="n">Center</span><span class="p">;</span>
+<span class="n">rngSubTotals</span><span class="p">.</span><span class="n">Style</span><span class="p">.</span><span class="n">Font</span><span class="p">.</span><span class="n">Bold</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+<span class="n">rngSubTotals</span><span class="p">.</span><span class="n">Style</span><span class="p">.</span><span class="n">Font</span><span class="p">.</span><span class="n">FontSize</span> <span class="p">=</span> <span class="m">20</span><span class="p">;</span>
+<span class="n">rngSubTotals</span><span class="p">.</span><span class="n">Style</span><span class="p">.</span><span class="n">Font</span><span class="p">.</span><span class="n">FontColor</span> <span class="p">=</span> <span class="n">XLColor</span><span class="p">.</span><span class="n">Red</span><span class="p">;</span>
+<span class="n">rngSubTotals</span><span class="p">.</span><span class="n">Style</span><span class="p">.</span><span class="n">NumberFormat</span><span class="p">.</span><span class="n">Format</span> <span class="p">=</span> <span class="s">$"</span><span class="p">{</span><span class="n">CURRENCY_SYMBOL</span><span class="p">}</span><span class="s"> #,##0.00"</span><span class="p">;</span></code></pre></figure>
+
+<p>For the sake of brevity, I’m not going to put all the code in this post. Please feel free to visit the <a href="https://github.com/Dev-Power/programmatically-manage-excel-spreadsheets-with-dotnet/tree/main" target="_blank" rel="noopener noreferrer">GitHub repo</a> and play around with the code.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>In this post we looked into using a very intuitive and powerful NuGet package: ClosedXML. Dealing with openXML directly can be overwhelming so having the ability to manipulate Excel spreadsheets with a straightforward tool is handy.</p>
+
+<p>I hope you’ve found this post useful. Please feel free to leave feedback in the comments section below.</p>
 
 <h2 id="resources">Resources</h2>
 <ul>
-  <li><a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/measure-object" target="_blank" rel="noopener noreferrer">Measure-Object documentation</a></li>
+  <li><a href="https://github.com/ClosedXML/ClosedXML" target="_blank" rel="noopener noreferrer">ClosedXML GitHub repository</a></li>
+  <li><a href="https://github.com/Dev-Power/programmatically-manage-excel-spreadsheets-with-dotnet/tree/main" target="_blank" rel="noopener noreferrer">Source code of the project</a></li>
 </ul>
 
       <footer class="entry-meta">
-        <span class="entry-tags"><a href="https://devpower.co.uk/tags#aws" title="Pages tagged aws" class="tag"><span class="term">aws</span></a><a href="https://devpower.co.uk/tags#s3" title="Pages tagged s3" class="tag"><span class="term">s3</span></a><a href="https://devpower.co.uk/tags#powershell" title="Pages tagged powershell" class="tag"><span class="term">powershell</span></a></span>
+        <span class="entry-tags"><a href="https://devpower.co.uk/tags#spreadsheet" title="Pages tagged spreadsheet" class="tag"><span class="term">spreadsheet</span></a><a href="https://devpower.co.uk/tags#excel" title="Pages tagged excel" class="tag"><span class="term">excel</span></a><a href="https://devpower.co.uk/tags#office" title="Pages tagged office" class="tag"><span class="term">office</span></a><a href="https://devpower.co.uk/tags#openxml" title="Pages tagged openxml" class="tag"><span class="term">openxml</span></a><a href="https://devpower.co.uk/tags#closedxml" title="Pages tagged closedxml" class="tag"><span class="term">closedxml</span></a></span>
         
         <span class="author vcard"><span class="fn">Volkan Paksoy</span></span>
         <div class="social-share">
   <ul class="socialcount socialcount-small inline-list">
-    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://devpower.co.uk/tips_n_tricks/aws/counting-objects-in-aws-s3/" title="Share on Facebook" target="_blank" rel="noopener noreferrer"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
-    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://devpower.co.uk/tips_n_tricks/aws/counting-objects-in-aws-s3/" title="Share on Twitter" target="_blank" rel="noopener noreferrer"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
-    <!-- <li class="googleplus"><a href="https://plus.google.com/share?url=https://devpower.co.uk/tips_n_tricks/aws/counting-objects-in-aws-s3/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li> -->
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://devpower.co.uk/dotnet/csharp/programmatically-manage-excel-spreadsheets-with-dotnet/" title="Share on Facebook" target="_blank" rel="noopener noreferrer"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://devpower.co.uk/dotnet/csharp/programmatically-manage-excel-spreadsheets-with-dotnet/" title="Share on Twitter" target="_blank" rel="noopener noreferrer"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <!-- <li class="googleplus"><a href="https://plus.google.com/share?url=https://devpower.co.uk/dotnet/csharp/programmatically-manage-excel-spreadsheets-with-dotnet/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li> -->
   </ul>
 </div>
 <!-- /.social-share -->
@@ -336,26 +394,26 @@
     <div class="read-more">
   
     <div class="read-more-header">
-      <a href="https://devpower.co.uk/powershell/easiest-way-for-csv-json-conversion/" class="read-more-btn">Read More</a>
+      <a href="https://devpower.co.uk/programming/semantic-versioning/" class="read-more-btn">Read More</a>
     </div>
 <!-- /.read-more-header -->
     <div class="read-more-content">
-      <h3><a href="https://devpower.co.uk/dotnet/csharp/programmatically-manage-excel-spreadsheets-with-dotnet/" title="Programmatically Manage Excel Spreadsheets with .NET">Programmatically Manage Excel Spreadsheets with .NET</a></h3>
-      <p> <a href="https://devpower.co.uk/dotnet/csharp/programmatically-manage-excel-spreadsheets-with-dotnet/">Continue reading</a></p>
+      <h3><a href="https://devpower.co.uk/programming/semantic-versioning/" title="Semantic Versioning">Semantic Versioning</a></h3>
+      <p>The post covers what semantic versioning is, how it helps the development process and how front-ends should be versioned <a href="https://devpower.co.uk/programming/semantic-versioning/">Continue reading</a></p>
     </div>
 <!-- /.read-more-content -->
   
   <div class="read-more-list">
     
       <div class="list-item">
-        <h4><a href="https://devpower.co.uk/programming/semantic-versioning/" title="Semantic Versioning">Semantic Versioning</a></h4>
-        <span>Published on May 31, 2022</span>
+        <h4><a href="https://devpower.co.uk/tools/dockerizing-podcast-downloader/" title="Dockerizing Podcast Downloader">Dockerizing Podcast Downloader</a></h4>
+        <span>Published on May 28, 2022</span>
       </div>
 <!-- /.list-item -->
     
       <div class="list-item">
-        <h4><a href="https://devpower.co.uk/tools/dockerizing-podcast-downloader/" title="Dockerizing Podcast Downloader">Dockerizing Podcast Downloader</a></h4>
-        <span>Published on May 28, 2022</span>
+        <h4><a href="https://devpower.co.uk/javascript/exploring-chartjs-with-star-wars-data/" title="Exploring Chart.js with Star Wars data">Exploring Chart.js with Star Wars data</a></h4>
+        <span>Published on May 27, 2022</span>
       </div>
 <!-- /.list-item -->
     
